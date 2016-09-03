@@ -1,0 +1,13 @@
+﻿@using GameShop.Interface
+
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<ol>
+    @foreach(var product in Model)
+    {
+        <li>@string.Format("{0}:{1}", product.Id, product.Title)</li>
+    }
+</ol>
