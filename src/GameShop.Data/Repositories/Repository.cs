@@ -4,6 +4,7 @@ using GameShop.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@ namespace GameShop.Data.Repositories
         /// <param name="commandText">Database command.</param>
         /// <param name="parameters">Parameters.</param>
         /// <param name="commandType">Command type.</param>
-        protected virtual void Execute(string commandText, IDictionary<string, object> parameters = null, CommandType commandType = CommandType.Text)
+        protected virtual int Execute(string commandText, IDictionary<string, object> parameters = null, CommandType commandType = CommandType.Text)
         {
             using (var databaseConnection = DatabaseConnectionProvider.Get())
             {
@@ -48,7 +49,26 @@ namespace GameShop.Data.Repositories
 
                 using (var command = buildCommand(databaseConnection, commandText, parameters, commandType))
                 {
-                    command.ExecuteNonQuery();
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Execute a database command.
+        /// </summary>
+        /// <param name="commandText">Database command.</param>
+        /// <param name="parameters">Parameters.</param>
+        /// <param name="commandType">Command type.</param>
+        protected virtual async Task<int> ExecuteAsync(string commandText, IDictionary<string, object> parameters = null, CommandType commandType = CommandType.Text)
+        {
+            using (var databaseConnection = DatabaseConnectionProvider.Get())
+            {
+                await databaseConnection.OpenAsync();
+
+                using (var command = buildCommand(databaseConnection, commandText, parameters, commandType))
+                {
+                    return await command.ExecuteNonQueryAsync();
                 }
             }
         }
@@ -136,9 +156,9 @@ namespace GameShop.Data.Repositories
         /// <param name="parameters">Parameters.</param>
         /// <param name="commandType">Command type.</param>
         /// <returns>Instance of IDbCommand.</returns>
-        private IDbCommand buildCommand(IDbConnection databaseConnection, string commandText, IDictionary<string, object> parameters = null, CommandType commandType = CommandType.Text)
+        private DbCommand buildCommand(DbConnection databaseConnection, string commandText, IDictionary<string, object> parameters = null, CommandType commandType = CommandType.Text)
         {
-            IDbCommand command = databaseConnection.CreateCommand();
+            DbCommand command = databaseConnection.CreateCommand();
             command.CommandText = commandText;
             command.CommandType = commandType;
 
@@ -155,11 +175,11 @@ namespace GameShop.Data.Repositories
         /// </summary>
         /// <param name="command">Database command.</param>
         /// <param name="paramaters">Parameters.</param>
-        private void addParametersFromDictionary(IDbCommand command, IDictionary<string, object> paramaters)
+        private void addParametersFromDictionary(DbCommand command, IDictionary<string, object> paramaters)
         {
             foreach (var parameterKeyValue in paramaters)
             {
-                IDbDataParameter parameter = command.CreateParameter();
+                DbParameter parameter = command.CreateParameter();
                 parameter.ParameterName = parameterKeyValue.Key;
                 parameter.Value = parameterKeyValue.Value;
 
