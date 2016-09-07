@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using GameShop.Interface.Entities;
+using GameShop.Contracts.Entities;
 using GameShop.Web.Services.GameShopApis.Interfaces;
 
 namespace GameShop.Web.Controllers

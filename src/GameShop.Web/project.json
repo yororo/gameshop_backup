@@ -46,7 +46,7 @@
     },
     "Newtonsoft.Json": "9.0.1",
     "System.Net.Http": "4.1.0",
-    "GameShop.Interface": "1.0.0-*" },
+    "GameShop.Contracts": "1.0.0-*" },
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",

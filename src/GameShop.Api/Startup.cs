@@ -11,6 +11,7 @@ using GameShop.Data.Repositories.Interfaces;
 using GameShop.Data.Repositories;
 using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Providers;
+using GameShop.Data.Extensions;
 
 namespace GameShop.Api
 {
@@ -41,9 +42,9 @@ namespace GameShop.Api
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            //Data services
-            //services.AddSingleton<IDatabaseConnectionProvider>(new MsSqlDatabaseConnectionProvider(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSingleton<IProductRepository>(new ProductRepository(new MsSqlDatabaseConnectionProvider(Configuration.GetConnectionString("DefaultConnection"))));
+            //Game shop PH data services
+            services.AddGameShopRepositories()
+                .UseMsSqlClientFactory(Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddMvc();
         }

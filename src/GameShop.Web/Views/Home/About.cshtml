@@ -1,13 +1,13 @@
-﻿@using GameShop.Interface
+﻿@using GameShop.Contract.Entities
 
-@model IEnumerable<Product>
+@model IEnumerable<Ad>
 
 @{
     ViewData["Title"] = "About";
 }
 <ol>
-    @foreach (var product in Model)
+    @foreach (var ad in Model)
     {
-        <li>@string.Format("{0}:{1}", product.Id, product.Title)</li>
+        <li>@string.Format("{0}:{1}", ad.Id, ad.Title)</li>
     }
 </ol>

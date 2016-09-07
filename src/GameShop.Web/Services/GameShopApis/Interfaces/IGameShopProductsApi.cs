@@ -1,5 +1,5 @@
-﻿using GameShop.Interface;
-using GameShop.Interface.Entities;
+﻿using GameShop.Contracts;
+using GameShop.Contracts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ namespace GameShop.Web.Services.GameShopApis.Interfaces
 {
     public interface IGameShopProductsApi
     {
-        Task<IEnumerable<Product>> GetAllProductsAsync();
-        Task<Product> GetProductByIdAsync(Guid id);
-        Task<IEnumerable<Product>> FindProductsByTitleAsync(string title);
+        Task<IEnumerable<Ad>> GetAllProductsAsync();
+        Task<Ad> GetProductByIdAsync(Guid id);
+        Task<IEnumerable<Ad>> FindProductsByTitleAsync(string title);
     }
 }
