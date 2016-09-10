@@ -8,15 +8,68 @@ namespace GameShop.Contracts.Entities
 {
     public abstract class Game : Product
     {
-        public Game()
+        #region Fields
+        private GamingPlatform _gamingPlatform;
+        private GameGenre _gameGenre;
+        private DateTime _releaseDate;
+        #endregion
+
+        #region Properties
+        public GamingPlatform GamingPlatform
         {
-            Platform = GamingPlatform.None;
-            Genre = GameGenre.None;
-            ReleaseDate = DateTime.MaxValue;
+            get
+            {
+                return _gamingPlatform;
+            }
+
+            set
+            {
+                _gamingPlatform = value;
+            }
         }
 
-        public GamingPlatform Platform { get; set; }
-        public GameGenre Genre { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public GameGenre GameGenre
+        {
+            get
+            {
+                return _gameGenre;
+            }
+
+            set
+            {
+                _gameGenre = value;
+            }
+        }
+
+        public DateTime ReleaseDate
+        {
+            get
+            {
+                return _releaseDate;
+            }
+
+            set
+            {
+                _releaseDate = value;
+            }
+        }
+        #endregion
+
+        #region Constructors
+        public Game()
+        {
+            GamingPlatform = GamingPlatform.None;
+            GameGenre = GameGenre.None;
+            ReleaseDate = DateTime.MaxValue;
+        }
+        #endregion
+
+        #region Private Methods
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion
     }
 }

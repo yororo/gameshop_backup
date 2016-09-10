@@ -6,13 +6,40 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class PcGame : Game
+    public class PCGame : Game
     {
-        public PcGame()
+        #region Fields
+        private ComputerSpecification _systemRequirements;
+        #endregion
+
+        #region Properties
+        public ComputerSpecification SystemRequirements
+        {
+            get
+            {
+                return _systemRequirements;
+            }
+
+            set
+            {
+                _systemRequirements = value;
+            }
+        }
+        #endregion
+
+        #region Constructors
+        public PCGame()
         {
             SystemRequirements = new ComputerSpecification();
         }
+        #endregion
 
-        public ComputerSpecification SystemRequirements { get; set; }
+        #region Private Methods
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion
     }
 }

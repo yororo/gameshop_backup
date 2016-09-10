@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum OS
+    public enum UserType
     {
-        NotSpecified,
-        Windows,
-        OSX,
-        Linux
+        Public,
+        Private,
+        Admin
     }
 }

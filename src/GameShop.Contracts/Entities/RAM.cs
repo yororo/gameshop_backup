@@ -7,6 +7,38 @@ namespace GameShop.Contracts.Entities
 {
     public class RAM
     {
-        public string Capacity { get; set; }
+        #region Fields
+        private string _capacity;
+        #endregion
+
+        #region Properties
+        public string Capacity
+        {
+            get
+            {
+                return _capacity;
+            }
+
+            set
+            {
+                _capacity = value;
+            }
+        }
+        #endregion
+
+        #region Constructors
+        public RAM()
+        {
+            Capacity = string.Empty;
+        }
+        #endregion
+
+        #region Private Methods
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion
     }
 }

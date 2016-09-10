@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum OS
+    public enum Title
     {
         NotSpecified,
-        Windows,
-        OSX,
-        Linux
+        Mr,
+        Ms,
+        Mrs,
+        Mister,
+        Miss
     }
 }

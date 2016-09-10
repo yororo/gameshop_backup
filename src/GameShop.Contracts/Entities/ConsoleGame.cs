@@ -8,5 +8,6 @@ namespace GameShop.Contracts.Entities
 {
     public class ConsoleGame : Game
     {
+
     }
 }
