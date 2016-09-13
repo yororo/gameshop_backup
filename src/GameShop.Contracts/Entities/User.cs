@@ -9,7 +9,9 @@ namespace GameShop.Contracts.Entities
     {
         public Guid Id { get; set; }
         public Name Name { get; set; }
-        public Address Address { get; set; }
-        public ContactInformation ContactDetails { get; set; }
+        public IEnumerable<AddressInformation> Addresses { get; set; }
+        public IEnumerable<ContactInformation> ContactDetails { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Modified { get; set; }
     }
 }

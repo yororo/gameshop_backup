@@ -24,7 +24,7 @@ namespace GameShop.Web.Services.GameShopApis
             _logger = loggerFactory.CreateLogger<IGameShopProductsApi>();    
         }
 
-        public async Task<IEnumerable<Ad>> GetAllProductsAsync()
+        public async Task<IEnumerable<Advertisement>> GetAllProductsAsync()
         {
             using (var client = new HttpClient())
             {
@@ -44,7 +44,7 @@ namespace GameShop.Web.Services.GameShopApis
                     var responseString = await response.Content.ReadAsStringAsync();
 
                     //Deserialize Json string.
-                    return JsonConvert.DeserializeObject<IEnumerable<Ad>>(responseString);
+                    return JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(responseString);
                 }
                 catch(HttpRequestException exception)
                 {
@@ -56,11 +56,11 @@ namespace GameShop.Web.Services.GameShopApis
                 }
 
                 //Error occured.
-                return Enumerable.Empty<Ad>();
+                return Enumerable.Empty<Advertisement>();
             }
         }
 
-        public async Task<IEnumerable<Ad>> FindProductsByTitleAsync(string title)
+        public async Task<IEnumerable<Advertisement>> FindProductsByTitleAsync(string title)
         {
             using (var client = new HttpClient())
             {
@@ -80,7 +80,7 @@ namespace GameShop.Web.Services.GameShopApis
                     var responseString = await response.Content.ReadAsStringAsync();
 
                     //Deserialize Json string.
-                    return JsonConvert.DeserializeObject<IEnumerable<Ad>>(responseString);
+                    return JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(responseString);
                 }
                 catch (HttpRequestException exception)
                 {
@@ -92,11 +92,11 @@ namespace GameShop.Web.Services.GameShopApis
                 }
 
                 //Error occured.
-                return Enumerable.Empty<Ad>();
+                return Enumerable.Empty<Advertisement>();
             }
         }
 
-        public async Task<Ad> GetProductByIdAsync(Guid id)
+        public async Task<Advertisement> GetProductByIdAsync(Guid id)
         {
             using (var client = new HttpClient())
             {
@@ -116,7 +116,7 @@ namespace GameShop.Web.Services.GameShopApis
                     var responseString = await response.Content.ReadAsStringAsync();
 
                     //Deserialize Json string.
-                    return JsonConvert.DeserializeObject<Ad>(responseString);
+                    return JsonConvert.DeserializeObject<Advertisement>(responseString);
                 }
                 catch (HttpRequestException exception)
                 {

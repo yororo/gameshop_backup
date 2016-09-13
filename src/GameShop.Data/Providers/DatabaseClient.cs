@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Providers
 {
-    public abstract class DatabaseProviderFactory : DbProviderFactory, IDatabaseProviderFactory
+    public abstract class DatabaseClient : DbProviderFactory, IDatabaseClient
     {
         /// <summary>
         /// Database connection string.
@@ -18,7 +18,7 @@ namespace GameShop.Data.Providers
         /// Constructor
         /// </summary>
         /// <param name="connectionString">Database connection string.</param>
-        public DatabaseProviderFactory(string connectionString)
+        public DatabaseClient(string connectionString)
         {
             ConnectionString = connectionString;
         }

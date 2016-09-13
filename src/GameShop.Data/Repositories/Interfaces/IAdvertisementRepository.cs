@@ -9,25 +9,22 @@ namespace GameShop.Data.Repositories.Interfaces
     /// <summary>
     /// Ad Repository which uses <typeparamref name="Guid"/> as default type for IDs.
     /// </summary>
-    public interface IAdRepository
+    public interface IAdvertisementRepository : IAdvertisementRepository<Guid>
     {
-        Ad FindById(Guid id);
-        Ad FindByFriendlyId(string id);
-        IEnumerable<Ad> FindByTitle(string title);
-        IEnumerable<Ad> GetAll();
-        int DeleteById(Guid id);
     }
 
     /// <summary>
     /// Ad Repository.
     /// </summary>
     /// <typeparam name="TId">Type to use for an ID.</typeparam>
-    public interface IAdRepository<TId>
+    public interface IAdvertisementRepository<TId>
     {
-        Ad FindById(TId id);
-        Ad FindByFriendlyId(TId id);
-        IEnumerable<Ad> FindByTitle(string title);
-        IEnumerable<Ad> GetAll();
+        Advertisement FindById(TId id);
+        Advertisement FindByFriendlyId(string id);
+        IEnumerable<Advertisement> FindByTitle(string title);
+        IEnumerable<Advertisement> GetAll();
+        int Add(Advertisement advertisement);
+        int Update(TId id, Advertisement advertisement);
         int DeleteById(TId id);
     }
 }

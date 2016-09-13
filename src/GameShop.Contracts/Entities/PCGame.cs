@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class PcGame : Game
+    public class PCGame : Game
     {
-        public PcGame()
+        public PCGame()
         {
             SystemRequirements = new ComputerSpecification();
         }

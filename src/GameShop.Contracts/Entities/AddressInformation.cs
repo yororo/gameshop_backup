@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class Address
+    public class AddressInformation
     {
         public Guid Id { get; set; }
         public string Barangay { get; set; }
@@ -15,5 +15,7 @@ namespace GameShop.Contracts.Entities
         public string Province { get; set; }
         public string Region { get; set; }
         public string Country { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Modified { get; set; }
     }
 }

@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum APIResult
+    public enum Currency
     {
-        Unknown,
-        Success,
-        Failure,
-        Error
+        PHP,
+        USD
     }
 }

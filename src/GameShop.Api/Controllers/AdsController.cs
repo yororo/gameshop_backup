@@ -13,11 +13,11 @@ namespace GameShop.Api.Controllers
     [Route("api/[controller]")]
     public class AdsController : Controller
     {
-        private IAdAsyncRepository _adRepository;
+        private IAdvertisementAsyncRepository _adRepository;
 
-        public AdsController(IAdAsyncRepository productRepository)
+        public AdsController(IAdvertisementAsyncRepository adRepository)
         {
-            _adRepository = productRepository;
+            _adRepository = adRepository;
         }
 
         // GET: api/ads
@@ -38,27 +38,43 @@ namespace GameShop.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var product = await _adRepository.FindByIdAsync(id);
+            var ad = await _adRepository.FindByIdAsync(id);
             
             //Product not found.
-            if (product == null)
+            if (ad == null)
             {
                 return NotFound();
             }
 
-            return Ok(product);
+            return Ok(ad);
         }
 
         // POST api/ads
         [HttpPost]
-        public void Create([FromBody]Ad product)
+        public async Task<IActionResult> Create([FromBody]Advertisement advertisement)
         {
+            var result = await _adRepository.AddAsync(advertisement);
+
+            if(result > 0)
+            {
+                return CreatedAtRoute(new { controller = "Ads", action = "GetById", id = advertisement.Id }, advertisement);
+            }
+
+            return BadRequest();
         }
 
         // PUT api/ads/5
         [HttpPut("{id}")]
-        public void Update(int id, [FromBody]Ad product)
+        public async Task<IActionResult> Update(Guid id, [FromBody]Advertisement advertisement)
         {
+            var result = await _adRepository.UpdateAsync(id, advertisement);
+
+            if (result > 0)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         // DELETE api/ads/5

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Providers
 {
-    public class MsSqlClientCustomFactory : DatabaseProviderFactory
+    public class MsSqlClient : DatabaseClient
     {
-        public MsSqlClientCustomFactory(string connectionString)
+        public MsSqlClient(string connectionString)
             : base(connectionString)
         {
 
