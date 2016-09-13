@@ -13,33 +13,53 @@ namespace GameShop.Api.Controllers
     [Route("api/[controller]")]
     public class AdsController : Controller
     {
-        private IAdvertisementAsyncRepository _adRepository;
+        private IAdvertisementAsyncRepository _advertisementRepository;
 
-        public AdsController(IAdvertisementAsyncRepository adRepository)
+        public AdsController(IAdvertisementAsyncRepository advertisementRepository)
         {
-            _adRepository = adRepository;
+            _advertisementRepository = advertisementRepository;
         }
 
         // GET: api/ads
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _adRepository.GetAllAsync();
+            var ads = await _advertisementRepository.GetAllAsync();
 
-            if (products == null)
-            {
-                return NoContent();
-            }
-
-            return Ok(products);
+            return Ok(ads);
         }
 
         // GET api/ads/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        [HttpGet("id/{id}")]
+        public async Task<IActionResult> FindById(Guid id)
         {
-            var ad = await _adRepository.FindByIdAsync(id);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ad = await _advertisementRepository.FindByIdAsync(id);
             
+            //Ad not found.
+            if (ad == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ad);
+        }
+
+        // GET api/ads/5
+        [HttpGet("fid/{friendlyId}")]
+        public async Task<IActionResult> FindByFriendlyId(int friendlyId)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ad = await _advertisementRepository.FindByFriendlyIdAsync(friendlyId.ToString());
+
             //Product not found.
             if (ad == null)
             {
@@ -49,11 +69,31 @@ namespace GameShop.Api.Controllers
             return Ok(ad);
         }
 
+
+        // GET api/ads/title
+        [HttpGet("title/{title}")]
+        public async Task<IActionResult> FindByTitle(string title)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ads = await _advertisementRepository.FindByTitleAsync(title);
+
+            return Ok(ads);
+        }
+
         // POST api/ads
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]Advertisement advertisement)
         {
-            var result = await _adRepository.AddAsync(advertisement);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _advertisementRepository.AddAsync(advertisement);
 
             if(result > 0)
             {
@@ -67,7 +107,12 @@ namespace GameShop.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody]Advertisement advertisement)
         {
-            var result = await _adRepository.UpdateAsync(id, advertisement);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _advertisementRepository.UpdateAsync(id, advertisement);
 
             if (result > 0)
             {
@@ -81,7 +126,12 @@ namespace GameShop.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (await _adRepository.DeleteByIdAsync(id) != 0)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (await _advertisementRepository.DeleteByIdAsync(id) != 0)
             {
                 return Ok();
             }

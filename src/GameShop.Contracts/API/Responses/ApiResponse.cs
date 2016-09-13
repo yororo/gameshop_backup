@@ -8,6 +8,6 @@ namespace GameShop.Contracts.API.Responses
 {
     public abstract class APIResponse
     {
-        public APIResult Result { get; set; }
+        public Result Result { get; set; }
     }
 }

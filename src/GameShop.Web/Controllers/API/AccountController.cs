@@ -11,6 +11,7 @@ using GameShop.Contracts.API.Responses;
 using GameShop.Contracts.Enumerations;
 using Microsoft.AspNetCore.Identity;
 using GameShop.Web.Models;
+using GameShop.Contracts.API;
 
 namespace GameShop.Web.Controllers.API
 {
@@ -47,7 +48,7 @@ namespace GameShop.Web.Controllers.API
         {
             //Instantiate a response.
             var response = new LoginResponse();
-            response.Result = APIResult.Failure;
+            response.Result = Result.Failure;
             
             if (request == null || string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
             {
@@ -67,7 +68,7 @@ namespace GameShop.Web.Controllers.API
                 return BadRequest(response);
             }
 
-            response.Result = APIResult.Success;     
+            response.Result = Result.Success;     
 
             return Ok(response);
         }

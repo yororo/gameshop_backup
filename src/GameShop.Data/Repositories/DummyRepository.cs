@@ -16,6 +16,11 @@ namespace GameShop.Data.Repositories
         {
         }
 
+        public Task<int> AddAsync(Advertisement advertisement)
+        {
+            throw new NotImplementedException();
+        }
+
         #region IAdAsyncRepository Implementation
 
         public Task<int> DeleteByIdAsync(Guid id)
@@ -60,6 +65,11 @@ namespace GameShop.Data.Repositories
         }
 
         public Task<IEnumerable<PCGame>> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpdateAsync(Guid id, Advertisement advertisement)
         {
             throw new NotImplementedException();
         }
