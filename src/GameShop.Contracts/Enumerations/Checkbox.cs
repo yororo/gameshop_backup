@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum OS
+    public enum Checkbox
     {
-        NotSpecified,
-        Windows,
-        OSX,
-        Linux
+        Ticked,
+        Unticked
     }
 }

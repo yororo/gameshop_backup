@@ -5,61 +5,64 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class ContactInformation
+    public abstract class Person
     {
         #region Fields
-        private Guid _contactInfoId;
-        private string _email;
-        private string _contactNumber;
+        private Name _name;
+        private Address _address;
+        private ContactInformation _contactInfo;
         #endregion
 
         #region Properties
-        public Guid ContactInfoId
+        public Name Name
         {
             get
             {
-                return _contactInfoId;
+                return _name;
             }
 
             set
             {
-                _contactInfoId = value;
+                _name = value;
             }
         }
 
-        public string Email
+        public Address Address
         {
             get
             {
-                return _email;
+                return _address;
             }
 
             set
             {
-                _email = value;
+                _address = value;
             }
         }
 
-        public string ContactNumber
+        public ContactInformation ContactInfo
         {
             get
             {
-                return _contactNumber;
+                return _contactInfo;
             }
 
             set
             {
-                _contactNumber = value;
+                _contactInfo = value;
             }
         }
         #endregion
 
         #region Constructors
-        public ContactInformation()
+        /// <summary>
+        /// Default constructor initialization.
+        /// </summary>
+        public Person()
         {
-            ContactInfoId = Guid.Empty;
-            Email = string.Empty;
-            ContactNumber = string.Empty;
+            Name = new Name();
+            Address = new Address();
+            ContactInfo = new ContactInformation();
         }
         #endregion
 
@@ -70,8 +73,5 @@ namespace GameShop.Contracts.Entities
         #region Public Methods
 
         #endregion
-
-
-        
     }
 }

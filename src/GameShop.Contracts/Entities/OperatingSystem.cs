@@ -8,7 +8,53 @@ namespace GameShop.Contracts.Entities
 {
     public class OperatingSystem
     {
-        public OS Type { get; set; }
-        public string Name { get; set; }
+        #region Fields
+        private OS _OSType;
+        private string _name;
+        #endregion
+
+        #region Properties
+        public OS OSType
+        {
+            get
+            {
+                return _OSType;
+            }
+
+            set
+            {
+                _OSType = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+
+            set
+            {
+                _name = value;
+            }
+        }
+        #endregion
+
+        #region Constructors
+        public OperatingSystem()
+        {
+            OSType = OS.NotSpecified;
+            Name = string.Empty;
+        }
+        #endregion
+
+        #region Private Methods
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion
     }
 }

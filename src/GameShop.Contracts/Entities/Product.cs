@@ -7,20 +7,128 @@ namespace GameShop.Contracts.Entities
 {
     public abstract class Product
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Modified { get; set; }
+        #region Fields
+        private Guid _productId;
+        private string _productName;
+        private string _description;
+        private User _createdBy;
+        private DateTime _createdDTTM;
+        private User _modifiedBy;
+        private DateTime _modifiedDTTM;
+        #endregion
 
+        #region Properties
+        public Guid ProductId
+        {
+            get
+            {
+                return _productId;
+            }
+
+            set
+            {
+                _productId = value;
+            }
+        }
+
+        public string ProductName
+        {
+            get
+            {
+                return _productName;
+            }
+
+            set
+            {
+                _productName = value;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+
+            set
+            {
+                _description = value;
+            }
+        }
+
+        public User CreatedBy
+        {
+            get
+            {
+                return _createdBy;
+            }
+
+            set
+            {
+                _createdBy = value;
+            }
+        }
+
+        public DateTime CreatedDTTM
+        {
+            get
+            {
+                return _createdDTTM;
+            }
+
+            set
+            {
+                _createdDTTM = value;
+            }
+        }
+
+        public User ModifiedBy
+        {
+            get
+            {
+                return _modifiedBy;
+            }
+
+            set
+            {
+                _modifiedBy = value;
+            }
+        }
+
+        public DateTime ModifiedDTTM
+        {
+            get
+            {
+                return _modifiedDTTM;
+            }
+
+            set
+            {
+                _modifiedDTTM = value;
+            }
+        }
+        #endregion
+
+        #region Constructors
         public Product()
         {
-            Id = Guid.Empty;
-            Name = string.Empty;
+            ProductId = Guid.Empty;
+            ProductName = string.Empty;
             Description = string.Empty;
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
+            CreatedBy = new User();
+            CreatedDTTM = DateTime.MaxValue;
+            ModifiedBy = new User();
+            ModifiedDTTM = DateTime.MaxValue;
         }
+        #endregion
+
+        #region Private Methods
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion
     }
 }
