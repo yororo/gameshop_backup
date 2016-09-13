@@ -20,9 +20,9 @@ namespace GameShop.Contracts.Entities
         public Guid Id { get; set; }
         public string FriendlyId { get; set; }
         public string Title { get; set; }
-        public IEnumerable<TProduct> Products { get; set; }
         public string Description { get; set; }
-        public IEnumerable<AddressInformation> Locations { get; set; }
+        public IEnumerable<TProduct> Products { get; set; }
+        public IEnumerable<Address> Locations { get; set; }
         public User Owner { get; set; }
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }

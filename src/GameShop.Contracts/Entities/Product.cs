@@ -11,10 +11,8 @@ namespace GameShop.Contracts.Entities
         private Guid _productId;
         private string _productName;
         private string _description;
-        private User _createdBy;
-        private DateTime _createdDTTM;
-        private User _modifiedBy;
-        private DateTime _modifiedDTTM;
+        private DateTime _created;
+        private DateTime _modified;
         #endregion
 
         #region Properties
@@ -57,55 +55,29 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public User CreatedBy
+        public DateTime Created
         {
             get
             {
-                return _createdBy;
+                return _created;
             }
 
             set
             {
-                _createdBy = value;
+                _created = value;
             }
         }
 
-        public DateTime CreatedDTTM
+        public DateTime Modified
         {
             get
             {
-                return _createdDTTM;
+                return _modified;
             }
 
             set
             {
-                _createdDTTM = value;
-            }
-        }
-
-        public User ModifiedBy
-        {
-            get
-            {
-                return _modifiedBy;
-            }
-
-            set
-            {
-                _modifiedBy = value;
-            }
-        }
-
-        public DateTime ModifiedDTTM
-        {
-            get
-            {
-                return _modifiedDTTM;
-            }
-
-            set
-            {
-                _modifiedDTTM = value;
+                _modified = value;
             }
         }
         #endregion
@@ -116,10 +88,8 @@ namespace GameShop.Contracts.Entities
             ProductId = Guid.Empty;
             ProductName = string.Empty;
             Description = string.Empty;
-            CreatedBy = new User();
-            CreatedDTTM = DateTime.MaxValue;
-            ModifiedBy = new User();
-            ModifiedDTTM = DateTime.MaxValue;
+            Created = DateTime.MaxValue;
+            Modified = DateTime.MaxValue;
         }
         #endregion
 
