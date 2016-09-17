@@ -70,8 +70,5 @@ namespace GameShop.Contracts.Entities
         #region Public Methods
 
         #endregion
-
-
-        
     }
 }

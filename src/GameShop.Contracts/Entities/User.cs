@@ -11,6 +11,7 @@ namespace GameShop.Contracts.Entities
         #region Fields
         private Guid _userId;
         private UserType _userType;
+        private IEnumerable<Feedback> _feedbacks;
         #endregion
 
         #region Properties
@@ -39,6 +40,18 @@ namespace GameShop.Contracts.Entities
                 _userType = value;
             }
         }
+
+        public IEnumerable<Feedback> Feedbacks
+        {
+            get
+            {
+                return _feedbacks;
+            }
+            set
+            {
+                _feedbacks = value;
+            }
+        }
         #endregion
 
         #region Constructors
@@ -49,7 +62,7 @@ namespace GameShop.Contracts.Entities
         {
             UserId = Guid.Empty;
             UserType = UserType.Public;
-            
+            Feedbacks = Enumerable.Empty<Feedback>();
         }
         #endregion
 

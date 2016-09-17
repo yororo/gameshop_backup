@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Repositories.Interfaces
 {
-    public interface IPcGameRepository : IProductRepository<PcGame, Guid>
+    public interface IPcGameRepository : IProductRepository<PCGame, Guid>
     {
     }
 
-    public interface IPcGameRepository<TId> : IProductRepository<PcGame, TId>
+    public interface IPcGameRepository<TId> : IProductRepository<PCGame, TId>
     {
 
     }

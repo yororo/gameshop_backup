@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Providers
 {
-    public class MySqlClientCustomFactory : DatabaseProviderFactory
+    public class MySqlClient : DatabaseClient
     {
-        public MySqlClientCustomFactory(string connectionString)
+        public MySqlClient(string connectionString)
             : base(connectionString)
         {
 

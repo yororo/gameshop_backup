@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Providers.Interfaces
 {
-    public interface IDatabaseProviderFactory
+    public interface IDatabaseClient
     {
         /// <summary>
         /// Database connection string.

@@ -12,41 +12,41 @@ namespace GameShop.Data.Repositories
 {
     public class PcGameRepository : Repository, IPcGameAsyncRepository
     {
-        public PcGameRepository(IDatabaseProviderFactory provider)
+        public PcGameRepository(IDatabaseClient provider)
             : base(provider)
         {
             TableName = "PCGames";
         }
 
-        public async Task<IEnumerable<PcGame>> GetAllAsync()
+        public async Task<IEnumerable<PCGame>> GetAllAsync()
         {
-            using (var databaseConnection = DatabaseProviderFactory.CreateConnection())
+            using (var databaseConnection = DatabaseClient.CreateConnection())
             {
-                return await databaseConnection.QueryAsync<PcGame>($"SELECT * FROM { TableName }");
+                return await databaseConnection.QueryAsync<PCGame>($"SELECT * FROM { TableName }");
             }
         }
 
-        public async Task<IEnumerable<PcGame>> GetByNameAsync(string name)
+        public async Task<IEnumerable<PCGame>> GetByNameAsync(string name)
         {
-            using (var databaseConnection = DatabaseProviderFactory.CreateConnection())
+            using (var databaseConnection = DatabaseClient.CreateConnection())
             {
-                return await databaseConnection.QueryAsync<PcGame>("SELECT * FROM PCGames WHERE Name LIKE @Name", new { Name = name });
+                return await databaseConnection.QueryAsync<PCGame>("SELECT * FROM PCGames WHERE Name LIKE @Name", new { Name = name });
             }
         }
 
-        public async Task<IEnumerable<PcGame>> GetByGenreAsync(GameGenre gameGenre)
+        public async Task<IEnumerable<PCGame>> GetByGenreAsync(GameGenre gameGenre)
         {
-            using (var databaseConnection = DatabaseProviderFactory.CreateConnection())
+            using (var databaseConnection = DatabaseClient.CreateConnection())
             {
-                return await databaseConnection.QueryAsync<PcGame>("SELECT * FROM PCGames WHERE GameGenre LIKE @GameGenre", new { GameGenre = gameGenre });
+                return await databaseConnection.QueryAsync<PCGame>("SELECT * FROM PCGames WHERE GameGenre LIKE @GameGenre", new { GameGenre = gameGenre });
             }
         }
 
-        public async Task<PcGame> GetByIdAsync(Guid id)
+        public async Task<PCGame> GetByIdAsync(Guid id)
         {
-            using (var databaseConnection = DatabaseProviderFactory.CreateConnection())
+            using (var databaseConnection = DatabaseClient.CreateConnection())
             {
-                return await databaseConnection.QuerySingleOrDefaultAsync<PcGame>($"SELECT * FROM { TableName } WHERE Id LIKE @Id", new { Id = id });
+                return await databaseConnection.QuerySingleOrDefaultAsync<PCGame>($"SELECT * FROM { TableName } WHERE Id LIKE @Id", new { Id = id });
             }
         }
     }

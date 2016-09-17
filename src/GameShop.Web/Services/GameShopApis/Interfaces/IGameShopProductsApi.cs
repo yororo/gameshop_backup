@@ -9,8 +9,8 @@ namespace GameShop.Web.Services.GameShopApis.Interfaces
 {
     public interface IGameShopProductsApi
     {
-        Task<IEnumerable<Ad>> GetAllProductsAsync();
-        Task<Ad> GetProductByIdAsync(Guid id);
-        Task<IEnumerable<Ad>> FindProductsByTitleAsync(string title);
+        Task<IEnumerable<Advertisement>> GetAllProductsAsync();
+        Task<Advertisement> GetProductByIdAsync(Guid id);
+        Task<IEnumerable<Advertisement>> FindProductsByTitleAsync(string title);
     }
 }

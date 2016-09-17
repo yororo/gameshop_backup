@@ -8,6 +8,7 @@ namespace GameShop.Contracts.API.Responses
 {
     public abstract class APIResponse
     {
+<<<<<<< HEAD
         #region Fields
         private int _responseId = 0;
         private string _errorMessage = string.Empty;
@@ -86,5 +87,8 @@ namespace GameShop.Contracts.API.Responses
         #region Public Methods
         
         #endregion
+=======
+        public Result Result { get; set; }
+>>>>>>> origin/master
     }
 }

@@ -43,8 +43,8 @@ namespace GameShop.Api
             services.AddApplicationInsightsTelemetry(Configuration);
 
             //Game shop PH data services
-            services.AddGameShopRepositories()
-                .UseMsSqlClientFactory(Configuration.GetConnectionString("DefaultConnection"));
+            services.UseGameShopRepositories()
+                .UseGameShopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddMvc();
         }

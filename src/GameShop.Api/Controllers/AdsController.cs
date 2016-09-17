@@ -13,59 +13,125 @@ namespace GameShop.Api.Controllers
     [Route("api/[controller]")]
     public class AdsController : Controller
     {
-        private IAdAsyncRepository _adRepository;
+        private IAdvertisementAsyncRepository _advertisementRepository;
 
-        public AdsController(IAdAsyncRepository productRepository)
+        public AdsController(IAdvertisementAsyncRepository advertisementRepository)
         {
-            _adRepository = productRepository;
+            _advertisementRepository = advertisementRepository;
         }
 
         // GET: api/ads
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _adRepository.GetAllAsync();
+            var ads = await _advertisementRepository.GetAllAsync();
 
-            if (products == null)
-            {
-                return NoContent();
-            }
-
-            return Ok(products);
+            return Ok(ads);
         }
 
         // GET api/ads/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        [HttpGet("id/{id}")]
+        public async Task<IActionResult> FindById(Guid id)
         {
-            var product = await _adRepository.FindByIdAsync(id);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ad = await _advertisementRepository.FindByIdAsync(id);
             
-            //Product not found.
-            if (product == null)
+            //Ad not found.
+            if (ad == null)
             {
                 return NotFound();
             }
 
-            return Ok(product);
+            return Ok(ad);
+        }
+
+        // GET api/ads/5
+        [HttpGet("fid/{friendlyId}")]
+        public async Task<IActionResult> FindByFriendlyId(int friendlyId)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ad = await _advertisementRepository.FindByFriendlyIdAsync(friendlyId.ToString());
+
+            //Product not found.
+            if (ad == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ad);
+        }
+
+
+        // GET api/ads/title
+        [HttpGet("title/{title}")]
+        public async Task<IActionResult> FindByTitle(string title)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ads = await _advertisementRepository.FindByTitleAsync(title);
+
+            return Ok(ads);
         }
 
         // POST api/ads
         [HttpPost]
-        public void Create([FromBody]Ad product)
+        public async Task<IActionResult> Create([FromBody]Advertisement advertisement)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _advertisementRepository.AddAsync(advertisement);
+
+            if(result > 0)
+            {
+                return CreatedAtRoute(new { controller = "Ads", action = "GetById", id = advertisement.Id }, advertisement);
+            }
+
+            return BadRequest();
         }
 
         // PUT api/ads/5
         [HttpPut("{id}")]
-        public void Update(int id, [FromBody]Ad product)
+        public async Task<IActionResult> Update(Guid id, [FromBody]Advertisement advertisement)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _advertisementRepository.UpdateAsync(id, advertisement);
+
+            if (result > 0)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         // DELETE api/ads/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (await _adRepository.DeleteByIdAsync(id) != 0)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (await _advertisementRepository.DeleteByIdAsync(id) != 0)
             {
                 return Ok();
             }
