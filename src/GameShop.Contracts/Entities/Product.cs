@@ -11,10 +11,6 @@ namespace GameShop.Contracts.Entities
         private Guid _productId;
         private string _productName;
         private string _description;
-        private User _createdBy;
-        private DateTime _createdDTTM;
-        private User _modifiedBy;
-        private DateTime _modifiedDTTM;
         #endregion
 
         #region Properties

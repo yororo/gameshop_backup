@@ -7,9 +7,9 @@ namespace GameShop.Contracts.Enumerations
 {
     public enum APIResult
     {
-        Unknown,
+        Default,
         Success,
-        Failure,
-        Error
+        APIError,
+        DBError
     }
 }

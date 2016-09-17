@@ -125,6 +125,9 @@ namespace GameShop.Contracts.Entities
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Default constructor initialization.
+        /// </summary>
         public Address()
         {
             AddressId = Guid.Empty;
