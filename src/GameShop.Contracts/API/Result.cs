@@ -7,9 +7,8 @@ namespace GameShop.Contracts.API
 {
     public enum Result
     {
-        Default,
+        Unknown,
         Success,
-        APIError,
-        DBError
+        Error
     }
 }

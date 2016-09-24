@@ -85,7 +85,7 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string GetFullName
+        public string FullName
         {
             get
             {
@@ -93,11 +93,11 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string GetCompleteName
+        public string CompleteName
         {
             get
             {
-                return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName);
+                return string.Format("{0} {1} {2} {3}, {4}", Salutation, FirstName, MiddleName, LastName, Suffix);
             }
         }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.API.Responses
 {
-    public class SearchAdResponse : APIResponse
+    public class SearchAdResponse : ApiResponse
     {
         #region Fields
         

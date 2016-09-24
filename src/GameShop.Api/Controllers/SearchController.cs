@@ -26,7 +26,7 @@ namespace GameShop.Api.Controllers
             return Ok();
         }
 
-        [HttpGet("ads/id/{id}")]
+        [HttpGet("ads/games/id/{id}")]
         public IActionResult SearchAdById(Guid id)
         {
             return RedirectToRoute(new { controller = nameof(GameAdsController).Replace(nameof(Controller), string.Empty),
@@ -34,7 +34,7 @@ namespace GameShop.Api.Controllers
                                             @id = id });
         }
 
-        [HttpGet("ads/fid/{friendlyId}")]
+        [HttpGet("ads/games/fid/{friendlyId}")]
         public IActionResult SearchAdByFriendlyId(string friendlyId)
         {
             return RedirectToRoute(new { controller = nameof(GameAdsController).Replace(nameof(Controller), string.Empty),
@@ -42,7 +42,7 @@ namespace GameShop.Api.Controllers
                                             @friendlyId = friendlyId });
         }
 
-        [HttpGet("ads/title/{title}")]
+        [HttpGet("ads/games/title/{title}")]
         public IActionResult SearchAdByTitle(string title)
         {
             return RedirectToRoute(new { controller = nameof(GameAdsController).Replace(nameof(Controller), string.Empty),

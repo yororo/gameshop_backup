@@ -13,7 +13,7 @@ using GameShop.Data.Repositories.Interfaces;
 
 namespace GameShop.Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("ads/games")]
     public class GameAdsController : Controller
     {
         private IGameAdvertisementAsyncRepository _advertisementRepository;

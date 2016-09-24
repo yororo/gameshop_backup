@@ -36,7 +36,7 @@ namespace GameShop.Web.Controllers.API
         }
 
         // GET: api/Accounts/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(id);
@@ -48,7 +48,7 @@ namespace GameShop.Web.Controllers.API
         {
             //Instantiate a response.
             var response = new LoginResponse();
-            response.Result = Result.Failure;
+            response.Result = Result.Unknown;
             
             if (request == null || string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
             {

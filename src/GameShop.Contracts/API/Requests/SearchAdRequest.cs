@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.API.Requests
 {
-    public class SearchAdRequest : APIRequest
+    public class SearchAdRequest : ApiRequest
     {
         #region Fields
         private string _searchStr;
