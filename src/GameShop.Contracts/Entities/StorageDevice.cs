@@ -8,10 +8,13 @@ namespace GameShop.Contracts.Entities
     public class StorageDevice
     {
         #region Fields
+
         private string _capacity;
+
         #endregion
 
         #region Properties
+
         public string Capacity
         {
             get
@@ -24,20 +27,15 @@ namespace GameShop.Contracts.Entities
                 _capacity = value;
             }
         }
+
         #endregion
 
         #region Constructors
+
         public StorageDevice()
         {
             Capacity = string.Empty;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

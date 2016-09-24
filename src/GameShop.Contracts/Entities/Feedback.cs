@@ -9,9 +9,15 @@ namespace GameShop.Contracts.Entities
     public class Feedback
     {
         #region Fields
+
         private Guid _feedbackId;
+        private User _user;
         private string _comments;
         private Rating _rating;
+        private User _owner;
+        private DateTime _created;
+        private DateTime _modified;
+
         #endregion
 
         #region Properties
@@ -26,6 +32,12 @@ namespace GameShop.Contracts.Entities
             {
                 _feedbackId = value;
             }
+        }
+
+        public User User
+        {
+            get { return _user; }
+            set { _user = value; }
         }
 
         public string Comments
@@ -53,22 +65,37 @@ namespace GameShop.Contracts.Entities
                 _rating = value;
             }
         }
+
+        public User Owner
+        {
+            get { return _owner; }
+            set { _owner = value; }
+        }
+
+        public DateTime Created
+        {
+            get { return _created; }
+            set { _created = value; }
+        }
+
+        public DateTime Modified
+        {
+            get { return _modified; }
+            set { _modified = value; }
+        }
+
         #endregion
 
         #region Constructors
+
         public Feedback()
         {
             FeedbackId = Guid.Empty;
             Comments = string.Empty;
             Rating = Rating.Worst;
+            Created = DateTime.MaxValue;
+            Modified = DateTime.MaxValue;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

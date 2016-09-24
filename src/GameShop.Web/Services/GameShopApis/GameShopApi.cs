@@ -8,11 +8,11 @@ namespace GameShop.Web.Services.GameShopApis
 {
     public class GameShopApi : IGameShopApi
     {
-        public GameShopApi(IGameShopProductsApi productsApi)
+        public GameShopApi(IGameShopAdsApi productsApi)
         {
             Products = productsApi;
         }
 
-        public IGameShopProductsApi Products { get; }
+        public IGameShopAdsApi Products { get; }
     }
 }

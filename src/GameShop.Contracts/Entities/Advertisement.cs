@@ -10,19 +10,21 @@ namespace GameShop.Contracts.Entities
         public Advertisement()
         {
             Products = new List<TProduct>();
+            MeetupLocations = new List<Address>();
         }
 
         public Advertisement(IEnumerable<TProduct> products)
+            : this()
         {
-            Products = products;
+            Products = products.ToList();
         }
 
-        public Guid Id { get; set; }
+        public Guid AdvertisementId { get; set; }
         public string FriendlyId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public IEnumerable<TProduct> Products { get; set; }
-        public IEnumerable<Address> Locations { get; set; }
+        public List<TProduct> Products { get; set; }
+        public List<Address> MeetupLocations { get; set; }
         public User Owner { get; set; }
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum GamingPlatform
+    public enum GamingPlatform : short
     {
-        None,
+        None = 0,
         GameBoy,
         PC,
         PlayStationVita,

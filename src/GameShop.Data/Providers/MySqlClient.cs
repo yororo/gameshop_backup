@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Providers
 {
-    public class MySqlClient : DatabaseClient
+    public class MySqlClient : DatabaseProviderClient
     {
         public MySqlClient(string connectionString)
             : base(connectionString)
@@ -17,25 +17,7 @@ namespace GameShop.Data.Providers
 
         public override DbConnection CreateConnection()
         {
-            return MySqlClientFactory.Instance.CreateConnection();
-        }
-
-        public override DbCommand CreateCommand()
-        {
-            return MySqlClientFactory.Instance.CreateCommand();
-        }
-
-        public override DbConnectionStringBuilder CreateConnectionStringBuilder()
-        {
-            var builder = MySqlClientFactory.Instance.CreateConnectionStringBuilder();
-            builder.ConnectionString = ConnectionString;
-
-            return builder;
-        }
-
-        public override DbParameter CreateParameter()
-        {
-            return MySqlClientFactory.Instance.CreateParameter();
+            return new MySqlConnection(ConnectionString);
         }
     }
 }

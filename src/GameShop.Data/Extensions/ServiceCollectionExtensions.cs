@@ -7,6 +7,7 @@ using GameShop.Data.Providers;
 using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Repositories.Interfaces;
 using GameShop.Data.Repositories;
+using System.Data.Common;
 
 namespace GameShop.Data.Extensions
 {
@@ -16,27 +17,27 @@ namespace GameShop.Data.Extensions
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Use MySql as database client.
+        /// Use Sql Server database client.
         /// </summary>
         /// <param name="services">IServiceCollection instance to add the database client service.</param>
         /// <param name="connectionString">Database connection string.</param>
         /// <returns>IServiceCollection instance with the added database client service.</returns>
-        public static IServiceCollection UseGameShopMySql(this IServiceCollection services, string connectionString)
+        public static IServiceCollection UseGameshopSqlServer(this IServiceCollection services, string connectionString)
         {
-            services.AddSingleton<IDatabaseClient>(new MySqlClient(connectionString));
+            services.AddSingleton<IDatabaseProviderClient>(new SqlServerClient(connectionString));
 
             return services;
         }
 
         /// <summary>
-        /// Use SQL Server as database client.
+        /// Use MySql database client.
         /// </summary>
         /// <param name="services">IServiceCollection instance to add the database client service.</param>
         /// <param name="connectionString">Database connection string.</param>
         /// <returns>IServiceCollection instance with the added database client service.</returns>
-        public static IServiceCollection UseGameShopSqlServer(this IServiceCollection services, string connectionString)
+        public static IServiceCollection UseGameshopMySql(this IServiceCollection services, string connectionString)
         {
-            services.AddSingleton<IDatabaseClient>(new MsSqlClient(connectionString));
+            services.AddSingleton<IDatabaseProviderClient>(new MySqlClient(connectionString));
 
             return services;
         }
@@ -48,8 +49,7 @@ namespace GameShop.Data.Extensions
         /// <returns>IServiceCollection instance with the added repository services.</returns>
         public static IServiceCollection UseGameShopRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<IAdvertisementRepository, AdvertisementRepository>();
-            services.AddSingleton<IAdvertisementAsyncRepository, AdvertisementRepository>();
+            services.AddSingleton<IGameAdvertisementAsyncRepository, GameAdvertisementRepository>();
 
             return services;
         }

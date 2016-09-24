@@ -8,22 +8,27 @@ namespace GameShop.Contracts.Entities
     public class ContactInformation
     {
         #region Fields
-        private Guid _contactInfoId;
+
+        private Guid _contactInformationId;
         private string _email;
         private string _contactNumber;
+        private DateTime _created;
+        private DateTime _modified;
+
         #endregion
 
         #region Properties
-        public Guid ContactInfoId
+
+        public Guid ContactInformationId
         {
             get
             {
-                return _contactInfoId;
+                return _contactInformationId;
             }
 
             set
             {
-                _contactInfoId = value;
+                _contactInformationId = value;
             }
         }
 
@@ -52,22 +57,43 @@ namespace GameShop.Contracts.Entities
                 _contactNumber = value;
             }
         }
+
+        public DateTime Created
+        {
+            get
+            {
+                return _created;
+            }
+            set
+            {
+                _created = value;
+            }
+        }
+
+        public DateTime Modified
+        {
+            get
+            {
+                return _modified;
+            }
+            set
+            {
+                _modified = value;
+            }
+        }
+
         #endregion
 
         #region Constructors
+
         public ContactInformation()
         {
-            ContactInfoId = Guid.Empty;
+            ContactInformationId = Guid.Empty;
             Email = string.Empty;
             ContactNumber = string.Empty;
+            Created = DateTime.MaxValue;
+            Modified = DateTime.MaxValue;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

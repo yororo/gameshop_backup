@@ -20,14 +20,14 @@ namespace GameShop.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _gameShopApi.Products.GetAllProductsAsync();
+            var products = await _gameShopApi.Products.GetAllAdsAsync();
 
             return View(products);
         }
 
         public async Task<IActionResult> Search(string id)
         {
-            var products = await _gameShopApi.Products.FindProductsByTitleAsync(id);
+            var products = await _gameShopApi.Products.FindAdsByTitleAsync(id);
 
             return View(products);
         }

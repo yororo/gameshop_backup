@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using GameShop.Contracts.API.Requests;
-using GameShop.Contracts.API.Responses;
 using GameShop.Contracts.Enumerations;
 using Microsoft.AspNetCore.Identity;
 using GameShop.Web.Models;
 using GameShop.Contracts.API;
+using GameShop.Contracts.API.Responses;
 
 namespace GameShop.Web.Controllers.API
 {

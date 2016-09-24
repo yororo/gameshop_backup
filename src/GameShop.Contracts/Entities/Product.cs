@@ -8,14 +8,18 @@ namespace GameShop.Contracts.Entities
     public abstract class Product
     {
         #region Fields
+
         private Guid _productId;
-        private string _productName;
+        private string _name;
         private string _description;
+        private PricingInformation _pricingInformation;
         private DateTime _created;
         private DateTime _modified;
+
         #endregion
 
         #region Properties
+
         public Guid ProductId
         {
             get
@@ -29,16 +33,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string ProductName
+        public string Name
         {
             get
             {
-                return _productName;
+                return _name;
             }
 
             set
             {
-                _productName = value;
+                _name = value;
             }
         }
 
@@ -52,6 +56,18 @@ namespace GameShop.Contracts.Entities
             set
             {
                 _description = value;
+            }
+        }
+
+        public PricingInformation PricingInformation
+        {
+            get
+            {
+                return _pricingInformation;
+            }
+            set
+            {
+                _pricingInformation = value;
             }
         }
 
@@ -86,18 +102,11 @@ namespace GameShop.Contracts.Entities
         public Product()
         {
             ProductId = Guid.Empty;
-            ProductName = string.Empty;
+            Name = string.Empty;
             Description = string.Empty;
             Created = DateTime.MaxValue;
             Modified = DateTime.MaxValue;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

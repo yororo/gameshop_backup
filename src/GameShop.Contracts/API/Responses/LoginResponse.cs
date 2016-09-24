@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.API.Responses
 {
-    public class LoginResponse : APIResponse
+    public class LoginResponse : ApiResponse
     {
-        public string Token { get; set; }
     }
 }

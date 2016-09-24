@@ -15,28 +15,15 @@ namespace GameShop.Data.Repositories
         /// <summary>
         /// Database provider client.
         /// </summary>
-        public IDatabaseClient DatabaseClient { get; set; }
-
+        public IDatabaseProviderClient Client { get; set; }
+        
         /// <summary>
-        /// Name of the repository's database table.
+        /// Constructor.
         /// </summary>
-        protected string TableName { get; set; }
-
-        public Repository()
+        /// <param name="databaseProviderClient"></param>
+        public Repository(IDatabaseProviderClient databaseProviderClient)
         {
-            TableName = this.GetType().Name;
-        }
-
-        public Repository(IDatabaseClient factory)
-            : this()
-        {
-            DatabaseClient = factory;
-        }
-
-        public Repository(DbProviderFactory factory)
-            : this()
-        {
-            DatabaseClient = (IDatabaseClient)factory;
+            Client = databaseProviderClient;
         }
     }
 }

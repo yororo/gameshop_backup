@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum Currency
+    public enum Currency : short
     {
-        PHP,
+        PHP = 0,
         USD
     }
 }

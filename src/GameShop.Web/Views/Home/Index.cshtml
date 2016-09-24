@@ -1,4 +1,4 @@
-﻿@using GameShop.Contract.Entities
+﻿@using GameShop.Contracts.Entities
 
 @model IEnumerable<Product>
 
@@ -8,6 +8,6 @@
 <ol>
     @foreach(var product in Model)
     {
-        <li>@string.Format("{0}:{1}", product.Id, product.Name)</li>
+        <li>@string.Format("{0}:{1}", product.ProductId, product.Name)</li>
     }
 </ol>

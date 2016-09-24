@@ -1,13 +1,19 @@
-﻿using GameShop.Contracts.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameShop.Contracts.API.Responses
 {
-    public abstract class APIResponse
+    public abstract class ApiResponse
     {
-        public Result Result { get; set; }
+        private Result _result;
+
+        public Result Result
+        {
+            get { return _result; }
+            set { _result = value; }
+        }
+
     }
 }

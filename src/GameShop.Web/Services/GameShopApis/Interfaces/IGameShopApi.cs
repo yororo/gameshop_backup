@@ -7,6 +7,6 @@ namespace GameShop.Web.Services.GameShopApis.Interfaces
 {
     public interface IGameShopApi
     {
-        IGameShopProductsApi Products { get; }
+        IGameShopAdsApi Products { get; }
     }
 }

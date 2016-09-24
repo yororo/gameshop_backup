@@ -12,6 +12,7 @@ using GameShop.Data.Repositories;
 using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Providers;
 using GameShop.Data.Extensions;
+using GameShop.Api.Filters;
 
 namespace GameShop.Api
 {
@@ -44,9 +45,18 @@ namespace GameShop.Api
 
             //Game shop PH data services
             services.UseGameShopRepositories()
-                .UseGameShopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddMvc();
+            services.AddMvc(options => 
+            {
+                //Add action filters.
+
+                //Validated ModelState before executing a controller action.
+                options.Filters.Add(typeof(ValidateModelStateActionFilter));
+
+            });
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -60,6 +70,9 @@ namespace GameShop.Api
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
     }
 }
