@@ -3,39 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Contracts.API.Responses
+namespace GameShop.Contracts.API.Requests
 {
-    public class LoginResponse : APIResponse
+    public class SearchAdRequest : APIRequest
     {
         #region Fields
-        private string _token;
-        private boolean _loginValid;
+        private string _searchStr;
         #endregion
 
         #region Properties
-        public string Token 
-        { 
-            get
-            {
-                return _token;
-            }
-
-            set
-            {
-                _token = value;
-            } 
-        }
-
-        public boolean _LoginValid
+        public string SearchStr
         {
             get
             {
-                return _loginValid;
+                return _searchStr;
             }
 
             set
             {
-                _loginValid = value;
+                _searchStr = value;
             }
         }
         #endregion
@@ -44,10 +30,9 @@ namespace GameShop.Contracts.API.Responses
         /// <summary>
         /// Default constructor initialization.
         /// </summary>
-        public SearchAdResponse()
+        public SearchAdRequest()
         {
-            Token = string.Empty;
-            LoginValid = false;
+            SearchStr = string.Empty;
         }
         #endregion
 
@@ -56,7 +41,7 @@ namespace GameShop.Contracts.API.Responses
         #endregion
 
         #region Public Methods
-        
+
         #endregion
     }
 }
