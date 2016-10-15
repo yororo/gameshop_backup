@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Repositories.Interfaces
 {
-    public interface IPcGameAsyncRepository : IProductAsyncRepository<PcGame, Guid>
+    public interface IPCGameAsyncRepository : IProductAsyncRepository<PCGame, Guid>
     {
     }
 
-    public interface IPcGameAsyncRepository<TId> : IProductAsyncRepository<PcGame, TId>
+    public interface IPCGameAsyncRepository<TId> : IProductAsyncRepository<PCGame, TId>
     {
     }
 }

@@ -15,7 +15,7 @@ namespace GameShop.Data.Repositories
     public class AdRepository : Repository, IAdRepository, IAdAsyncRepository
     {
         private List<Ad> _ads;
-        private List<PcGame> _pcGames;
+        private List<PCGame> _pcGames;
         private List<ConsoleGame> _consoleGames;
 
         public AdRepository(IDatabaseProviderFactory provider) 
@@ -23,22 +23,20 @@ namespace GameShop.Data.Repositories
         {
             _ads = new List<Ad>();
 
-            _pcGames = new List<PcGame>()
+            _pcGames = new List<PCGame>()
             {
-                new PcGame() { Id = Guid.NewGuid(), Name = "Test 1", Genre = GameGenre.Action },
-                new PcGame() { Id = Guid.NewGuid(), Name = "Dragon Age 3: Inquisition", Genre = GameGenre.RPG },
-                new PcGame() { Id = Guid.NewGuid(), Name = "Witcher 3", Genre = GameGenre.RPG },
-                new PcGame() { Id = Guid.NewGuid(), Name = "Mass Effect 4", Genre = GameGenre.SciFi },
-                new PcGame() { Id = Guid.NewGuid(), Name = "Torchlight", Genre = GameGenre.Simulation, SystemRequirements = new ComputerSpecification() { CPU = new CPU() { Cores = 4, Name = "Intel i7 5700", ClockSpeed = "3.40" } } }
+                new PCGame() { ProductId = Guid.NewGuid(), ProductName = "Test 1", GameGenre = GameGenre.Action },
+                new PCGame() { ProductId = Guid.NewGuid(), ProductName = "Dragon Age 3: Inquisition", GameGenre = GameGenre.RPG },
+                new PCGame() { ProductId = Guid.NewGuid(), ProductName = "Witcher 3", GameGenre = GameGenre.RPG },
+                new PCGame() { ProductId = Guid.NewGuid(), ProductName = "Mass Effect 4", GameGenre = GameGenre.SciFi },
+                new PCGame() { ProductId = Guid.NewGuid(), ProductName = "Torchlight", GameGenre = GameGenre.Simulation, SystemRequirements = new ComputerSpecification() { CPU = new CPU() { Cores = 4, Name = "Intel i7 5700", ClockSpeed = "3.40" } } }
             };
-
-
+            
             _consoleGames = new List<ConsoleGame>()
             {
-                new ConsoleGame() { Id = Guid.NewGuid(), Name = "PS2 Game", Genre = GameGenre.RPG, Platform = GamingPlatform.Xbox360 },
-                new ConsoleGame() { Id = Guid.NewGuid(), Name = "3DS Game", Genre = GameGenre.Simulation, Platform = GamingPlatform.PlayStation2 }
+                new ConsoleGame() { ProductId = Guid.NewGuid(), ProductName = "PS2 Game", GameGenre = GameGenre.RPG, GamingPlatform = GamingPlatform.Xbox360 },
+                new ConsoleGame() { ProductId = Guid.NewGuid(), ProductName = "3DS Game", GameGenre = GameGenre.Simulation, GamingPlatform = GamingPlatform.PlayStation2 }
             };
-
 
             var pcGamesAd = new Ad();
             pcGamesAd.Products.AddRange(_pcGames);

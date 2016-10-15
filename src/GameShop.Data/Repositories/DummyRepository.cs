@@ -9,7 +9,7 @@ using GameShop.Contracts.Enumerations;
 
 namespace GameShop.Data.Repositories
 {
-    public class DummyRepository : Repository, IAdAsyncRepository, IPcGameAsyncRepository, IConsoleGameAsyncRepository, IHandheldGameAsyncRepository
+    public class DummyRepository : Repository, IAdAsyncRepository, IPCGameAsyncRepository, IConsoleGameAsyncRepository, IHandheldGameAsyncRepository
     {
         public DummyRepository(IDatabaseProviderFactory provider)
             : base(provider)
@@ -45,21 +45,21 @@ namespace GameShop.Data.Repositories
 
         #endregion IAdAsyncRepository Implementation
 
-        #region IPcGameAsyncRepository Implementation
+        #region IPCGameAsyncRepository Implementation
 
 
 
-        public Task<IEnumerable<PcGame>> GetByGenreAsync(GameGenre genre)
+        public Task<IEnumerable<PCGame>> GetByGenreAsync(GameGenre genre)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PcGame> GetByIdAsync(Guid id)
+        public Task<PCGame> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<PcGame>> GetByNameAsync(string name)
+        public Task<IEnumerable<PCGame>> GetByNameAsync(string name)
         {
             throw new NotImplementedException();
         }
@@ -74,7 +74,7 @@ namespace GameShop.Data.Repositories
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<PcGame>> IProductAsyncRepository<PcGame, Guid>.GetAllAsync()
+        Task<IEnumerable<PCGame>> IProductAsyncRepository<PCGame, Guid>.GetAllAsync()
         {
             throw new NotImplementedException();
         }
@@ -84,7 +84,7 @@ namespace GameShop.Data.Repositories
             throw new NotImplementedException();
         }
 
-        #endregion IPcGameAsyncRepository Implementation
+        #endregion IPCGameAsyncRepository Implementation
 
         #region IConsoleGameAsyncRepository Implementation
 
