@@ -5,8 +5,41 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.API.Responses
 {
-    public class LoginResponse : APIResponse
+    public class LoginResponse : ApiResponse
     {
-        public string Token { get; set; }
+        #region Fields
+
+        private string _token;
+
+        #endregion
+
+        #region Properties
+
+        public string Token 
+        { 
+            get
+            {
+                return _token;
+            }
+
+            set
+            {
+                _token = value;
+            } 
+        }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor initialization.
+        /// </summary>
+        public LoginResponse()
+        {
+            Token = string.Empty;
+        }
+
+        #endregion
     }
 }

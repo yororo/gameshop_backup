@@ -8,16 +8,18 @@ namespace GameShop.Contracts.Entities
     public abstract class Product
     {
         #region Fields
+
         private Guid _productId;
-        private string _productName;
+        private string _name;
         private string _description;
-        private User _createdBy;
-        private DateTime _createdDTTM;
-        private User _modifiedBy;
-        private DateTime _modifiedDTTM;
+        private PricingInformation _pricingInformation;
+        private DateTime _created;
+        private DateTime _modified;
+
         #endregion
 
         #region Properties
+
         public Guid ProductId
         {
             get
@@ -31,16 +33,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string ProductName
+        public string Name
         {
             get
             {
-                return _productName;
+                return _name;
             }
 
             set
             {
-                _productName = value;
+                _name = value;
             }
         }
 
@@ -57,55 +59,41 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public User CreatedBy
+        public PricingInformation PricingInformation
         {
             get
             {
-                return _createdBy;
+                return _pricingInformation;
             }
-
             set
             {
-                _createdBy = value;
+                _pricingInformation = value;
             }
         }
 
-        public DateTime CreatedDTTM
+        public DateTime Created
         {
             get
             {
-                return _createdDTTM;
+                return _created;
             }
 
             set
             {
-                _createdDTTM = value;
+                _created = value;
             }
         }
 
-        public User ModifiedBy
+        public DateTime Modified
         {
             get
             {
-                return _modifiedBy;
+                return _modified;
             }
 
             set
             {
-                _modifiedBy = value;
-            }
-        }
-
-        public DateTime ModifiedDTTM
-        {
-            get
-            {
-                return _modifiedDTTM;
-            }
-
-            set
-            {
-                _modifiedDTTM = value;
+                _modified = value;
             }
         }
         #endregion
@@ -114,20 +102,11 @@ namespace GameShop.Contracts.Entities
         public Product()
         {
             ProductId = Guid.Empty;
-            ProductName = string.Empty;
+            Name = string.Empty;
             Description = string.Empty;
-            CreatedBy = new User();
-            CreatedDTTM = DateTime.MaxValue;
-            ModifiedBy = new User();
-            ModifiedDTTM = DateTime.MaxValue;
+            Created = DateTime.MaxValue;
+            Modified = DateTime.MaxValue;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

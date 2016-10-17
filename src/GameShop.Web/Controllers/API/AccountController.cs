@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using GameShop.Contracts.API.Requests;
-using GameShop.Contracts.API.Responses;
 using GameShop.Contracts.Enumerations;
 using Microsoft.AspNetCore.Identity;
 using GameShop.Web.Models;
+using GameShop.Contracts.API;
+using GameShop.Contracts.API.Responses;
 
 namespace GameShop.Web.Controllers.API
 {
@@ -35,7 +36,7 @@ namespace GameShop.Web.Controllers.API
         }
 
         // GET: api/Accounts/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(id);
@@ -47,7 +48,7 @@ namespace GameShop.Web.Controllers.API
         {
             //Instantiate a response.
             var response = new LoginResponse();
-            response.Result = APIResult.Failure;
+            response.Result = Result.Unknown;
             
             if (request == null || string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
             {
@@ -67,7 +68,7 @@ namespace GameShop.Web.Controllers.API
                 return BadRequest(response);
             }
 
-            response.Result = APIResult.Success;     
+            response.Result = Result.Success;     
 
             return Ok(response);
         }

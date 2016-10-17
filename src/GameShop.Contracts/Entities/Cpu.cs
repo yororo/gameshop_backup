@@ -8,9 +8,11 @@ namespace GameShop.Contracts.Entities
     public class CPU
     {
         #region Fields
+
         private string _name;
         private string _clockSpeed;
         private int _cores;
+
         #endregion
 
         #region Properties
@@ -52,22 +54,17 @@ namespace GameShop.Contracts.Entities
                 _cores = value;
             }
         }
+
         #endregion
 
         #region Constructors
+
         public CPU()
         {
             Name = string.Empty;
             ClockSpeed = string.Empty;
             Cores = 1;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

@@ -9,15 +9,18 @@ namespace GameShop.Contracts.Entities
     public class Name
     {
         #region Fields
-        private Title _title;
+
+        private Salutation _title;
         private string _firstName;
         private string _middleName;
         private string _lastName;
         private string _suffix;
+
         #endregion
 
         #region Properties
-        public Title Title
+
+        public Salutation Salutation
         {
             get
             {
@@ -82,7 +85,7 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string GetFullName
+        public string FullName
         {
             get
             {
@@ -90,31 +93,26 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string GetCompleteName
+        public string CompleteName
         {
             get
             {
-                return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName);
+                return string.Format("{0} {1} {2} {3}, {4}", Salutation, FirstName, MiddleName, LastName, Suffix);
             }
         }
+
         #endregion
 
         #region Constructors
+
         public Name()
         {
-            Title = Title.NotSpecified;
+            Salutation = Salutation.NotSpecified;
             FirstName = string.Empty;
             MiddleName = string.Empty;
             LastName = string.Empty;
             Suffix = string.Empty;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

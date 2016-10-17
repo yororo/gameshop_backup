@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace GameShop.Web.Services.Extensions
 {
+    /// <summary>
+    /// Extension for ASP.NET Core IServiceCollection.
+    /// </summary>
     public static class GameShopApiExtensions
     {
         public static void AddGameShopApis(this IServiceCollection services)
         {
-            services.AddSingleton<IGameShopProductsApi, GameShopProductsApi>();
+            services.AddSingleton<IGameShopAdsApi, GameShopAdsApi>();
             services.AddSingleton<IGameShopApi, GameShopApi>();
         }
     }

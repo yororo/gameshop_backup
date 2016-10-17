@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum Rating
+    public enum Rating : short
     {
         Worst = 0,
-        Bad = 1,
-        Good = 2,
-        Great = 3,
-        Wonderful = 4,
-        Recommended = 5
+        Bad,
+        Good,
+        Great,
+        Wonderful,
+        Recommended
     }
 }

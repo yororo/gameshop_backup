@@ -8,12 +8,15 @@ namespace GameShop.Contracts.Entities
     public abstract class Person
     {
         #region Fields
+
         private Name _name;
-        private Address _address;
-        private ContactInformation _contactInfo;
+        private List<Address> _addresses;
+        private List<ContactInformation> _contactInformation;
+
         #endregion
 
         #region Properties
+
         public Name Name
         {
             get
@@ -27,50 +30,45 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public Address Address
+        public List<Address> Addresses
         {
             get
             {
-                return _address;
+                return _addresses;
             }
 
             set
             {
-                _address = value;
+                _addresses = value;
             }
         }
 
-        public ContactInformation ContactInfo
+        public List<ContactInformation> ContactInformation
         {
             get
             {
-                return _contactInfo;
+                return _contactInformation;
             }
 
             set
             {
-                _contactInfo = value;
+                _contactInformation = value;
             }
         }
+
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Default constructor initialization.
         /// </summary>
         public Person()
         {
             Name = new Name();
-            Address = new Address();
-            ContactInfo = new ContactInformation();
+            Addresses = new List<Address>();
+            ContactInformation = new List<ContactInformation>();
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

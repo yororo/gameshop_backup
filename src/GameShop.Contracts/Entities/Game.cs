@@ -6,15 +6,25 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public abstract class Game : Product
+    public class Game : Product
     {
         #region Fields
+
+        private Guid _gameId;
         private GamingPlatform _gamingPlatform;
         private GameGenre _gameGenre;
         private DateTime _releaseDate;
+
         #endregion
 
         #region Properties
+
+        public Guid GameId
+        {
+            get { return _gameId; }
+            set { _gameId = value; }
+        }
+        
         public GamingPlatform GamingPlatform
         {
             get
@@ -53,22 +63,18 @@ namespace GameShop.Contracts.Entities
                 _releaseDate = value;
             }
         }
+
         #endregion
 
         #region Constructors
+
         public Game()
         {
+            GameId = Guid.Empty;
             GamingPlatform = GamingPlatform.None;
             GameGenre = GameGenre.None;
             ReleaseDate = DateTime.MaxValue;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

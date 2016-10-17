@@ -9,11 +9,14 @@ namespace GameShop.Contracts.Entities
     public class OperatingSystem
     {
         #region Fields
+
         private OS _OSType;
         private string _name;
+
         #endregion
 
         #region Properties
+
         public OS OSType
         {
             get
@@ -39,21 +42,16 @@ namespace GameShop.Contracts.Entities
                 _name = value;
             }
         }
+
         #endregion
 
         #region Constructors
+
         public OperatingSystem()
         {
             OSType = OS.NotSpecified;
             Name = string.Empty;
         }
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

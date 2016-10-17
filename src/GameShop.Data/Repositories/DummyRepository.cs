@@ -6,117 +6,90 @@ using System.Linq;
 using System.Threading.Tasks;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
+using System.Data.Common;
 
 namespace GameShop.Data.Repositories
 {
-    public class DummyRepository : Repository, IAdAsyncRepository, IPCGameAsyncRepository, IConsoleGameAsyncRepository, IHandheldGameAsyncRepository
-    {
-        public DummyRepository(IDatabaseProviderFactory provider)
-            : base(provider)
+    public class DummyRepository : Repository, IGameAdvertisementAsyncRepository, IGameAsyncRepository
+    { 
+        public DummyRepository(IDatabaseProviderClient databaseProviderClient)
+            : base(databaseProviderClient)
         {
         }
 
-        #region IAdAsyncRepository Implementation
+        public Task<int> AddAsync(Advertisement advertisement)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<int> DeleteByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Ad> FindByFriendlyIdAsync(string id)
+        public Task<Advertisement> FindByFriendlyIdAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Ad> FindByIdAsync(Guid id)
+        public Task<Advertisement> FindByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Ad>> FindByTitleAsync(string title)
+        public Task<IEnumerable<Advertisement>> FindByTitleAsync(string title)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Ad>> GetAllAsync()
+        public Task<User> GetAdOwnerAsync(Guid advertisementId)
         {
             throw new NotImplementedException();
         }
 
-        #endregion IAdAsyncRepository Implementation
-
-        #region IPCGameAsyncRepository Implementation
-
-
-
-        public Task<IEnumerable<PCGame>> GetByGenreAsync(GameGenre genre)
+        public Task<IEnumerable<Advertisement>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<PCGame> GetByIdAsync(Guid id)
+        public Task<IEnumerable<Advertisement>> GetAllDeepAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<PCGame>> GetByNameAsync(string name)
+        public Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<ConsoleGame>> IProductAsyncRepository<ConsoleGame, Guid>.GetAllAsync()
+        public Task<Game> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<HandheldGame>> IProductAsyncRepository<HandheldGame, Guid>.GetAllAsync()
+        public Task<IEnumerable<Game>> GetByNameAsync(string name)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<PCGame>> IProductAsyncRepository<PCGame, Guid>.GetAllAsync()
+        public Task<IEnumerable<Address>> GetMeetupLocationsAsync(Guid advertisementId)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<HandheldGame>> IProductAsyncRepository<HandheldGame, Guid>.GetByGenreAsync(GameGenre genre)
+        public Task<IEnumerable<Game>> GetProductsAsync(Guid advertisementId)
         {
             throw new NotImplementedException();
         }
 
-        #endregion IPCGameAsyncRepository Implementation
-
-        #region IConsoleGameAsyncRepository Implementation
-
-        Task<IEnumerable<ConsoleGame>> IProductAsyncRepository<ConsoleGame, Guid>.GetByGenreAsync(GameGenre genre)
+        public Task<int> UpdateAsync(Guid id, Advertisement advertisement)
         {
             throw new NotImplementedException();
         }
 
-        Task<HandheldGame> IProductAsyncRepository<HandheldGame, Guid>.GetByIdAsync(Guid id)
+        Task<IEnumerable<Game>> IProductAsyncRepository<Game, Guid>.GetAllAsync()
         {
             throw new NotImplementedException();
         }
-
-        Task<ConsoleGame> IProductAsyncRepository<ConsoleGame, Guid>.GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion IConsoleGameAsyncRepository Implementation
-
-        #region IHandheldGameAsyncRepository Implementation
-
-        Task<IEnumerable<HandheldGame>> IProductAsyncRepository<HandheldGame, Guid>.GetByNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IEnumerable<ConsoleGame>> IProductAsyncRepository<ConsoleGame, Guid>.GetByNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion IHandheldGameAsyncRepository Implementation
     }
 }

@@ -60,7 +60,7 @@ namespace GameShop.Web
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.Configure<GameShopApiOptions>(Configuration.GetSection("GameShopApiOptions"));
+            services.Configure<GameShopApiOptions>(Configuration.GetSection("GameShopApi"));
 
             //GameShop
             services.AddGameShopApis();

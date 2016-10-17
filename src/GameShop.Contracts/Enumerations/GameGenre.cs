@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum GameGenre
+    public enum GameGenre : short
     {
-        None,
+        None = 0,
         Action,
         Adventure,
         Arcade,

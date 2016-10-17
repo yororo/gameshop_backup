@@ -8,7 +8,11 @@ namespace GameShop.Contracts.Entities
     public class Address
     {
         #region Fields
+
         private Guid _addressId;
+        private string _street1;
+        private string _street2;
+        private string _street3;
         private string _barangay;
         private string _municipality;
         private string _city;
@@ -16,9 +20,13 @@ namespace GameShop.Contracts.Entities
         private string _province;
         private string _region;
         private string _country;
+        private DateTime _created;
+        private DateTime _modified;
+
         #endregion
 
         #region Properties
+
         public Guid AddressId
         {
             get
@@ -29,6 +37,43 @@ namespace GameShop.Contracts.Entities
             set
             {
                 _addressId = value;
+            }
+        }
+
+        public string Street1
+        {
+            get
+            {
+                return _street1;
+            }
+
+            set
+            {
+                _street1 = value;
+            }
+        }
+        public string Street2
+        {
+            get
+            {
+                return _street2;
+            }
+
+            set
+            {
+                _street2 = value;
+            }
+        }
+        public string Street3
+        {
+            get
+            {
+                return _street3;
+            }
+
+            set
+            {
+                _street3 = value;
             }
         }
 
@@ -122,9 +167,37 @@ namespace GameShop.Contracts.Entities
                 _country = value;
             }
         }
+
+        public DateTime Created
+        {
+            get
+            {
+                return _created;
+            }
+
+            set
+            {
+                _created = value;
+            }
+        }
+
+        public DateTime Modified
+        {
+            get
+            {
+                return _modified;
+            }
+
+            set
+            {
+                _modified = value;
+            }
+        }
+
         #endregion
 
         #region Constructors
+
         public Address()
         {
             AddressId = Guid.Empty;
@@ -135,17 +208,10 @@ namespace GameShop.Contracts.Entities
             Province = string.Empty;
             Region = string.Empty;
             Country = string.Empty;
+            Created = DateTime.MaxValue;
+            Modified = DateTime.MaxValue;
         }
-        #endregion
-
-        #region Private Methods
 
         #endregion
-
-        #region Public Methods
-
-        #endregion
-
-
     }
 }
