@@ -10,7 +10,6 @@ namespace GameShop.Contracts.Entities
         public Guid Id { get; set; }
         public CPU CPU { get; set; }
         public RAM RAM { get; set; }
-        public GraphicsCard GraphicsCard { get; set; }
         public StorageDevice Storage { get; set; }
         public OperatingSystem OperatingSystem { get; set; }
     }
