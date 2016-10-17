@@ -13,8 +13,6 @@ namespace GameShop.Contracts.Entities
         private Guid _userId;
         private UserType _userType;
         private List<Feedback> _feedbacks;
-        private DateTime _created;
-        private DateTime _modified;
 
         #endregion
 
@@ -58,19 +56,6 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public DateTime Created
-        {
-            get { return _created; }
-            set { _created = value; }
-        }
-
-        public DateTime Modified
-        {
-            get { return _modified; }
-            set { _modified = value; }
-        }
-
-
         #endregion
 
         #region Constructors
@@ -83,8 +68,6 @@ namespace GameShop.Contracts.Entities
             UserId = Guid.Empty;
             UserType = UserType.Public;
             Feedbacks = new List<Feedback>();
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
         }
 
         #endregion

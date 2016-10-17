@@ -74,6 +74,7 @@ namespace GameShop.Data.Repositories
             using (var databaseConnection = Client.CreateConnection())
             {
                 var command = new CommandDefinition(findByIdQuery, new { AdvertisementId = id });
+                //return await databaseConnection.QueryAsync<Game>("spGetAll", new { GamingPlatform }, commandType: CommandType.StoredProcedure);
 
                 //Load advertisement data.
                 var advertisementData = await databaseConnection.QuerySingleOrDefaultAsync(command).ConfigureAwait(false);
@@ -180,17 +181,15 @@ namespace GameShop.Data.Repositories
         /// <returns>IEnumerable list of Advertisements.</returns>
         public async Task<IEnumerable<Advertisement>> GetAllAsync()
         {
-            string getAdsWithOwnerQuery = @"SELECT * 
-                                            FROM Advertisements ad
-                                            INNER JOIN Users owner
-                                            ON ad.OwnerId = owner.UserId;";
+            string spGetAllAsync = @"spGetAllAsync";
 
             using (var databaseConnection = Client.CreateConnection())
             {
                 var advertisements = new List<Advertisement>();
 
                 //Load advertisements.
-                var advertisementsData = await databaseConnection.QueryAsync(getAdsWithOwnerQuery).ConfigureAwait(false);
+                var advertisementsData = await databaseConnection.QueryAsync(spGetAllAsync, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+
                 foreach (var advertisementData in advertisementsData)
                 {
                     Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
@@ -443,7 +442,7 @@ namespace GameShop.Data.Repositories
                 {
                     Feedback feedback = DynamicTranslator.TranslateFeedback(userFeedback);
                     feedback.User = user;
-                    feedback.Owner = new User();
+                    //feedback.Owner = new User();
 
                     user.Feedbacks.Add(feedback);
                 }

@@ -13,8 +13,10 @@ namespace GameShop.Contracts.Entities
         private string _name;
         private string _description;
         private PricingInformation _pricingInformation;
-        private DateTime _created;
-        private DateTime _modified;
+        private DateTime _createdDTTM;
+        private DateTime _modifiedDTTM;
+        private User _createdBy;
+        private User _modifiedBy;
 
         #endregion
 
@@ -71,31 +73,30 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public DateTime Created
+        public DateTime CreatedDTTM
         {
-            get
-            {
-                return _created;
-            }
-
-            set
-            {
-                _created = value;
-            }
+            get { return _createdDTTM; }
+            set { _createdDTTM = value; }
         }
 
-        public DateTime Modified
+        public DateTime ModifiedDTTM
         {
-            get
-            {
-                return _modified;
-            }
-
-            set
-            {
-                _modified = value;
-            }
+            get { return _modifiedDTTM; }
+            set { _modifiedDTTM = value; }
         }
+
+        public User CreatedBy
+        {
+            get { return _createdBy; }
+            set { _createdBy = value; }
+        }
+
+        public User ModifiedBy
+        {
+            get { return _modifiedBy; }
+            set { _modifiedBy = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -104,8 +105,10 @@ namespace GameShop.Contracts.Entities
             ProductId = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
+            CreatedDTTM = DateTime.MaxValue;
+            ModifiedDTTM = DateTime.MaxValue;
+            CreatedBy = new User();
+            ModifiedBy = new User();
         }
 
         #endregion

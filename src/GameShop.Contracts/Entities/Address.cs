@@ -20,8 +20,10 @@ namespace GameShop.Contracts.Entities
         private string _province;
         private string _region;
         private string _country;
-        private DateTime _created;
-        private DateTime _modified;
+        private DateTime _createdDTTM;
+        private DateTime _modifiedDTTM;
+        private User _createdBy;
+        private User _modifiedBy;
 
         #endregion
 
@@ -168,30 +170,28 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public DateTime Created
+        public DateTime CreatedDTTM
         {
-            get
-            {
-                return _created;
-            }
-
-            set
-            {
-                _created = value;
-            }
+            get { return _createdDTTM; }
+            set { _createdDTTM = value; }
         }
 
-        public DateTime Modified
+        public DateTime ModifiedDTTM
         {
-            get
-            {
-                return _modified;
-            }
+            get { return _modifiedDTTM; }
+            set { _modifiedDTTM = value; }
+        }
 
-            set
-            {
-                _modified = value;
-            }
+        public User CreatedBy
+        {
+            get { return _createdBy; }
+            set { _createdBy = value; }
+        }
+
+        public User ModifiedBy
+        {
+            get { return _modifiedBy; }
+            set { _modifiedBy = value; }
         }
 
         #endregion
@@ -208,8 +208,10 @@ namespace GameShop.Contracts.Entities
             Province = string.Empty;
             Region = string.Empty;
             Country = string.Empty;
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
+            CreatedDTTM = DateTime.MaxValue;
+            ModifiedDTTM = DateTime.MaxValue;
+            CreatedBy = new User();
+            ModifiedBy = new User();
         }
 
         #endregion
