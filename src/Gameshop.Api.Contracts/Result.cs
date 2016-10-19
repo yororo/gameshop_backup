@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Contracts.API
+namespace GameShop.Api.Contracts
 {
     public enum Result
     {

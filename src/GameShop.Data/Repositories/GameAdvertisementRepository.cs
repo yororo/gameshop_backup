@@ -1,70 +1,28 @@
-﻿using GameShop.Data.Repositories.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using GameShop.Contracts.Entities;
-using System.Data;
-using GameShop.Data.Providers;
-using GameShop.Data.Providers.Interfaces;
-using GameShop.Contracts.Enumerations;
-using Dapper;
-using System.Data.Common;
 using System.Text;
-using System.Diagnostics;
-using GameShop.Data.Extensions;
+using System.Threading.Tasks;
+
+using Dapper;
+using GameShop.Contracts.Entities;
+using GameShop.Contracts.Enumerations;
+using GameShop.Data.Providers;
 using GameShop.Data.Utilities;
 
 namespace GameShop.Data.Repositories
 {
-    public class GameAdvertisementRepository : Repository, IGameAdvertisementAsyncRepository
+    public class GameAdvertisementRepository : Repository, IGameAdvertisementRepository
     {
-        private List<Advertisement> _ads;
-        private List<PCGame> _pcGames;
-        private List<ConsoleGame> _consoleGames;
-
         public GameAdvertisementRepository(IDatabaseProviderClient databaseProviderClient) 
             : base(databaseProviderClient)
         {
-            _ads = new List<Advertisement>();
-
-            _pcGames = new List<PCGame>()
-            {
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Test 1", GameGenre = GameGenre.Action },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Dragon Age 3: Inquisition", GameGenre = GameGenre.RPG },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Witcher 3", GameGenre = GameGenre.RPG },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Mass Effect 4", GameGenre = GameGenre.SciFi },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Torchlight", GameGenre = GameGenre.Simulation, SystemRequirements = new ComputerSpecification() { CPU = new CPU() { Cores = 4, Name = "Intel i7 5700", ClockSpeed = "3.40" } } }
-            };
-
-
-            _consoleGames = new List<ConsoleGame>()
-            {
-                new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "PS2 Game", GameGenre = GameGenre.RPG, GamingPlatform = GamingPlatform.Xbox360 },
-                new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "3DS Game", GameGenre = GameGenre.Simulation, GamingPlatform = GamingPlatform.PlayStation2 }
-            };
-
-
-            var pcGamesAd = new Advertisement(_pcGames);
-            pcGamesAd.AdvertisementId = Guid.NewGuid();
-            pcGamesAd.FriendlyId = "123";
-            pcGamesAd.Title = "PC Games For Sale!";
-            pcGamesAd.Description = "Test Description For PC Games Ad.";
-
-            var consoleGamesAd = new Advertisement(_consoleGames);
-            consoleGamesAd.AdvertisementId = Guid.NewGuid();
-            consoleGamesAd.FriendlyId = "321";
-            consoleGamesAd.Title = "Console Games For Sale!";
-            consoleGamesAd.Description = "Test Description For Console Games Ad.";
-
-            _ads.Add(pcGamesAd);
-            _ads.Add(consoleGamesAd);
-
+           
         }
 
         #region IAdvertisementAsyncRepository Implementation
 
-        public async Task<Advertisement> FindByIdAsync(Guid id)
+        public async Task<Advertisement<Game>> FindByIdAsync(Guid id)
         {
             string findByIdQuery = @"SELECT * FROM Advertisements ad
                                     INNER JOIN Users owner
@@ -85,14 +43,14 @@ namespace GameShop.Data.Repositories
                 }
 
                 //Instantiate.
-                var advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                Advertisement<Game> advertisement = DynamicTranslator.TranslateAdvertisement<Game>(advertisementData);
 
                 //Load advertisement products.
                 var products = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
                 advertisement.Products.AddRange(products);
 
                 //Load advertisement owner. Full.
-                advertisement.Owner = await GetAdOwnerAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+                advertisement.Owner = await GetOwnerAsync(advertisement.AdvertisementId).ConfigureAwait(false);
 
                 //Load meetup locations.
                 var meetupLocations = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -102,7 +60,7 @@ namespace GameShop.Data.Repositories
             }
         }
 
-        public async Task<Advertisement> FindByFriendlyIdAsync(string id)
+        public async Task<Advertisement<Game>> FindByFriendlyIdAsync(string id)
         {
             string findByFriendlyIdQuery = @"SELECT * FROM Advertisements ad
                                             INNER JOIN Users owner
@@ -123,14 +81,15 @@ namespace GameShop.Data.Repositories
                 }
 
                 //Instantiate.
-                var advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                Advertisement<Game> advertisement = DynamicTranslator.TranslateAdvertisement<Game>(advertisementData);
+                advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
                 
                 //Load advertisement products.
                 var products = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
                 advertisement.Products.AddRange(products);
 
                 //Load advertisement owner. Full.
-                advertisement.Owner = await GetAdOwnerAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+                advertisement.Owner = await GetOwnerAsync(advertisement.AdvertisementId).ConfigureAwait(false);
                 
                 //Load meetup locations.
                 var meetupLocations = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -140,7 +99,7 @@ namespace GameShop.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<Advertisement>> FindByTitleAsync(string title)
+        public async Task<IEnumerable<Advertisement<Game>>> FindByTitleAsync(string title)
         {
             string findByTitleQuery = @"SELECT * FROM Advertisements ad
                                         INNER JOIN Users owner
@@ -149,13 +108,13 @@ namespace GameShop.Data.Repositories
 
             using (var databaseConnection = Client.CreateConnection())
             {
-                var advertisements = new List<Advertisement>();
+                var advertisements = new List<Advertisement<Game>>();
 
                 var advertisementsData = await databaseConnection.QueryAsync(findByTitleQuery, new { Title = string.Format("%{0}%", title) }).ConfigureAwait(false);
                 foreach (var advertisementData in advertisementsData)
                 {
                     //Instantiate.
-                    var advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                    Advertisement<Game> advertisement = DynamicTranslator.TranslateAdvertisement<Game>(advertisementData);
                     //Load advertisement owner. Partial.
                     advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
 
@@ -178,7 +137,7 @@ namespace GameShop.Data.Repositories
         /// Loads advertisements with products and basic owner information.
         /// </summary>
         /// <returns>IEnumerable list of Advertisements.</returns>
-        public async Task<IEnumerable<Advertisement>> GetAllAsync()
+        public async Task<IEnumerable<Advertisement<Game>>> GetAllAsync()
         {
             string getAdsWithOwnerQuery = @"SELECT * 
                                             FROM Advertisements ad
@@ -187,32 +146,92 @@ namespace GameShop.Data.Repositories
 
             using (var databaseConnection = Client.CreateConnection())
             {
-                var advertisements = new List<Advertisement>();
+                var advertisements = new List<Advertisement<Game>>();
 
                 //Load advertisements.
                 var advertisementsData = await databaseConnection.QueryAsync(getAdsWithOwnerQuery).ConfigureAwait(false);
                 foreach (var advertisementData in advertisementsData)
                 {
-                    Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                    Advertisement<Game> advertisement = DynamicTranslator.TranslateAdvertisement<Game>(advertisementData);
                     //Load advertisement owner. Partial.
                     advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
 
                     //Load games.
-                    var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
-                    advertisement.Products.AddRange(games);
+                    //var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+                    //advertisement.Products.AddRange(games);
 
-                    //Load meetup locations.
-                    var meetupLocationsData = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
-                    advertisement.MeetupLocations.AddRange(meetupLocationsData);
+                    ////Load meetup locations.
+                    //var meetupLocationsData = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+                    //advertisement.MeetupLocations.AddRange(meetupLocationsData);
 
                     advertisements.Add(advertisement);
+                }
+
+                string getAdGamesQuery = @"SELECT *
+                                        FROM Games game
+                                        INNER JOIN ProductInformation product
+                                        ON game.ProductInformationId = product.ProductInformationId
+                                        INNER JOIN PricingInformation pricing
+                                        ON product.PricingInformationId = pricing.PricingInformationId
+                                        WHERE AdvertisementId = '{0}';";
+
+                var queryBuilder = new StringBuilder();
+
+                //Batch query
+                //Build batch query for products.
+                foreach(var advertisement in advertisements)
+                {
+                    queryBuilder.AppendFormat(getAdGamesQuery, advertisement.AdvertisementId);
+                }
+
+                //Map games.
+                var gameMapper = await databaseConnection.QueryMultipleAsync(queryBuilder.ToString()).ConfigureAwait(false);
+                foreach(var advertisement in advertisements)
+                {
+                    var gamesData = await gameMapper.ReadAsync();
+                    foreach (var data in gamesData)
+                    {
+                        var game = DynamicTranslator.TranslateGame(data);
+                        game.PricingInformation = DynamicTranslator.TranslatePricingInformation(data);
+
+                        advertisement.Products.Add(game);
+                    }
+                }
+
+                //Clear query.
+                queryBuilder.Clear();
+
+                string getMeetupLocationsQuery = @"SELECT address.* 
+                                                FROM Addresses address,
+                                                AdvertisementsAddresses adAddress
+                                                WHERE adAddress.AdvertisementId = '{0}'
+                                                AND address.AddressId = adAddress.AddressId;";
+
+                //Batch query
+                //Build batch query for meetup locations.
+                foreach (var advertisement in advertisements)
+                {
+                    queryBuilder.AppendFormat(getMeetupLocationsQuery, advertisement.AdvertisementId);
+                }
+
+                //Map meetup locations.
+                var addressMapper = await databaseConnection.QueryMultipleAsync(queryBuilder.ToString()).ConfigureAwait(false);
+                foreach (var advertisement in advertisements)
+                {
+                    var meetupLocationsData = await addressMapper.ReadAsync();
+                    foreach (var data in meetupLocationsData)
+                    {
+                        var meetupLocation = DynamicTranslator.TranslateAddress(data);
+
+                        advertisement.MeetupLocations.Add(meetupLocation);
+                    }
                 }
 
                 return advertisements;
             }
         }
 
-        public async Task<IEnumerable<Advertisement>> GetAllDeepAsync()
+        public async Task<IEnumerable<Advertisement<Game>>> GetAllDeepAsync()
         {
             string getAllAdsMultipleQuery = @"SELECT * 
                                 FROM Advertisements ad
@@ -236,7 +255,7 @@ namespace GameShop.Data.Repositories
             using (var databaseConnection = Client.CreateConnection())
             {
                 //Initialize.
-                var advertisements = new List<Advertisement>();
+                var advertisements = new List<Advertisement<Game>>();
 
                 var mapper = await databaseConnection.QueryMultipleAsync(getAllAdsMultipleQuery).ConfigureAwait(false);
 
@@ -258,7 +277,7 @@ namespace GameShop.Data.Repositories
                 foreach (var advertisementData in advertisementsData)
                 {
                     //Translate advertisement.
-                    Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                    Advertisement<Game> advertisement = DynamicTranslator.TranslateAdvertisement<Game>(advertisementData);
 
                     //Initialize.
                     var games = new List<Game>();
@@ -353,7 +372,7 @@ namespace GameShop.Data.Repositories
                                                 FROM Addresses address,
                                                 AdvertisementsAddresses adAddress
                                                 WHERE adAddress.AdvertisementId = @AdvertisementId
-                                                AND address.AddressId = adAddress.AddressId";
+                                                AND address.AddressId = adAddress.AddressId;";
 
             using (var databaseConnection = Client.CreateConnection())
             {
@@ -390,7 +409,7 @@ namespace GameShop.Data.Repositories
                 return games;
             }
         }
-        public async Task<User> GetAdOwnerAsync(Guid id)
+        public async Task<User> GetOwnerAsync(Guid id)
         {
             string getAdOwnerQuery = @"SELECT owner.* 
                                         FROM Users owner,
@@ -452,7 +471,7 @@ namespace GameShop.Data.Repositories
             }
         }
 
-        public async Task<int> AddAsync(Advertisement advertisement)
+        public async Task<int> AddAsync(Advertisement<Game> advertisement)
         {
             using (var databaseConnection = Client.CreateConnection())
             {
@@ -472,7 +491,7 @@ namespace GameShop.Data.Repositories
             }
         }
 
-        public async Task<int> UpdateAsync(Guid id, Advertisement advertisement)
+        public async Task<int> UpdateAsync(Guid id, Advertisement<Game> advertisement)
         {
             throw new NotImplementedException();
         }
@@ -483,6 +502,47 @@ namespace GameShop.Data.Repositories
             {
                 return await databaseConnection.ExecuteAsync($"DELETE FROM Advertisements WHERE Id LIKE @Id", new { Id = id }).ConfigureAwait(false);
             }
+        }
+
+        public async Task<IEnumerable<Advertisement<Game>>> GetByGameReleaseDateAsync(DateTime releaseDate)
+        {
+            string getByGameReleaseDateQuery = @"SELECT * 
+                                                FROM Advertisements a
+                                                INNER JOIN ProductInformation p
+                                                ON a.AdvertisementId = p.AdvertisementId
+                                                INNER JOIN Games g
+                                                ON p.ProductInformationId = g.ProductInformationId
+                                                WHERE g.ReleaseDate > @ReleaseDate";
+
+            using (var databaseConnection = Client.CreateConnection())
+            {
+                var advertisementsData = await databaseConnection.QueryAsync(getByGameReleaseDateQuery, new { ReleaseDate = releaseDate });
+                var advertisements = new List<Advertisement<Game>>();
+                var games = new List<Game>();
+
+                foreach (var data in advertisementsData)
+                {
+                    Advertisement<Game> advertisement = DynamicTranslator.TranslateAdvertisement<Game>(data);
+                    var game = DynamicTranslator.TranslateGame(data);
+
+                    games.Add(game);
+                    advertisement.Products.AddRange(games);
+
+                    advertisements.Add(advertisement);
+                }
+
+                return advertisements;
+            }
+        }
+
+        public async Task<IEnumerable<Advertisement<Game>>> GetByGamingPlatformAsync(GamingPlatform gamingPlatform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Advertisement<Game>>> GetByGameGenreAsync(GameGenre gameGenre)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Data.Utilities
+namespace GameShop.Data.Translators
 {
     public class DynamicTranslator
     {
@@ -14,7 +14,7 @@ namespace GameShop.Data.Utilities
         /// </summary>
         /// <param name="dynamicObject">Dynamic object.</param>
         /// <returns>An instance of Advertisement.</returns>
-        public static Advertisement TranslateAdvertisement(dynamic dynamicObject)
+        public static Advertisement<TProduct> TranslateAdvertisement<TProduct>(dynamic dynamicObject) where TProduct : Product
         {
             if (dynamicObject == null)
             {
@@ -22,7 +22,7 @@ namespace GameShop.Data.Utilities
             }
 
             //Initialize advertisement.
-            var advertisement = new Advertisement();
+            var advertisement = new Advertisement<TProduct>();
             advertisement.AdvertisementId = dynamicObject.AdvertisementId;
             advertisement.FriendlyId = dynamicObject.FriendlyId;
             advertisement.Title = dynamicObject.Title;

@@ -1,5 +1,4 @@
 ﻿using GameShop.Data.Repositories;
-using GameShop.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +10,9 @@ namespace GameShop.Api.Controllers
     [Route("[controller]")]
     public class TestController : Controller
     {
-        IGameAdvertisementAsyncRepository _gameAdsRepository;
+        IGameAdvertisementRepository _gameAdsRepository;
 
-        public TestController(IGameAdvertisementAsyncRepository gameAdsRepository)
+        public TestController(IGameAdvertisementRepository gameAdsRepository)
         {
             _gameAdsRepository = gameAdsRepository;
         }

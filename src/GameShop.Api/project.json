@@ -17,7 +17,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "GameShop.Contracts": "1.0.0-*",
     "GameShop.Data": "1.0.0-*",
-    "Swashbuckle": "6.0.0-beta902"
+    "Swashbuckle": "6.0.0-beta902",
+    "Gameshop.Api.Contracts": "1.0.0-*"
   },
 
   "tools": {

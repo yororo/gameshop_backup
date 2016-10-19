@@ -3,25 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Contracts.API.Requests
+namespace GameShop.Api.Contracts.Requests
 {
-    public class SearchAdRequest : ApiRequest
+    public class LoginRequest : ApiRequest
     {
         #region Fields
-        private string _searchStr;
+        private string _username;
+        private string _password;
         #endregion
 
         #region Properties
-        public string SearchStr
+        public string Username
         {
             get
             {
-                return _searchStr;
+                return _username;
             }
 
             set
             {
-                _searchStr = value;
+                _username = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+
+            set
+            {
+                _password = value;
             }
         }
         #endregion
@@ -30,14 +44,15 @@ namespace GameShop.Contracts.API.Requests
         /// <summary>
         /// Default constructor initialization.
         /// </summary>
-        public SearchAdRequest()
+        public LoginRequest()
         {
-            SearchStr = string.Empty;
+            Username = string.Empty;
+            Password = string.Empty;
         }
         #endregion
 
         #region Private Methods
-        
+
         #endregion
 
         #region Public Methods

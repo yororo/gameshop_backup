@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using GameShop.Data.Providers;
+using GameShop.Data.Providers
 using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Repositories.Interfaces;
 using GameShop.Data.Repositories;
@@ -49,7 +49,7 @@ namespace GameShop.Data.Extensions
         /// <returns>IServiceCollection instance with the added repository services.</returns>
         public static IServiceCollection UseGameShopRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<IGameAdvertisementAsyncRepository, GameAdvertisementRepository>();
+            services.AddSingleton<IGameAdvertisementRepository, GameAdvertisementRepository>();
 
             return services;
         }
