@@ -8,7 +8,9 @@ using Dapper;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.Providers;
-using GameShop.Data.Utilities;
+using GameShop.Data.Translators;
+using GameShop.Data.Repositories.Interfaces;
+using GameShop.Data.Providers.Interfaces;
 
 namespace GameShop.Data.Repositories
 {

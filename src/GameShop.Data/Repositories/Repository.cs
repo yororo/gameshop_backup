@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Dapper;
 using GameShop.Data.Providers;
+using GameShop.Data.Providers.Interfaces;
 
 namespace GameShop.Data.Repositories
 {

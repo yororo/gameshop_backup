@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using GameShop.Data.Providers
+using GameShop.Data.Providers;
 using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Repositories.Interfaces;
 using GameShop.Data.Repositories;
