@@ -13,6 +13,8 @@ namespace GameShop.Contracts.Entities
         private Guid _userId;
         private UserType _userType;
         private List<Feedback> _feedbacks;
+        //private User _createdBy;
+        //private User _modifiedBy;
 
         #endregion
 
@@ -68,6 +70,8 @@ namespace GameShop.Contracts.Entities
             UserId = Guid.Empty;
             UserType = UserType.Public;
             Feedbacks = new List<Feedback>();
+            //CreatedBy = new User();
+            //ModifiedBy = new User();
         }
 
         #endregion

@@ -93,10 +93,10 @@ namespace GameShop.Data.Utilities
             user.Name.MiddleName = dynamicObject.MiddleName;
             user.Name.LastName = dynamicObject.LastName;
             user.Name.Suffix = dynamicObject.Suffix;
-            user.CreatedDTTM = dynamicObject.CreatedDTTM;
-            user.ModifiedDTTM = dynamicObject.ModifiedDTTM;
-            user.CreatedBy = dynamicObject.CreatedBy;
-            user.ModifiedBy = dynamicObject.ModifiedBy;
+            user.ContractInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            user.ContractInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            user.ContractInformation.CreatedBy = dynamicObject.CreatedBy;
+            user.ContractInformation.ModifiedBy = dynamicObject.ModifiedBy;
 
             return user;
         }

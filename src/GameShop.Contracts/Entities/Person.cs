@@ -12,10 +12,7 @@ namespace GameShop.Contracts.Entities
         private Name _name;
         private List<Address> _addresses;
         private List<ContactInformation> _contactInformation;
-        private DateTime _createdDTTM;
-        private DateTime _modifiedDTTM;
-        private User _createdBy;
-        private User _modifiedBy;
+        private ContractInformation _contractInformation;
 
         #endregion
 
@@ -60,28 +57,17 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public DateTime CreatedDTTM
+        public ContractInformation ContractInformation
         {
-            get { return _createdDTTM; }
-            set { _createdDTTM = value; }
-        }
+            get
+            {
+                return _contractInformation;
+            }
 
-        public DateTime ModifiedDTTM
-        {
-            get { return _modifiedDTTM; }
-            set { _modifiedDTTM = value; }
-        }
-
-        public User CreatedBy
-        {
-            get { return _createdBy; }
-            set { _createdBy = value; }
-        }
-
-        public User ModifiedBy
-        {
-            get { return _modifiedBy; }
-            set { _modifiedBy = value; }
+            set
+            {
+                _contractInformation = value;
+            }
         }
 
         #endregion
@@ -96,10 +82,7 @@ namespace GameShop.Contracts.Entities
             Name = new Name();
             Addresses = new List<Address>();
             ContactInformation = new List<ContactInformation>();
-            CreatedDTTM = DateTime.MaxValue;
-            ModifiedDTTM = DateTime.MaxValue;
-            CreatedBy = new User();
-            ModifiedBy = new User();
+            ContractInformation = new ContractInformation();
         }
 
         #endregion
