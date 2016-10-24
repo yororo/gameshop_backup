@@ -8,6 +8,6 @@ Process:
 
 2. In your local repository (VS), add both the original repository and your forked repository.
 
-3. When making a change, create a branch to keep track of the change we are making (Branches are kind of shelvesets in TFS).
+3. When making a change, create a branch to keep track of a change/issue/feature we are working on.
 
 4. Let's follow this guide. :) https://guides.github.com/introduction/flow/
