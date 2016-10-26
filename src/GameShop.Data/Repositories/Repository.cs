@@ -10,7 +10,7 @@ using System.Data.Common;
 
 namespace GameShop.Data.Repositories
 {
-    public class Repository
+    public abstract class Repository
     {
         /// <summary>
         /// Database provider client.

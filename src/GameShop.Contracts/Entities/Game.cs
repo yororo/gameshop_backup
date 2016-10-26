@@ -9,21 +9,14 @@ namespace GameShop.Contracts.Entities
     public class Game : Product
     {
         #region Fields
-
-        private Guid _gameId;
+        
         private GamingPlatform _gamingPlatform;
         private GameGenre _gameGenre;
-        private DateTime _releaseDate;
+        private string _title;
 
         #endregion
 
         #region Properties
-
-        public Guid GameId
-        {
-            get { return _gameId; }
-            set { _gameId = value; }
-        }
         
         public GamingPlatform GamingPlatform
         {
@@ -51,16 +44,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public DateTime ReleaseDate
+        public string Title
         {
             get
             {
-                return _releaseDate;
+                return _title;
             }
 
             set
             {
-                _releaseDate = value;
+                _title = value;
             }
         }
 
@@ -70,10 +63,8 @@ namespace GameShop.Contracts.Entities
 
         public Game()
         {
-            GameId = Guid.Empty;
             GamingPlatform = GamingPlatform.None;
             GameGenre = GameGenre.None;
-            ReleaseDate = DateTime.MaxValue;
         }
 
         #endregion

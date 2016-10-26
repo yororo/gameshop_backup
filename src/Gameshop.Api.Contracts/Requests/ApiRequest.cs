@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Contracts.API
+namespace GameShop.Api.Contracts.Requests
 {
-    public enum Result
+    public class ApiRequest
     {
-        Unknown,
-        Success,
-        Error
+        public Guid Id { get; set; }
     }
 }
