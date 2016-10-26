@@ -54,7 +54,7 @@ namespace GameShop.Api
 
             //Game shop PH data services
             services.UseGameShopRepositories()
-                    .UseGameshopSqlServer(Configuration.GetConnectionString("localConnection"));
+                    .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddMvcCore(options => 
             {
