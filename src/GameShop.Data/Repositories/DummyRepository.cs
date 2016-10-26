@@ -10,6 +10,9 @@ using System.Data.Common;
 
 namespace GameShop.Data.Repositories
 {
+    /// <summary>
+    /// This is just a dummy repository. This can be used for return fake database objects for testing purposes.
+    /// </summary>
     public class DummyRepository : Repository, IGameAdvertisementAsyncRepository, IGameAsyncRepository
     { 
         public DummyRepository(IDatabaseProviderClient databaseProviderClient)

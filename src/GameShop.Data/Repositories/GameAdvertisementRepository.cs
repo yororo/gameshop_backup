@@ -13,33 +13,15 @@ using System.Data.Common;
 using System.Text;
 using System.Diagnostics;
 using GameShop.Data.Extensions;
-using GameShop.Data.Utilities;
+using GameShop.Data.Translators;
 
 namespace GameShop.Data.Repositories
 {
     public class GameAdvertisementRepository : Repository, IGameAdvertisementAsyncRepository
     {
-        private List<Advertisement> _ads;
-        private List<ConsoleGame> _consoleGames;
-
         public GameAdvertisementRepository(IDatabaseProviderClient databaseProviderClient) 
             : base(databaseProviderClient)
         {
-            _ads = new List<Advertisement>();
-
-            _consoleGames = new List<ConsoleGame>()
-            {
-                new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "PS2 Game", GameGenre = GameGenre.RPG, GamingPlatform = GamingPlatform.Xbox360 },
-                new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "3DS Game", GameGenre = GameGenre.Simulation, GamingPlatform = GamingPlatform.PlayStation2 }
-            };
-
-            var consoleGamesAd = new Advertisement(_consoleGames);
-            consoleGamesAd.AdvertisementId = Guid.NewGuid();
-            consoleGamesAd.FriendlyId = "321";
-            consoleGamesAd.Title = "Console Games For Sale!";
-            consoleGamesAd.Description = "Test Description For Console Games Ad.";
-            
-            _ads.Add(consoleGamesAd);
 
         }
 
