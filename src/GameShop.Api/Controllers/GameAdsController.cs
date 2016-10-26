@@ -16,27 +16,27 @@ namespace GameShop.Api.Controllers
     [Route("ads/games")]
     public class GameAdsController : Controller
     {
-        private IGameAdvertisementAsyncRepository _advertisementRepository;
+        private IGameAdvertisementAsyncRepository _gameAdRepository;
 
-        public GameAdsController(IGameAdvertisementAsyncRepository advertisementRepository)
+        public GameAdsController(IGameAdvertisementAsyncRepository gameAdRepository)
         {
-            _advertisementRepository = advertisementRepository;
+            _gameAdRepository = gameAdRepository;
         }
 
         // GET: ads
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var ads = await _advertisementRepository.GetAllAsync();
+            var ads = await _gameAdRepository.GetAllAsync();
 
             return Ok(ads);
         }
         
         // GET: ads/deep
-        [HttpGet("deep")]
+        [HttpGet("getAllDeep")]
         public async Task<IActionResult> GetAllDeepAsync()
         {
-            var ads = await _advertisementRepository.GetAllDeepAsync();
+            var ads = await _gameAdRepository.GetAllDeepAsync();
 
             return Ok(ads);
         }
@@ -45,7 +45,7 @@ namespace GameShop.Api.Controllers
         [HttpGet("id/{id}")]
         public async Task<IActionResult> FindByIdAsync(Guid id)
         {
-            var ad = await _advertisementRepository.FindByIdAsync(id);
+            var ad = await _gameAdRepository.FindByIdAsync(id);
             
             //Ad not found.
             if (ad == null)
@@ -60,7 +60,7 @@ namespace GameShop.Api.Controllers
         [HttpGet("fid/{friendlyId}")]
         public async Task<IActionResult> FindByFriendlyIdAsync(string friendlyId)
         {
-            var ad = await _advertisementRepository.FindByFriendlyIdAsync(friendlyId);
+            var ad = await _gameAdRepository.FindByFriendlyIdAsync(friendlyId);
 
             //Product not found.
             if (ad == null)
@@ -76,20 +76,23 @@ namespace GameShop.Api.Controllers
         [HttpGet("title/{title}")]
         public async Task<IActionResult> FindByTitleAsync(string title)
         {
-            var ads = await _advertisementRepository.FindByTitleAsync(title);
+            var ads = await _gameAdRepository.FindByTitleAsync(title);
 
             return Ok(ads);
         }
 
         // POST ads
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateAsync([FromBody]Advertisement advertisement)
         {
-            var result = await _advertisementRepository.AddAsync(advertisement);
-
-            if(result > 0)
+            if (advertisement != null)
             {
-                return CreatedAtRoute(new { controller = nameof(GameAdsController), action = nameof(GameAdsController.FindByIdAsync), id = advertisement.AdvertisementId }, advertisement);
+                var result = await _gameAdRepository.AddAsync(advertisement);
+
+                if (result > 0)
+                {
+                    return CreatedAtRoute(new { controller = nameof(GameAdsController), action = nameof(GameAdsController.FindByIdAsync), id = advertisement.AdvertisementId }, advertisement);
+                }
             }
 
             return BadRequest();
@@ -99,7 +102,7 @@ namespace GameShop.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody]Advertisement advertisement)
         {
-            var result = await _advertisementRepository.UpdateAsync(id, advertisement);
+            var result = await _gameAdRepository.UpdateAsync(id, advertisement);
 
             if (result > 0)
             {
@@ -113,7 +116,7 @@ namespace GameShop.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            if (await _advertisementRepository.DeleteByIdAsync(id) != 0)
+            if (await _gameAdRepository.DeleteByIdAsync(id) != 0)
             {
                 return Ok();
             }
