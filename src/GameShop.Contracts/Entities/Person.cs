@@ -12,7 +12,7 @@ namespace GameShop.Contracts.Entities
         private Name _name;
         private List<Address> _addresses;
         private List<ContactInformation> _contactInformation;
-        private ContractInformation _contractInformation;
+        private AuditInformation _auditInformation;
 
         #endregion
 
@@ -57,16 +57,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public ContractInformation ContractInformation
+        public AuditInformation AuditInformation
         {
             get
             {
-                return _contractInformation;
+                return _auditInformation;
             }
 
             set
             {
-                _contractInformation = value;
+                _auditInformation = value;
             }
         }
 
@@ -82,7 +82,7 @@ namespace GameShop.Contracts.Entities
             Name = new Name();
             Addresses = new List<Address>();
             ContactInformation = new List<ContactInformation>();
-            ContractInformation = new ContractInformation();
+            AuditInformation = new AuditInformation();
         }
 
         #endregion

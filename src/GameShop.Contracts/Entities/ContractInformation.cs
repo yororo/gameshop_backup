@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class ContractInformation
+    public class AuditInformation
     {
         #region Fields
 
@@ -46,10 +46,10 @@ namespace GameShop.Contracts.Entities
 
         #region Constructors
 
-        public ContractInformation()
+        public AuditInformation()
         { }
 
-        public ContractInformation(User createdBy, DateTime createdDTTM)
+        public AuditInformation(User createdBy, DateTime createdDTTM)
         {
             this.CreatedBy = createdBy;
             this.CreatedDTTM = createdDTTM;
