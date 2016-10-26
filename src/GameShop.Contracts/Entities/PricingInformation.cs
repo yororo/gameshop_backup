@@ -8,7 +8,8 @@ namespace GameShop.Contracts.Entities
         #region Fields
 
         private Guid _pricingInformationId;
-        private decimal _price;
+        private decimal _tradePrice;
+        private decimal _salePrice;
         private Currency _currency;
         private AuditInformation _auditInformation;
 
@@ -29,16 +30,29 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public decimal Price
+        public decimal TradePrice
         {
             get
             {
-                return _price;
+                return _tradePrice;
             }
 
             set
             {
-                _price = value;
+                _tradePrice = value;
+            }
+        }
+
+        public decimal SalePrice
+        {
+            get
+            {
+                return _salePrice;
+            }
+
+            set
+            {
+                _salePrice = value;
             }
         }
 
@@ -75,8 +89,8 @@ namespace GameShop.Contracts.Entities
         public PricingInformation()
         {
             PricingInformationId = Guid.Empty;
-            Price = decimal.Zero;
-            this.Currency = Currency.PHP;
+            TradePrice = decimal.Zero;
+            SalePrice = decimal.Zero;
             AuditInformation = new AuditInformation();
         }
 

@@ -12,6 +12,9 @@ namespace GameShop.Contracts.Entities
         private Guid _productId;
         private string _name;
         private string _description;
+        private string _reasonForSelling;
+        private bool _isForTrade;
+        private bool _isForSale;
         private PricingInformation _pricingInformation;
         private AuditInformation _auditInformation;
 
@@ -58,6 +61,45 @@ namespace GameShop.Contracts.Entities
             }
         }
 
+        public string ReasonForSelling
+        {
+            get
+            {
+                return _reasonForSelling;
+            }
+
+            set
+            {
+                _reasonForSelling = value;
+            }
+        }
+
+        public bool IsForTrade
+        {
+            get
+            {
+                return _isForTrade;
+            }
+
+            set
+            {
+                _isForTrade = value;
+            }
+        }
+
+        public bool IsForSale
+        {
+            get
+            {
+                return _isForSale;
+            }
+
+            set
+            {
+                _isForSale = value;
+            }
+        }
+
         public PricingInformation PricingInformation
         {
             get
@@ -91,6 +133,8 @@ namespace GameShop.Contracts.Entities
             ProductId = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
+            IsForTrade = false;
+            _isForSale = false;
             AuditInformation = new AuditInformation();
         }
 

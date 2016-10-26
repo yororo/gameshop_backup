@@ -45,15 +45,18 @@ namespace GameShop.Data.Utilities
                 throw new ArgumentNullException(nameof(dynamicObject));
             }
 
-            //Initialize game.
             var game = new Game();
-            game.ProductId = dynamicObject.ProductInformationId;
-            game.GameId = dynamicObject.GameId;
-            game.Name = dynamicObject.Name;
-            game.Description = dynamicObject.Description;
-            game.ReleaseDate = dynamicObject.ReleaseDate;
+
+            //Initialize game information.
+            game.ProductId = dynamicObject.GameId;
+            game.Title = dynamicObject.Title;
+            game.IsForSale = dynamicObject.IsForSale;
+            game.IsForTrade = dynamicObject.IsForTrade;
+            game.ReasonForSelling = dynamicObject.ReasonForSelling;
             game.GamingPlatform = (GamingPlatform)Enum.Parse(typeof(GamingPlatform), string.Format("{0}", dynamicObject.GamingPlatform));
             game.GameGenre = (GameGenre)Enum.Parse(typeof(GameGenre), string.Format("{0}", dynamicObject.GameGenre));
+
+            //Audit information.
             game.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
             game.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
             game.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
@@ -70,37 +73,58 @@ namespace GameShop.Data.Utilities
             }
 
             var pricingInformation = new PricingInformation();
-            pricingInformation.PricingInformationId = dynamicObject.PricingInformationId;
-            pricingInformation.Price = dynamicObject.Price;
-            pricingInformation.Currency = (Currency)Enum.Parse(typeof(Currency), string.Format("{0}", dynamicObject.Currency));
-            pricingInformation.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
-            pricingInformation.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
-            pricingInformation.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
-            pricingInformation.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            
+            pricingInformation.TradePrice = dynamicObject.TradePrice;
+            pricingInformation.SalePrice = dynamicObject.SalePrice;
+            pricingInformation.Currency = dynamicObject.Currency;
 
             return pricingInformation;
         }
 
-        public static User TranslateUser(dynamic dynamicObject)
+        public static Address TranslateMeetupLocations(dynamic dynamicObject)
         {
             if (dynamicObject == null)
             {
                 throw new ArgumentNullException(nameof(dynamicObject));
             }
 
-            var user = new User();
-            user.UserId = dynamicObject.UserId;
-            user.Name.Salutation = (Salutation)Enum.Parse(typeof(Salutation), dynamicObject.Salutation);
-            user.Name.FirstName = dynamicObject.FirstName;
-            user.Name.MiddleName = dynamicObject.MiddleName;
-            user.Name.LastName = dynamicObject.LastName;
-            user.Name.Suffix = dynamicObject.Suffix;
-            user.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
-            user.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
-            user.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
-            user.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
+            var address = new Address();
 
-            return user;
+            address.Street1 = dynamicObject.StreetOne;
+            address.Street2 = dynamicObject.StreetTwo;
+            address.Street3 = dynamicObject.StreetThree;
+            address.Barangay = dynamicObject.Barangay;
+            address.Municipality = dynamicObject.Municipality;
+            address.City = dynamicObject.City;
+            address.ZipCode = dynamicObject.ZipCode;
+            address.Province = dynamicObject.Province;
+            address.Region = dynamicObject.Region;
+            address.Country = dynamicObject.Country;
+
+            //Audit information.
+            address.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            address.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            address.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
+            address.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
+
+            return address;
+        }
+
+        public static AuditInformation TranslateUser(dynamic dynamicObject)
+        {
+            if (dynamicObject == null)
+            {
+                throw new ArgumentNullException(nameof(dynamicObject));
+            }
+
+            var auditInformation = new AuditInformation();
+
+            auditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            auditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            auditInformation.CreatedBy = dynamicObject.CreatedBy;
+            auditInformation.ModifiedBy = dynamicObject.ModifiedBy;
+
+            return auditInformation;
         }
 
         public static Address TranslateAddress(dynamic dynamicObject)
