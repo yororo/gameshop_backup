@@ -14,10 +14,7 @@ namespace GameShop.Contracts.Entities
         private User _user;
         private string _comments;
         private Rating _rating;
-        private DateTime _createdDTTM;
-        private DateTime _modifiedDTTM;
-        private User _createdBy;
-        private User _modifiedBy;
+        private AuditInformation _auditInformation;
 
         #endregion
 
@@ -66,29 +63,18 @@ namespace GameShop.Contracts.Entities
                 _rating = value;
             }
         }
-
-        public DateTime CreatedDTTM
+        
+        public AuditInformation AuditInformation
         {
-            get { return _createdDTTM; }
-            set { _createdDTTM = value; }
-        }
+            get
+            {
+                return _auditInformation;
+            }
 
-        public DateTime ModifiedDTTM
-        {
-            get { return _modifiedDTTM; }
-            set { _modifiedDTTM = value; }
-        }
-
-        public User CreatedBy
-        {
-            get { return _createdBy; }
-            set { _createdBy = value; }
-        }
-
-        public User ModifiedBy
-        {
-            get { return _modifiedBy; }
-            set { _modifiedBy = value; }
+            set
+            {
+                _auditInformation = value;
+            }
         }
 
         #endregion
@@ -100,10 +86,7 @@ namespace GameShop.Contracts.Entities
             FeedbackId = Guid.Empty;
             Comments = string.Empty;
             Rating = Rating.Worst;
-            CreatedDTTM = DateTime.MaxValue;
-            ModifiedDTTM = DateTime.MaxValue;
-            CreatedBy = new User();
-            ModifiedBy = new User();
+            AuditInformation = new AuditInformation();
         }
 
         #endregion
