@@ -15,7 +15,8 @@
     "GameShop.Contracts": "1.0.0-*",
     "GameShop.Data": "1.0.0-*",
     "Swashbuckle": "6.0.0-beta902",
-    "Gameshop.Api.Contracts": "1.0.0-*"
+    "Gameshop.Api.Contracts": "1.0.0-*",
+    "IdentityServer4": "1.0.0-rc2"
   },
 
   "tools": {

@@ -13,6 +13,9 @@ using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Providers;
 using GameShop.Data.Extensions;
 using GameShop.Api.Filters;
+using IdentityServer4.Services;
+using IdentityServer4.Models;
+using IdentityServer4.Services.InMemory;
 
 namespace GameShop.Api
 {
@@ -43,11 +46,17 @@ namespace GameShop.Api
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            services.AddIdentityServer()
+                .AddInMemoryStores()
+                .AddInMemoryClients(new List<Client>())
+                .AddInMemoryScopes(new List<Scope>())
+                .AddInMemoryUsers(new List<InMemoryUser>());
+
             //Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddMvc(options => 
+            services.AddMvcCore(options => 
             {
                 //Add action filters.
 
@@ -68,6 +77,8 @@ namespace GameShop.Api
             app.UseApplicationInsightsRequestTelemetry();
 
             app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseIdentityServer();
 
             app.UseMvc();
 
