@@ -20,7 +20,6 @@ namespace GameShop.Data.Repositories
     public class GameAdvertisementRepository : Repository, IGameAdvertisementAsyncRepository
     {
         private List<Advertisement> _ads;
-        private List<PCGame> _pcGames;
         private List<ConsoleGame> _consoleGames;
 
         public GameAdvertisementRepository(IDatabaseProviderClient databaseProviderClient) 
@@ -28,36 +27,18 @@ namespace GameShop.Data.Repositories
         {
             _ads = new List<Advertisement>();
 
-            _pcGames = new List<PCGame>()
-            {
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Test 1", GameGenre = GameGenre.Action },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Dragon Age 3: Inquisition", GameGenre = GameGenre.RPG },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Witcher 3", GameGenre = GameGenre.RPG },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Mass Effect 4", GameGenre = GameGenre.SciFi },
-                new PCGame() { ProductId = Guid.NewGuid(), Name = "Torchlight", GameGenre = GameGenre.Simulation, SystemRequirements = new ComputerSpecification() { CPU = new CPU() { Cores = 4, Name = "Intel i7 5700", ClockSpeed = "3.40" } } }
-            };
-
-
             _consoleGames = new List<ConsoleGame>()
             {
                 new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "PS2 Game", GameGenre = GameGenre.RPG, GamingPlatform = GamingPlatform.Xbox360 },
                 new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "3DS Game", GameGenre = GameGenre.Simulation, GamingPlatform = GamingPlatform.PlayStation2 }
             };
 
-
-            var pcGamesAd = new Advertisement(_pcGames);
-            pcGamesAd.AdvertisementId = Guid.NewGuid();
-            pcGamesAd.FriendlyId = "123";
-            pcGamesAd.Title = "PC Games For Sale!";
-            pcGamesAd.Description = "Test Description For PC Games Ad.";
-
             var consoleGamesAd = new Advertisement(_consoleGames);
             consoleGamesAd.AdvertisementId = Guid.NewGuid();
             consoleGamesAd.FriendlyId = "321";
             consoleGamesAd.Title = "Console Games For Sale!";
             consoleGamesAd.Description = "Test Description For Console Games Ad.";
-
-            _ads.Add(pcGamesAd);
+            
             _ads.Add(consoleGamesAd);
 
         }

@@ -54,10 +54,10 @@ namespace GameShop.Data.Utilities
             game.ReleaseDate = dynamicObject.ReleaseDate;
             game.GamingPlatform = (GamingPlatform)Enum.Parse(typeof(GamingPlatform), string.Format("{0}", dynamicObject.GamingPlatform));
             game.GameGenre = (GameGenre)Enum.Parse(typeof(GameGenre), string.Format("{0}", dynamicObject.GameGenre));
-            game.CreatedDTTM = dynamicObject.CreatedDTTM;
-            game.ModifiedDTTM = dynamicObject.ModifiedDTTM;
-            game.CreatedBy = dynamicObject.CreatedBy;
-            game.ModifiedBy = dynamicObject.ModifiedBy;
+            game.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            game.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            game.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
+            game.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
 
             return game;
         }
@@ -73,8 +73,10 @@ namespace GameShop.Data.Utilities
             pricingInformation.PricingInformationId = dynamicObject.PricingInformationId;
             pricingInformation.Price = dynamicObject.Price;
             pricingInformation.Currency = (Currency)Enum.Parse(typeof(Currency), string.Format("{0}", dynamicObject.Currency));
-            pricingInformation.Created = dynamicObject.Created;
-            pricingInformation.Modified = dynamicObject.Modified;
+            pricingInformation.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
+            pricingInformation.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
+            pricingInformation.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            pricingInformation.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
 
             return pricingInformation;
         }
@@ -139,10 +141,10 @@ namespace GameShop.Data.Utilities
             contactInformation.ContactInformationId = dynamicObject.ContactInformationId;
             contactInformation.Email = dynamicObject.Email;
             contactInformation.ContactNumber = dynamicObject.ContactNumber;
-            contactInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
-            contactInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
-            contactInformation.CreatedBy = dynamicObject.CreatedBy;
-            contactInformation.ModifiedBy = dynamicObject.ModifiedBy;
+            contactInformation.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            contactInformation.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            contactInformation.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
+            contactInformation.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
 
             return contactInformation;
         }
@@ -158,10 +160,10 @@ namespace GameShop.Data.Utilities
             feedback.FeedbackId = dynamicObject.FeedbackId;
             feedback.Comments = dynamicObject.Comments;
             feedback.Rating = (Rating)Enum.Parse(typeof(Rating), string.Format("{0}", dynamicObject.Rating));
-            feedback.CreatedDTTM = dynamicObject.CreatedDTTM;
-            feedback.ModifiedDTTM = dynamicObject.ModifiedDTTM;
-            feedback.CreatedBy = dynamicObject.CreatedBy;
-            feedback.ModifiedBy = dynamicObject.ModifiedBy;
+            feedback.AuditInformation.CreatedDTTM = dynamicObject.CreatedDTTM;
+            feedback.AuditInformation.ModifiedDTTM = dynamicObject.ModifiedDTTM;
+            feedback.AuditInformation.CreatedBy = dynamicObject.CreatedBy;
+            feedback.AuditInformation.ModifiedBy = dynamicObject.ModifiedBy;
 
             return feedback;
         }
