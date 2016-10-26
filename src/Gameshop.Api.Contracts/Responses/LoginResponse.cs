@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gameshop.Api.Contracts.Responses
+namespace GameShop.Api.Contracts.Responses
 {
     public class LoginResponse : ApiResponse
     {

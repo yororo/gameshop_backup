@@ -18,7 +18,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Contracts", "src\G
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Api", "src\GameShop.Api\GameShop.Api.xproj", "{54A7D81C-9ABE-44B4-AA2E-1FF68CD0F3B1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Gameshop.Api.Contracts", "src\Gameshop.Api.Contracts\Gameshop.Api.Contracts.xproj", "{BC89E84D-A2FC-4CB0-A047-39FE908E6E6A}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Api.Contracts", "src\Gameshop.Api.Contracts\GameShop.Api.Contracts.xproj", "{BC89E84D-A2FC-4CB0-A047-39FE908E6E6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

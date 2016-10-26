@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Contracts.API.Requests
+namespace GameShop.Api.Contracts.Requests
 {
     public class SearchGameRequest : ApiRequest
     {
