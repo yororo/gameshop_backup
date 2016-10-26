@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GameShop.Data.Repositories.Interfaces;
-using GameShop.Contracts.API.Requests;
+using GameShop.Api.Contracts.Requests;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
