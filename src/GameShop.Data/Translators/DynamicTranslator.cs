@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Data.Utilities
+namespace GameShop.Data.Translators
 {
+    /// <summary>
+    /// Translates dynamic data to business objects.
+    /// </summary>
     public class DynamicTranslator
     {
         /// <summary>

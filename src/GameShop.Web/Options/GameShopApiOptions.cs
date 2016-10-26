@@ -7,8 +7,9 @@ namespace GameShop.Web.Options
 {
     public class GameShopApiOptions
     {
+        /// <summary>
+        /// Gameshop API Url.
+        /// </summary>
         public string Url { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }
