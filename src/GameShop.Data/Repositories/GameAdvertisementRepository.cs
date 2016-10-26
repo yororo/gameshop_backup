@@ -194,7 +194,7 @@ namespace GameShop.Data.Repositories
                 {
                     Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
                     //Load advertisement owner. Partial.
-                    advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
+                    //advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
 
                     //Load games.
                     var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -298,7 +298,7 @@ namespace GameShop.Data.Repositories
                     }
 
                     //Translate user ad owner.
-                    advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
+                    //advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
 
                     //Read results of sixth query.
                     //Load user and address mapping.
@@ -307,14 +307,14 @@ namespace GameShop.Data.Repositories
                     //Load all user addresses.
                     foreach (var map in usersAddressesMap)
                     {
-                        if (map.UserId == advertisement.Owner.UserId)
+                        /*if (map.UserId == advertisement.Owner.UserId)
                         {
                             var result = addresses.FirstOrDefault(address => map.AddressId == address.AddressId);
                             if (result != null)
                             {
                                 advertisement.Owner.Addresses.Add(result);
                             }
-                        }
+                        }*/
                     }
 
                     //Read results of fifth query.
@@ -328,14 +328,14 @@ namespace GameShop.Data.Repositories
                     //Load all user contact information.
                     foreach (var map in usersContactsMap)
                     {
-                        if (map.UserId == advertisement.Owner.UserId)
+                        /*if (map.UserId == advertisement.Owner.UserId)
                         {
                             var result = contactsData.FirstOrDefault(contact => map.ContactInformationId == contact.ContactInformationId);
                             if (result != null)
                             {
                                 advertisement.Owner.ContactInformation.Add(result);
                             }
-                        }
+                        }*/
                     }
 
                     //Add to list.
@@ -391,29 +391,13 @@ namespace GameShop.Data.Repositories
         }
         public async Task<User> GetAdOwnerAsync(Guid id)
         {
-            string getAdOwnerQuery = @"SELECT owner.* 
-                                        FROM Users owner,
-                                        UsersAdvertisements ua
-                                        WHERE ua.AdvertisementId = @AdvertisementId
-                                        AND owner.UserId = ua.UserId;";
+            string spGetAdOwnerAsync = @"spGetAdOwnerAsync";
 
-            string getUserAddressesAndContactsQuery = @"SELECT address.* 
-                                                        FROM Addresses address,
-                                                        UsersAddresses ua
-                                                        WHERE ua.UserId = @UserId
-                                                        AND ua.AddressId = address.AddressId;
-
-                                                        SELECT contact.* 
-                                                        FROM ContactInformation contact,
-                                                        UsersContactInformation uc
-                                                        WHERE uc.UserId = @UserId
-                                                        AND uc.ContactInformationId = contact.ContactInformationId;
-
-                                                        SELECT * FROM Feedbacks WHERE UserId = @UserId;";
+            string spGetUserProfileInfo = @"spGetUserProfileInfo";
 
             using (var databaseConnection = Client.CreateConnection())
             {
-                var command = new CommandDefinition(getAdOwnerQuery, new { AdvertisementId = id });
+                var command = new CommandDefinition(spGetAdOwnerAsync, new { AdvertisementId = id }, commandType: CommandType.StoredProcedure);
 
                 //Load user.
                 var userData = await databaseConnection.QuerySingleOrDefaultAsync(command).ConfigureAwait(false);
@@ -426,7 +410,14 @@ namespace GameShop.Data.Repositories
 
                 var user = DynamicTranslator.TranslateUser(userData);
 
-                var mapper = await databaseConnection.QueryMultipleAsync(getUserAddressesAndContactsQuery, new { UserId = user.UserId }).ConfigureAwait(false);
+                var profileInfos = await databaseConnection.QueryAsync(spGetUserProfileInfo, new { UserId = user.UserId }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+
+                foreach(var profileData in profileInfos)
+                {
+                    user.Addresses.AddRange(profileData);
+                }
+
+                /*var mapper = await databaseConnection.QueryMultipleAsync(getUserAddressesAndContactsQuery, new { UserId = user.UserId }).ConfigureAwait(false);
 
                 //Load user addresses.
                 var userAddresses = await mapper.ReadAsync<Address>().ConfigureAwait(false);
@@ -434,9 +425,9 @@ namespace GameShop.Data.Repositories
 
                 //Load user contact information.
                 var userContacts = await mapper.ReadAsync<ContactInformation>().ConfigureAwait(false);
-                user.ContactInformation.AddRange(userContacts);
+                user.ContactInformation.AddRange(userContacts);*/
 
-                //Load user feedbacks.
+                /*//Load user feedbacks.
                 var userFeedbacks = await mapper.ReadAsync().ConfigureAwait(false);
                 foreach(var userFeedback in userFeedbacks)
                 {
@@ -445,7 +436,7 @@ namespace GameShop.Data.Repositories
                     //feedback.Owner = new User();
 
                     user.Feedbacks.Add(feedback);
-                }
+                }*/
 
                 return user;
             }
@@ -463,7 +454,7 @@ namespace GameShop.Data.Repositories
                         FriendlyId = advertisement.FriendlyId,
                         Title = advertisement.Title,
                         Description = advertisement.Description,
-                        OwnerID = advertisement.Owner.UserId,
+                        //OwnerID = advertisement.Owner.UserId,
                         Created = DateTime.Now,
                         Modified = DateTime.Now
                     }

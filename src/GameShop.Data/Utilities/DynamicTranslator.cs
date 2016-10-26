@@ -25,10 +25,10 @@ namespace GameShop.Data.Utilities
             var advertisement = new Advertisement();
             advertisement.AdvertisementId = dynamicObject.AdvertisementId;
             advertisement.FriendlyId = dynamicObject.FriendlyId;
+            advertisement.AdStatusId = dynamicObject.StatusId;
             advertisement.Title = dynamicObject.Title;
             advertisement.Description = dynamicObject.Description;
-            advertisement.Created = dynamicObject.Created;
-            advertisement.Modified = dynamicObject.Modified;
+            advertisement.ReasonForSelling = dynamicObject.ReasonForSelling;
 
             return advertisement;
         }
@@ -120,10 +120,10 @@ namespace GameShop.Data.Utilities
             address.Province = dynamicObject.Province;
             address.Region = dynamicObject.Region;
             address.Country = dynamicObject.Country;
-            address.CreatedDTTM = dynamicObject.CreatedDTTM;
+            /*address.CreatedDTTM = dynamicObject.CreatedDTTM;
             address.ModifiedDTTM = dynamicObject.ModifiedDTTM;
             address.CreatedBy = dynamicObject.CreatedBy;
-            address.ModifiedBy = dynamicObject.ModifiedBy;
+            address.ModifiedBy = dynamicObject.ModifiedBy;*/
 
             return address;
         }
