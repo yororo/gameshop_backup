@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using GameShop.Web.Models;
-using GameShop.Web.Models.AccountViewModels;
-using GameShop.Web.Services;
+using GameShop.Website.Models;
+using GameShop.Website.Models.AccountViewModels;
+using GameShop.Website.Services;
 
-namespace GameShop.Web.Controllers
+namespace GameShop.Website.Controllers
 {
     [Authorize]
     public class AccountController : Controller

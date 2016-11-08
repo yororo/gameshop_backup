@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using GameShop.Web.Models;
+using GameShop.Website.Models;
 
-namespace GameShop.Web.Data
+namespace GameShop.Website.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

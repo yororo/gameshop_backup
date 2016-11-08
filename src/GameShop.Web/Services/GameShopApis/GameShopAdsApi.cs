@@ -1,4 +1,4 @@
-﻿using GameShop.Web.Services.GameShopApis.Interfaces;
+﻿using GameShop.Website.Services.GameShop.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +7,11 @@ using GameShop.Contracts;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
-using GameShop.Web.Options;
+using GameShop.Website.Options;
 using Microsoft.Extensions.Options;
 using GameShop.Contracts.Entities;
 
-namespace GameShop.Web.Services.GameShopApis
+namespace GameShop.Website.Services.GameShop
 {
     public class GameShopAdsApi : IGameShopAdsApi
     {

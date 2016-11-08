@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using GameShop.Web.Models;
-using GameShop.Web.Models.ManageViewModels;
-using GameShop.Web.Services;
+using GameShop.Website.Models;
+using GameShop.Website.Models.ManageViewModels;
+using GameShop.Website.Services;
 
-namespace GameShop.Web.Controllers
+namespace GameShop.Website.Controllers
 {
     [Authorize]
     public class ManageController : Controller

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace GameShop.Web.Models.ManageViewModels
+namespace GameShop.Website.Models.ManageViewModels
 {
     public class ManageLoginsViewModel
     {

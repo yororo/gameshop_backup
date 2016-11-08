@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using GameShop.Contracts.Entities;
-using GameShop.Web.Services.GameShopApis.Interfaces;
+using GameShop.Website.Services.GameShop.Interfaces;
 
-namespace GameShop.Web.Controllers
+namespace GameShop.Website.Controllers
 {
     public class HomeController : Controller
     {

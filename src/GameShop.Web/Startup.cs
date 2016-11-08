@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GameShop.Web.Data;
-using GameShop.Web.Models;
-using GameShop.Web.Services;
-using GameShop.Web.Services.Extensions;
-using GameShop.Web.Options;
+using GameShop.Website.Data;
+using GameShop.Website.Models;
+using GameShop.Website.Services;
+using GameShop.Website.Services.Extensions;
+using GameShop.Website.Options;
 
-namespace GameShop.Web
+namespace GameShop.Website
 {
     public class Startup
     {
