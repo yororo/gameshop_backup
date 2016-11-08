@@ -7,6 +7,11 @@ namespace GameShop.Api.Contracts.Requests
 {
     public class ApiRequest
     {
-        public Guid Id { get; set; }
+        public Guid RequestId { get; set; }
+
+        public ApiRequest()
+        {
+            RequestId = Guid.NewGuid();
+        }
     }
 }

@@ -445,6 +445,41 @@ namespace GameShop.Data.Repositories
             }
         }
 
+        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByIdAsync(Guid advertisementId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByFriendlyIdAsync(string friendlyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.FindByTitleAsync(string advertisementTitle)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllDeepAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> AddAsync(Advertisement<Game> advertisement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpdateAsync(Guid advertisementId, Advertisement<Game> advertisement)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

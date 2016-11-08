@@ -13,9 +13,7 @@ using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Providers;
 using GameShop.Data.Extensions;
 using GameShop.Api.Filters;
-using IdentityServer4.Services;
-using IdentityServer4.Models;
-using IdentityServer4.Services.InMemory;
+using GameShop.Api.Options;
 
 namespace GameShop.Api
 {
@@ -46,23 +44,19 @@ namespace GameShop.Api
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddIdentityServer()
-                .AddInMemoryStores()
-                .AddInMemoryClients(new List<Client>())
-                .AddInMemoryScopes(new List<Scope>())
-                .AddInMemoryUsers(new List<InMemoryUser>());
+            // Add Auth0 options.
+            services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
 
             //Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddMvcCore(options => 
+            services.AddMvc(options => 
             {
                 //Add action filters.
 
                 //Validated ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
-
             });
 
             services.AddSwaggerGen();
@@ -75,10 +69,13 @@ namespace GameShop.Api
             loggerFactory.AddDebug();
 
             app.UseApplicationInsightsRequestTelemetry();
-
             app.UseApplicationInsightsExceptionTelemetry();
-
-            app.UseIdentityServer();
+            
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                Audience = Configuration["Auth0:ClientId"],
+                Authority = $"https://{Configuration["Auth0:Domain"]}/"
+            });
 
             app.UseMvc();
 
