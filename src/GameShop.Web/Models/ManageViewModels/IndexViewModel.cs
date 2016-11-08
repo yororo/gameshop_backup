@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace GameShop.Web.Models.ManageViewModels
+namespace GameShop.Website.Models.ManageViewModels
 {
     public class IndexViewModel
     {

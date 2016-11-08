@@ -14,6 +14,7 @@ using GameShop.Data.Providers;
 using GameShop.Data.Extensions;
 using GameShop.Api.Filters;
 using GameShop.Api.Options;
+using Microsoft.Extensions.Options;
 
 namespace GameShop.Api
 {
@@ -24,15 +25,9 @@ namespace GameShop.Api
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
-            if (env.IsEnvironment("Development"))
-            {
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
-
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -41,24 +36,29 @@ namespace GameShop.Api
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
-
-            // Add Auth0 options.
-            services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+            // Add options.
+            //services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+            services.Configure<IdentityServer4Options>(Configuration.GetSection("IdentityServer4"));
 
             //Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
+            // Identity Server 4
+            services.AddIdentityServer()
+                    .AddTemporarySigningCredential()
+                    .AddInMemoryScopes(IdentityServer4Options.GetScopes())
+                    .AddInMemoryClients(IdentityServer4Options.GetClients())
+                    .AddInMemoryUsers(IdentityServer4Options.GetUsers());
+
+            // Add MVC.
             services.AddMvc(options => 
             {
-                //Add action filters.
-
                 //Validated ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
             });
 
+            // Add Swagger.
             services.AddSwaggerGen();
         }
 
@@ -68,13 +68,14 @@ namespace GameShop.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseApplicationInsightsRequestTelemetry();
-            app.UseApplicationInsightsExceptionTelemetry();
-            
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            app.UseIdentityServer();
+
+            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
-                Audience = Configuration["Auth0:ClientId"],
-                Authority = $"https://{Configuration["Auth0:Domain"]}/"
+                Authority = "http://localhost:5000",
+                ScopeName = "api1",
+
+                RequireHttpsMetadata = false
             });
 
             app.UseMvc();
