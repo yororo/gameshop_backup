@@ -1,5 +1,6 @@
 ﻿using GameShop.Data.Repositories;
 using GameShop.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,13 @@ namespace GameShop.Api.Controllers
         public IActionResult Test1()
         {
             return Ok(_gameAdsRepository.GetAllAsync());
+        }
+
+        [Authorize]
+        [HttpGet("admin")]
+        public IActionResult Admin()
+        {
+            return Ok("Admins only can see this.");
         }
     }
 }

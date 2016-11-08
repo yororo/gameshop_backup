@@ -13,33 +13,15 @@ using System.Data.Common;
 using System.Text;
 using System.Diagnostics;
 using GameShop.Data.Extensions;
-using GameShop.Data.Utilities;
+using GameShop.Data.Translators;
 
 namespace GameShop.Data.Repositories
 {
     public class GameAdvertisementRepository : Repository, IGameAdvertisementAsyncRepository
     {
-        private List<Advertisement> _ads;
-        private List<ConsoleGame> _consoleGames;
-
         public GameAdvertisementRepository(IDatabaseProviderClient databaseProviderClient) 
             : base(databaseProviderClient)
         {
-            _ads = new List<Advertisement>();
-
-            _consoleGames = new List<ConsoleGame>()
-            {
-                new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "PS2 Game", GameGenre = GameGenre.RPG, GamingPlatform = GamingPlatform.Xbox360 },
-                new ConsoleGame() { ProductId = Guid.NewGuid(), Name = "3DS Game", GameGenre = GameGenre.Simulation, GamingPlatform = GamingPlatform.PlayStation2 }
-            };
-
-            var consoleGamesAd = new Advertisement(_consoleGames);
-            consoleGamesAd.AdvertisementId = Guid.NewGuid();
-            consoleGamesAd.FriendlyId = "321";
-            consoleGamesAd.Title = "Console Games For Sale!";
-            consoleGamesAd.Description = "Test Description For Console Games Ad.";
-            
-            _ads.Add(consoleGamesAd);
 
         }
 
@@ -167,22 +149,24 @@ namespace GameShop.Data.Repositories
             using (var databaseConnection = Client.CreateConnection())
             {
                 var advertisements = new List<Advertisement>();
-
-                //Load advertisements.
+                
                 var advertisementsData = await databaseConnection.QueryAsync(spGetAllAsync, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 
                 foreach (var advertisementData in advertisementsData)
                 {
+                    //Load advertisements.
                     Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
-                    //Load advertisement owner. Partial.
-                    //advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
 
-                    //Load games.
+                    //Load advertisement audit information such as CreatedBy, CreatedDTTM, ModifiedBy, and ModifiedDTTM.
+                    advertisement.AuditInformation = DynamicTranslator.TranslateUser(advertisementData);
+
+                    //Load all games in the advertisement.
                     var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
                     advertisement.Products.AddRange(games);
 
                     //Load meetup locations.
                     var meetupLocationsData = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+
                     advertisement.MeetupLocations.AddRange(meetupLocationsData);
 
                     advertisements.Add(advertisement);
@@ -329,15 +313,22 @@ namespace GameShop.Data.Repositories
 
         public async Task<IEnumerable<Address>> GetMeetupLocationsAsync(Guid id)
         {
-            string getMeetupLocationsQuery = @"SELECT address.* 
-                                                FROM Addresses address,
-                                                AdvertisementsAddresses adAddress
-                                                WHERE adAddress.AdvertisementId = @AdvertisementId
-                                                AND address.AddressId = adAddress.AddressId";
+            string getMeetupLocationsQuery = @"GetMeetupLocationsAsync";
 
             using (var databaseConnection = Client.CreateConnection())
             {
-                var meetupLocations = await databaseConnection.QueryAsync<Address>(getMeetupLocationsQuery, new { AdvertisementId = id }).ConfigureAwait(false);
+                var meetupLocations = new List<Address>();
+
+                var tempMeetupLocations = await databaseConnection.QueryAsync<Address>(getMeetupLocationsQuery, new { AdvertisementId = id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+
+                foreach (var tempMeetupLocation in tempMeetupLocations)
+                {
+                    Address tempAddress = new Address();
+
+                    tempAddress = DynamicTranslator.TranslateMeetupLocations(tempMeetupLocation);
+
+                    meetupLocations.Add(tempAddress);
+                }
 
                 return meetupLocations;
             }
@@ -345,23 +336,20 @@ namespace GameShop.Data.Repositories
 
         public async Task<IEnumerable<Game>> GetProductsAsync(Guid id)
         {
-            string getAdGamesQuery = @"SELECT *
-                                        FROM Games game
-                                        INNER JOIN ProductInformation product
-                                        ON game.ProductInformationId = product.ProductInformationId
-                                        INNER JOIN PricingInformation pricing
-                                        ON product.PricingInformationId = pricing.PricingInformationId
-                                        WHERE AdvertisementId = @AdvertisementId;";
+            string getAdGamesQuery = @"spGetProductsAsync";
 
             using (var databaseConnection = Client.CreateConnection())
             {
                 var games = new List<Game>();
 
                 //Load games data.
-                var gamesData = await databaseConnection.QueryAsync(getAdGamesQuery, new { AdvertisementId = id }).ConfigureAwait(false);
+
+                var gamesData = await databaseConnection.QueryAsync(getAdGamesQuery, new { AdvertisementId = id }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+
                 foreach (var gameData in gamesData)
                 {
                     Game game = DynamicTranslator.TranslateGame(gameData);
+
                     game.PricingInformation = DynamicTranslator.TranslatePricingInformation(gameData);
 
                     games.Add(game);
@@ -370,6 +358,7 @@ namespace GameShop.Data.Repositories
                 return games;
             }
         }
+
         public async Task<User> GetAdOwnerAsync(Guid id)
         {
             string spGetAdOwnerAsync = @"spGetAdOwnerAsync";
@@ -454,6 +443,41 @@ namespace GameShop.Data.Repositories
             {
                 return await databaseConnection.ExecuteAsync($"DELETE FROM Advertisements WHERE Id LIKE @Id", new { Id = id }).ConfigureAwait(false);
             }
+        }
+
+        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByIdAsync(Guid advertisementId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByFriendlyIdAsync(string friendlyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.FindByTitleAsync(string advertisementTitle)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllDeepAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> AddAsync(Advertisement<Game> advertisement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpdateAsync(Guid advertisementId, Advertisement<Game> advertisement)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -13,6 +13,7 @@ using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Providers;
 using GameShop.Data.Extensions;
 using GameShop.Api.Filters;
+using GameShop.Api.Options;
 
 namespace GameShop.Api
 {
@@ -43,6 +44,9 @@ namespace GameShop.Api
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            // Add Auth0 options.
+            services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+
             //Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -53,7 +57,6 @@ namespace GameShop.Api
 
                 //Validated ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
-
             });
 
             services.AddSwaggerGen();
@@ -66,8 +69,13 @@ namespace GameShop.Api
             loggerFactory.AddDebug();
 
             app.UseApplicationInsightsRequestTelemetry();
-
             app.UseApplicationInsightsExceptionTelemetry();
+            
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                Audience = Configuration["Auth0:ClientId"],
+                Authority = $"https://{Configuration["Auth0:Domain"]}/"
+            });
 
             app.UseMvc();
 

@@ -29,24 +29,24 @@ namespace GameShop.Api.Controllers
         [HttpGet("ads/games/id/{id}")]
         public IActionResult SearchAdById(Guid id)
         {
-            return RedirectToRoute(new { controller = nameof(GameAdsController).Replace(nameof(Controller), string.Empty),
-                                            action = nameof(GameAdsController.FindByIdAsync),
+            return RedirectToRoute(new { controller = nameof(AdvertisementController).Replace(nameof(Controller), string.Empty),
+                                            action = nameof(AdvertisementController.FindGameAdvertisementByIdAsync),
                                             @id = id });
         }
 
         [HttpGet("ads/games/fid/{friendlyId}")]
         public IActionResult SearchAdByFriendlyId(string friendlyId)
         {
-            return RedirectToRoute(new { controller = nameof(GameAdsController).Replace(nameof(Controller), string.Empty),
-                                            action = nameof(GameAdsController.FindByFriendlyIdAsync),
+            return RedirectToRoute(new { controller = nameof(AdvertisementController).Replace(nameof(Controller), string.Empty),
+                                            action = nameof(AdvertisementController.FindGameAdvertisementByFriendlyIdAsync),
                                             @friendlyId = friendlyId });
         }
 
         [HttpGet("ads/games/title/{title}")]
         public IActionResult SearchAdByTitle(string title)
         {
-            return RedirectToRoute(new { controller = nameof(GameAdsController).Replace(nameof(Controller), string.Empty),
-                                            action = nameof(GameAdsController.FindByTitleAsync),
+            return RedirectToRoute(new { controller = nameof(AdvertisementController).Replace(nameof(Controller), string.Empty),
+                                            action = nameof(AdvertisementController.FindGameAdvertisementByTitleAsync),
                                             @title = title });
         }
     }
