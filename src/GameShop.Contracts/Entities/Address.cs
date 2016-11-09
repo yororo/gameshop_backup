@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
+    /// <summary>
+    /// Address
+    /// </summary>
     public class Address
     {
         #region Fields
