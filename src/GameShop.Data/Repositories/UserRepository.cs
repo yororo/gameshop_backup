@@ -8,7 +8,7 @@ using GameShop.Data.Providers.Interfaces;
 
 namespace GameShop.Data.Repositories
 {
-    public class UserRepository : Repository, IUsersAsyncRepository
+    public class UserRepository : Repository, IUsersRepository
     {
         public UserRepository(IDatabaseProviderClient databaseProviderClient) :
             base(databaseProviderClient)

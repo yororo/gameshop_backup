@@ -18,7 +18,7 @@ namespace GameShop.Api.Controllers
     {
         #region Declarations
 
-        private IGameAdvertisementAsyncRepository _gameAdvertisementsRepository;
+        private IGameAdvertisementRepository _gameAdvertisementsRepository;
 
         #endregion Declarations
 
@@ -28,7 +28,7 @@ namespace GameShop.Api.Controllers
         /// Constructor.
         /// </summary>
         /// <param name="gameAdvertisementsRepository">Game advertisement repository.</param>
-        public AdvertisementController(IGameAdvertisementAsyncRepository gameAdvertisementsRepository)
+        public AdvertisementController(IGameAdvertisementRepository gameAdvertisementsRepository)
         {
             _gameAdvertisementsRepository = gameAdvertisementsRepository;
         }

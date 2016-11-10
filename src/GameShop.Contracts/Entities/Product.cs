@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameShop.Contracts.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace GameShop.Contracts.Entities
         private Guid _productId;
         private string _name;
         private string _description;
-        private string _reasonForSelling;
-        private bool _isForTrade;
-        private bool _isForSale;
-        private PricingInformation _pricingInformation;
-        private AuditInformation _auditInformation;
+        private SellingInformation _sellingInformation;
+        private TradingInformation _tradingInformation;
+        private ProductState _state;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -61,67 +62,63 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string ReasonForSelling
+        public SellingInformation SellingInformation
         {
             get
             {
-                return _reasonForSelling;
+                return _sellingInformation;
             }
-
             set
             {
-                _reasonForSelling = value;
+                _sellingInformation = value;
             }
         }
 
-        public bool IsForTrade
+        public TradingInformation TradingInformation
         {
             get
             {
-                return _isForTrade;
+                return _tradingInformation;
             }
-
             set
             {
-                _isForTrade = value;
+                _tradingInformation = value;
             }
         }
 
-        public bool IsForSale
+        public ProductState ProductState
         {
             get
             {
-                return _isForSale;
+                return _state;
             }
-
             set
             {
-                _isForSale = value;
+                _state = value;
             }
         }
 
-        public PricingInformation PricingInformation
+        public DateTime CreatedDate
         {
             get
             {
-                return _pricingInformation;
+                return _createdDate;
             }
             set
             {
-                _pricingInformation = value;
+                _createdDate = value;
             }
         }
 
-        public AuditInformation AuditInformation
+        public DateTime ModifiedDate
         {
             get
             {
-                return _auditInformation;
+                return _modifiedDate;
             }
-
             set
             {
-                _auditInformation = value;
+                _modifiedDate = value;
             }
         }
 
@@ -133,9 +130,9 @@ namespace GameShop.Contracts.Entities
             ProductId = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
-            IsForTrade = false;
-            _isForSale = false;
-            AuditInformation = new AuditInformation();
+            SellingInformation = new SellingInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

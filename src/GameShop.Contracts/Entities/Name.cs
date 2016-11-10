@@ -10,7 +10,7 @@ namespace GameShop.Contracts.Entities
     {
         #region Fields
 
-        private Salutation _title;
+        private Salutation _salutation;
         private string _firstName;
         private string _middleName;
         private string _lastName;
@@ -24,12 +24,12 @@ namespace GameShop.Contracts.Entities
         {
             get
             {
-                return _title;
+                return _salutation;
             }
 
             set
             {
-                _title = value;
+                _salutation = value;
             }
         }
 

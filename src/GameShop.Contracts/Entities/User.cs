@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class User : Person
+    public class User
     {
         #region Fields
 
         private Guid _userId;
-        private UserType _userType;
-        private List<Feedback> _feedbacks;
+        private Account _account;
+        private Profile _profile;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -31,28 +33,53 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public UserType UserType
+        public Account Account
         {
             get
             {
-                return _userType;
+                return _account;
             }
 
             set
             {
-                _userType = value;
+                _account = value;
             }
         }
 
-        public List<Feedback> Feedbacks
+        public Profile Profile
         {
             get
             {
-                return _feedbacks;
+                return _profile;
+            }
+
+            set
+            {
+                _profile = value;
+            }
+        }
+
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return _createdDate;
             }
             set
             {
-                _feedbacks = value;
+                _createdDate = value;
+            }
+        }
+
+        public DateTime ModifiedDate
+        {
+            get
+            {
+                return _modifiedDate;
+            }
+            set
+            {
+                _modifiedDate = value;
             }
         }
 
@@ -66,8 +93,10 @@ namespace GameShop.Contracts.Entities
         public User()
         {
             UserId = Guid.Empty;
-            UserType = UserType.Public;
-            Feedbacks = new List<Feedback>();
+            Account = new Account();
+            Profile = new Profile();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

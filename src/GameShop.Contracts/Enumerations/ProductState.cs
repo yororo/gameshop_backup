@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum UserType
+    public enum ProductState
     {
-        Public,
-        Private,
-        Admin
+        ForSale,
+        ForTrade,
+        ForSaleOrTrade,
+        Sold,
+        Traded
     }
 }

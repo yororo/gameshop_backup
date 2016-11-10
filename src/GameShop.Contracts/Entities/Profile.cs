@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public abstract class Person
+    public class Profile
     {
         #region Fields
 
@@ -89,7 +89,7 @@ namespace GameShop.Contracts.Entities
         /// <summary>
         /// Default constructor initialization.
         /// </summary>
-        public Person()
+        public Profile()
         {
             Name = new Name();
             Addresses = new List<Address>();

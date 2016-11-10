@@ -10,7 +10,7 @@ namespace GameShop.Data.Repositories.Interfaces
     /// Advertisement Async Repository whose Advertisement ID is of type Guid.
     /// </summary>
     /// <typeparam name="TProduct">Type of products.</typeparam>
-    public interface IAdvertisementAsyncRepository<TProduct> : IAdvertisementAsyncRepository<Guid, TProduct> where TProduct : Product
+    public interface IAdvertisementRepository<TProduct> : IAdvertisementRepository<Guid, TProduct> where TProduct : Product
     {
 
     }
@@ -20,7 +20,7 @@ namespace GameShop.Data.Repositories.Interfaces
     /// </summary>
     /// <typeparam name="TId">Type to use for an ID.</typeparam>
     /// <typeparam name="TProduct">Type of products.</typeparam>
-    public interface IAdvertisementAsyncRepository<TId, TProduct> where TProduct : Product
+    public interface IAdvertisementRepository<TId, TProduct> where TProduct : Product
     {
         /// <summary>
         /// Find advertisement by ID.

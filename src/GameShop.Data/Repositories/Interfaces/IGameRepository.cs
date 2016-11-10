@@ -1,4 +1,5 @@
 ﻿using GameShop.Contracts.Entities;
+using GameShop.Contracts.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.Repositories.Interfaces
 {
-    public interface IUsersAsyncRepository
+    public interface IGameRepository : IProductRepository<Guid, Game>
     {
-        Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<User> FindUserById(Guid id);
+    }
+
+    public interface IGameRepository<TId> : IProductRepository<TId, Game>
+    {
     }
 }

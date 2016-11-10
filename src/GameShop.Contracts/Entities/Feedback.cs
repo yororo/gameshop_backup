@@ -14,7 +14,8 @@ namespace GameShop.Contracts.Entities
         private User _user;
         private string _comments;
         private Rating _rating;
-        private AuditInformation _auditInformation;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -63,17 +64,28 @@ namespace GameShop.Contracts.Entities
                 _rating = value;
             }
         }
-        
-        public AuditInformation AuditInformation
+
+        public DateTime CreatedDate
         {
             get
             {
-                return _auditInformation;
+                return _createdDate;
             }
-
             set
             {
-                _auditInformation = value;
+                _createdDate = value;
+            }
+        }
+
+        public DateTime ModifiedDate
+        {
+            get
+            {
+                return _modifiedDate;
+            }
+            set
+            {
+                _modifiedDate = value;
             }
         }
 
@@ -86,7 +98,8 @@ namespace GameShop.Contracts.Entities
             FeedbackId = Guid.Empty;
             Comments = string.Empty;
             Rating = Rating.Worst;
-            AuditInformation = new AuditInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion
