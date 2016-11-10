@@ -12,13 +12,14 @@ namespace GameShop.Contracts.Entities
 
         private Guid _advertisementId;
         private string _friendlyId;
-        private AdStatus _adStatusId;
         private string _title;
         private string _description;
         private string _reasonForSelling;
         private List<TProduct> _products;
-        private List<Address> _meetupLocations;
-        private AuditInformation _auditInformation;
+        private MeetupInformation _meetupInformation;
+        private AdvertisementState _status;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -50,16 +51,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public AdStatus AdStatusId
+        public AdvertisementState Status
         {
             get
             {
-                return _adStatusId;
+                return _status;
             }
 
             set
             {
-                _adStatusId = value;
+                _status = value;
             }
         }
 
@@ -115,29 +116,40 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public List<Address> MeetupLocations
+        public MeetupInformation MeetupInformation
         {
             get
             {
-                return _meetupLocations;
+                return _meetupInformation;
             }
 
             set
             {
-                _meetupLocations = value;
+                _meetupInformation = value;
             }
         }
 
-        public AuditInformation AuditInformation
+        public DateTime CreatedDate
         {
             get
             {
-                return _auditInformation;
+                return _createdDate;
             }
-
             set
             {
-                _auditInformation = value;
+                _createdDate = value;
+            }
+        }
+
+        public DateTime ModifiedDate
+        {
+            get
+            {
+                return _modifiedDate;
+            }
+            set
+            {
+                _modifiedDate = value;
             }
         }
 
@@ -148,7 +160,9 @@ namespace GameShop.Contracts.Entities
         public Advertisement()
         {
             Products = new List<TProduct>();
-            MeetupLocations = new List<Address>();
+            MeetupInformation = new MeetupInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         public Advertisement(IEnumerable<TProduct> products)

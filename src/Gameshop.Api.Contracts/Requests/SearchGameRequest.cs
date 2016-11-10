@@ -12,8 +12,8 @@ namespace GameShop.Api.Contracts.Requests
         public GameGenre GameGenre { get; set; }
         public GamingPlatform GamingPlatform { get; set; }
         public Rating Rating { get; set; }
-        public PricingInformation MinimumPrice { get; set; }
-        public PricingInformation MaximumPrice { get; set; }
+        public SellingInformation MinimumPrice { get; set; }
+        public SellingInformation MaximumPrice { get; set; }
         public DateTime ReleaseDate { get; set; }
     }
 }

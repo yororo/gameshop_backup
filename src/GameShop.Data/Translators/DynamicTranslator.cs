@@ -28,7 +28,7 @@ namespace GameShop.Data.Translators
             var advertisement = new Advertisement();
             advertisement.AdvertisementId = dynamicObject.AdvertisementId;
             advertisement.FriendlyId = dynamicObject.FriendlyId;
-            advertisement.AdStatusId = dynamicObject.StatusId;
+            advertisement.Status = dynamicObject.StatusId;
             advertisement.Title = dynamicObject.Title;
             advertisement.Description = dynamicObject.Description;
             advertisement.ReasonForSelling = dynamicObject.ReasonForSelling;
@@ -68,17 +68,17 @@ namespace GameShop.Data.Translators
             return game;
         }
 
-        public static PricingInformation TranslatePricingInformation(dynamic dynamicObject)
+        public static SellingInformation TranslatePricingInformation(dynamic dynamicObject)
         {
             if (dynamicObject == null)
             {
                 throw new ArgumentNullException(nameof(dynamicObject));
             }
 
-            var pricingInformation = new PricingInformation();
+            var pricingInformation = new SellingInformation();
             
             pricingInformation.TradePrice = dynamicObject.TradePrice;
-            pricingInformation.SalePrice = dynamicObject.SalePrice;
+            pricingInformation.SellingPrice = dynamicObject.SalePrice;
             pricingInformation.Currency = dynamicObject.Currency;
 
             return pricingInformation;

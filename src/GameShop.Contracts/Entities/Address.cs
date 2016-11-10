@@ -23,7 +23,8 @@ namespace GameShop.Contracts.Entities
         private string _province;
         private string _region;
         private string _country;
-        private AuditInformation _auditInformation;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -169,17 +170,28 @@ namespace GameShop.Contracts.Entities
                 _country = value;
             }
         }
-
-        public AuditInformation AuditInformation
+        
+        public DateTime CreatedDate
         {
             get
             {
-                return _auditInformation;
+                return _createdDate;
             }
-
             set
             {
-                _auditInformation = value;
+                _createdDate = value;
+            }
+        }
+        
+        public DateTime ModifiedDate
+        {
+            get
+            {
+                return _modifiedDate;
+            }
+            set
+            {
+                _modifiedDate = value;
             }
         }
 
@@ -197,7 +209,8 @@ namespace GameShop.Contracts.Entities
             Province = string.Empty;
             Region = string.Empty;
             Country = string.Empty;
-            AuditInformation = new AuditInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

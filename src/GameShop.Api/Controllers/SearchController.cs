@@ -13,9 +13,9 @@ namespace GameShop.Api.Controllers
     [Route("[controller]")]
     public class SearchController : Controller
     {
-        private IGameAdvertisementAsyncRepository _adRepository;
+        private IGameAdvertisementRepository _adRepository;
 
-        public SearchController(IGameAdvertisementAsyncRepository adRepository)
+        public SearchController(IGameAdvertisementRepository adRepository)
         {
             _adRepository = adRepository;
         }

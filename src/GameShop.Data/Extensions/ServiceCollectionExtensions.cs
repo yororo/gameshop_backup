@@ -49,7 +49,7 @@ namespace GameShop.Data.Extensions
         /// <returns>IServiceCollection instance with the added repository services.</returns>
         public static IServiceCollection UseGameShopRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<IGameAdvertisementAsyncRepository, GameAdvertisementRepository>();
+            services.AddSingleton<IGameAdvertisementRepository, GameAdvertisementRepository>();
 
             return services;
         }

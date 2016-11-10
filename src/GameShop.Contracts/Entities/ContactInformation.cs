@@ -12,7 +12,6 @@ namespace GameShop.Contracts.Entities
         private Guid _contactInformationId;
         private string _email;
         private string _contactNumber;
-        private AuditInformation _auditInformation;
 
         #endregion
 
@@ -57,19 +56,6 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public AuditInformation AuditInformation
-        {
-            get
-            {
-                return _auditInformation;
-            }
-
-            set
-            {
-                _auditInformation = value;
-            }
-        }
-
         #endregion
 
         #region Constructors
@@ -79,7 +65,6 @@ namespace GameShop.Contracts.Entities
             ContactInformationId = Guid.Empty;
             Email = string.Empty;
             ContactNumber = string.Empty;
-            AuditInformation = new AuditInformation();
         }
 
         #endregion

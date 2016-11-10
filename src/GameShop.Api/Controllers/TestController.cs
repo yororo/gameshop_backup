@@ -12,9 +12,9 @@ namespace GameShop.Api.Controllers
     [Route("[controller]")]
     public class TestController : Controller
     {
-        IGameAdvertisementAsyncRepository _gameAdsRepository;
+        IGameAdvertisementRepository _gameAdsRepository;
 
-        public TestController(IGameAdvertisementAsyncRepository gameAdsRepository)
+        public TestController(IGameAdvertisementRepository gameAdsRepository)
         {
             _gameAdsRepository = gameAdsRepository;
         }

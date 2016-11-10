@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum AdStatus : short
+    public enum AdvertisementState : short
     {
         Default = 1,
         Active = 2,

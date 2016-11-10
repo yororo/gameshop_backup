@@ -13,9 +13,9 @@ namespace GameShop.Data.Repositories
     /// <summary>
     /// This is just a dummy repository. This can be used for return fake database objects for testing purposes.
     /// </summary>
-    public class DummyRepository : Repository, IGameAdvertisementAsyncRepository, IGameAsyncRepository
+    public class TestRepository : Repository, IGameAdvertisementRepository, IGameRepository
     { 
-        public DummyRepository(IDatabaseProviderClient databaseProviderClient)
+        public TestRepository(IDatabaseProviderClient databaseProviderClient)
             : base(databaseProviderClient)
         {
         }
@@ -100,32 +100,32 @@ namespace GameShop.Data.Repositories
             throw new NotImplementedException();
         }
 
-        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByFriendlyIdAsync(string friendlyId)
+        Task<Advertisement<Game>> IAdvertisementRepository<Guid, Game>.FindByFriendlyIdAsync(string friendlyId)
         {
             throw new NotImplementedException();
         }
 
-        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByIdAsync(Guid advertisementId)
+        Task<Advertisement<Game>> IAdvertisementRepository<Guid, Game>.FindByIdAsync(Guid advertisementId)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.FindByTitleAsync(string advertisementTitle)
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementRepository<Guid, Game>.FindByTitleAsync(string advertisementTitle)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllAsync()
+        Task<IEnumerable<Game>> IProductRepository<Guid, Game>.GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Game>> IProductAsyncRepository<Game, Guid>.GetAllAsync()
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementRepository<Guid, Game>.GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllDeepAsync()
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementRepository<Guid, Game>.GetAllDeepAsync()
         {
             throw new NotImplementedException();
         }

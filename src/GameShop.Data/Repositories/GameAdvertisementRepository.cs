@@ -17,7 +17,7 @@ using GameShop.Data.Translators;
 
 namespace GameShop.Data.Repositories
 {
-    public class GameAdvertisementRepository : Repository, IGameAdvertisementAsyncRepository
+    public class GameAdvertisementRepository : Repository, IGameAdvertisementRepository
     {
         public GameAdvertisementRepository(IDatabaseProviderClient databaseProviderClient) 
             : base(databaseProviderClient)
@@ -235,7 +235,7 @@ namespace GameShop.Data.Repositories
                             Game game = DynamicTranslator.TranslateGame(productData);
 
                             //Instantiate pricing information.
-                            game.PricingInformation = DynamicTranslator.TranslatePricingInformation(productData);
+                            game.SellingInformation = DynamicTranslator.TranslatePricingInformation(productData);
                             
                             //Add game to the advertisement.
                             advertisement.Products.Add(game);
@@ -350,7 +350,7 @@ namespace GameShop.Data.Repositories
                 {
                     Game game = DynamicTranslator.TranslateGame(gameData);
 
-                    game.PricingInformation = DynamicTranslator.TranslatePricingInformation(gameData);
+                    game.SellingInformation = DynamicTranslator.TranslatePricingInformation(gameData);
 
                     games.Add(game);
                 }
@@ -445,27 +445,27 @@ namespace GameShop.Data.Repositories
             }
         }
 
-        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByIdAsync(Guid advertisementId)
+        Task<Advertisement<Game>> IAdvertisementRepository<Guid, Game>.FindByIdAsync(Guid advertisementId)
         {
             throw new NotImplementedException();
         }
 
-        Task<Advertisement<Game>> IAdvertisementAsyncRepository<Guid, Game>.FindByFriendlyIdAsync(string friendlyId)
+        Task<Advertisement<Game>> IAdvertisementRepository<Guid, Game>.FindByFriendlyIdAsync(string friendlyId)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.FindByTitleAsync(string advertisementTitle)
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementRepository<Guid, Game>.FindByTitleAsync(string advertisementTitle)
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllAsync()
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementRepository<Guid, Game>.GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Advertisement<Game>>> IAdvertisementAsyncRepository<Guid, Game>.GetAllDeepAsync()
+        Task<IEnumerable<Advertisement<Game>>> IAdvertisementRepository<Guid, Game>.GetAllDeepAsync()
         {
             throw new NotImplementedException();
         }
