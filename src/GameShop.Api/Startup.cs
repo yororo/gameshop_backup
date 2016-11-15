@@ -11,10 +11,14 @@ using GameShop.Data.Repositories.Interfaces;
 using GameShop.Data.Repositories;
 using GameShop.Data.Providers.Interfaces;
 using GameShop.Data.Providers;
-using GameShop.Data.Extensions;
-using GameShop.Api.Filters;
-using GameShop.Api.Options;
 using Microsoft.Extensions.Options;
+using GameShop.Api.Configuration;
+using GameShop.Api.RequestFilters;
+using GameShop.Api.Services.Interfaces;
+using GameShop.Api.Services;
+
+using GameShop.Contracts.Entities;
+using GameShop.Api.Contracts.Entities;
 
 namespace GameShop.Api
 {
@@ -37,24 +41,47 @@ namespace GameShop.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add options.
-            //services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
-            services.Configure<IdentityServer4Options>(Configuration.GetSection("IdentityServer4"));
+            // services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+            services.Configure<IdentityServerOptions>(Configuration.GetSection("IdentityServer4"));
 
-            //Game shop PH data services
+            // Add hashing service.
+            services.AddTransient<IPasswordHashingService, PBKDF2PasswordHashingService>();
+
+            // Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
             // Identity Server 4
-            services.AddIdentityServer()
-                    .AddTemporarySigningCredential()
-                    .AddInMemoryScopes(IdentityServer4Options.GetScopes())
-                    .AddInMemoryClients(IdentityServer4Options.GetClients())
-                    .AddInMemoryUsers(IdentityServer4Options.GetUsers());
+            //services.AddIdentityServer()
+            //        .AddTemporarySigningCredential()
+            //        .AddInMemoryScopes(IdentityServerOptions.GetScopes())
+            //        .AddInMemoryClients(IdentityServerOptions.GetClients())
+            //        .AddInMemoryUsers(IdentityServerOptions.GetUsers());
+           
+            services.AddOpenIddict<Client, string, string, string>()
+            // Register the ASP.NET Core MVC binder used by OpenIddict.
+            // Note: if you don't call this method, you won't be able to
+            // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+            .AddMvcBinders()
+
+            // Enable the token endpoint (required to use the password flow).
+            .EnableTokenEndpoint("/connect/token")
+
+            // Allow client applications to use the grant_type=password flow.
+            .AllowPasswordFlow()
+
+            // During development, you can disable the HTTPS requirement.
+            .DisableHttpsRequirement()
+
+            // Register a new ephemeral key, that is discarded when the application
+            // shuts down. Tokens signed using this key are automatically invalidated.
+            // This method should only be used during development.
+            .AddEphemeralSigningKey();
 
             // Add MVC.
             services.AddMvc(options => 
             {
-                //Validated ModelState before executing a controller action.
+                // Validate ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
             });
 
@@ -68,15 +95,17 @@ namespace GameShop.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIdentityServer();
+            app.UseOpenIddict();
 
-            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-            {
-                Authority = "http://localhost:5000",
-                ScopeName = "api1",
+            //app.UseIdentityServer();
 
-                RequireHttpsMetadata = false
-            });
+            //app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            //{
+            //    Authority = "http://localhost:5000",
+            //    ScopeName = "api1",
+
+            //    RequireHttpsMetadata = false
+            //});
 
             app.UseMvc();
 

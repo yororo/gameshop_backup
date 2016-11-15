@@ -8,7 +8,7 @@ namespace GameShop.Contracts.Entities
 {
     public class Name
     {
-        #region Fields
+        #region Declarations
 
         private Salutation _salutation;
         private string _firstName;
@@ -16,7 +16,7 @@ namespace GameShop.Contracts.Entities
         private string _lastName;
         private string _suffix;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
 
@@ -89,7 +89,7 @@ namespace GameShop.Contracts.Entities
         {
             get
             {
-                return string.Format("{0} {1}", FirstName, LastName);
+                return $"{ FirstName } { LastName }";
             }
         }
 
@@ -97,23 +97,45 @@ namespace GameShop.Contracts.Entities
         {
             get
             {
-                return string.Format("{0} {1} {2} {3}, {4}", Salutation, FirstName, MiddleName, LastName, Suffix);
+                return $"{ Salutation } { FirstName } { MiddleName } { LastName } { Suffix }";
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
-        public Name()
+        public Name(Salutation salutation, string firstName, string middleName, string lastName, string suffix)
         {
-            Salutation = Salutation.NotSpecified;
-            FirstName = string.Empty;
-            MiddleName = string.Empty;
-            LastName = string.Empty;
-            Suffix = string.Empty;
+            _salutation = salutation;
+            _firstName = firstName;
+            _middleName = middleName;
+            _lastName = lastName;
+            _suffix = suffix;
         }
 
-        #endregion
+        public Name(string firstName, string middleName, string lastName)
+            : this(Salutation.Unspecified, firstName, middleName, lastName, string.Empty)
+        {
+
+        }
+
+        public Name(string firstName, string lastName)
+            : this(Salutation.Unspecified, firstName, string.Empty, lastName, string.Empty)
+        {
+
+        }
+
+        public Name()
+            : this(Salutation.Unspecified, 
+                      string.Empty, 
+                      string.Empty, 
+                      string.Empty, 
+                      string.Empty)
+        {
+
+        }
+
+        #endregion Constructors
     }
 }

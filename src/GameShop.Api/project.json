@@ -17,7 +17,10 @@
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0-preview1-final",
     "Microsoft.AspNetCore.Mvc": "1.1.0-preview1-final",
     "IdentityServer4": "1.0.0-rc3",
-    "IdentityServer4.AccessTokenValidation": "1.0.1-rc3"
+    "IdentityServer4.AccessTokenValidation": "1.0.1-rc3",
+    "CryptoHelper": "2.0.0",
+    "OpenIddict.Mvc": "1.0.0-beta1-0481",
+    "OpenIddict.Core": "1.0.0-beta1-0481"
   },
 
   "tools": {

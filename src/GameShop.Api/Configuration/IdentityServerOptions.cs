@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Api.Options
+namespace GameShop.Api.Configuration
 {
-    public class IdentityServer4Options
+    public class IdentityServerOptions
     {
         public IEnumerable<Scope> Scopes { get; set; }
         public IEnumerable<Client> Clients { get; set; }

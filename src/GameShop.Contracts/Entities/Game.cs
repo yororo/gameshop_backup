@@ -8,16 +8,15 @@ namespace GameShop.Contracts.Entities
 {
     public class Game : Product
     {
-        #region Fields
+        #region Declarations
         
         private GamingPlatform _gamingPlatform;
         private GameGenre _gameGenre;
-        private string _title;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
-        
+
         public GamingPlatform GamingPlatform
         {
             get
@@ -44,29 +43,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-
-            set
-            {
-                _title = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
         public Game()
         {
-            GamingPlatform = GamingPlatform.None;
-            GameGenre = GameGenre.None;
+            GamingPlatform = GamingPlatform.Unspecified;
+            GameGenre = GameGenre.Unspecified;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

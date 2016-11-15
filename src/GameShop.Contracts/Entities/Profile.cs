@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameShop.Contracts.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,34 @@ namespace GameShop.Contracts.Entities
 {
     public class Profile
     {
-        #region Fields
+        #region Declarations
 
+        private Guid _profileId;
         private Name _name;
+        private Gender _gender;
+        private CivilStatus _civilStatus;
+        private DateTime _birthday;
         private List<Address> _addresses;
         private List<ContactInformation> _contactInformation;
         private DateTime _createdDate;
         private DateTime _modifiedDate;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
+
+        public Guid ProfileId
+        {
+            get
+            {
+                return _profileId;
+            }
+
+            set
+            {
+                _profileId = value;
+            }
+        }
 
         public Name Name
         {
@@ -29,6 +47,45 @@ namespace GameShop.Contracts.Entities
             set
             {
                 _name = value;
+            }
+        }
+
+        public Gender Gender
+        {
+            get
+            {
+                return _gender;
+            }
+
+            set
+            {
+                _gender = value;
+            }
+        }
+
+        public CivilStatus CivilStatus
+        {
+            get
+            {
+                return _civilStatus;
+            }
+
+            set
+            {
+                _civilStatus = value;
+            }
+        }
+
+        public DateTime Birthday
+        {
+            get
+            {
+                return _birthday;
+            }
+
+            set
+            {
+                _birthday = value;
             }
         }
 
@@ -82,7 +139,7 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -91,13 +148,17 @@ namespace GameShop.Contracts.Entities
         /// </summary>
         public Profile()
         {
-            Name = new Name();
-            Addresses = new List<Address>();
-            ContactInformation = new List<ContactInformation>();
-            CreatedDate = DateTime.MaxValue;
-            ModifiedDate = DateTime.MaxValue;
+            _profileId = Guid.Empty;
+            _name = new Name();
+            _gender = Gender.Unspecified;
+            _civilStatus = CivilStatus.Unspecified;
+            _birthday = DateTime.MaxValue;
+            _addresses = new List<Address>();
+            _contactInformation = new List<ContactInformation>();
+            _createdDate = DateTime.MaxValue;
+            _modifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }
