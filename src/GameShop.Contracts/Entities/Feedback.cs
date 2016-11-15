@@ -8,100 +8,76 @@ namespace GameShop.Contracts.Entities
 {
     public class Feedback
     {
-        #region Fields
+        #region Declarations
 
         private Guid _feedbackId;
-        private User _user;
-        private string _comments;
+        private User _reviewer;
+        private User _reviewee;
+        private string _review;
         private Rating _rating;
         private DateTime _createdDate;
         private DateTime _modifiedDate;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
         public Guid FeedbackId
         {
-            get
-            {
-                return _feedbackId;
-            }
-
-            set
-            {
-                _feedbackId = value;
-            }
+            get { return _feedbackId; }
+            set { _feedbackId = value; }
         }
 
-        public User User
+        public User Reviewee
         {
-            get { return _user; }
-            set { _user = value; }
+            get { return _reviewee; }
+            set { _reviewee = value; }
         }
 
-        public string Comments
+        public User Reviewer
         {
-            get
-            {
-                return _comments;
-            }
+            get { return _reviewer; }
+            set { _reviewer = value; }
+        }
 
-            set
-            {
-                _comments = value;
-            }
+        public string Review
+        {
+            get { return _review; }
+            set { _review = value; }
         }
 
         public Rating Rating
         {
-            get
-            {
-                return _rating;
-            }
-
-            set
-            {
-                _rating = value;
-            }
+            get { return _rating; }
+            set { _rating = value; }
         }
 
         public DateTime CreatedDate
         {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
+            get { return _createdDate; }
+            set { _createdDate = value; }
         }
 
         public DateTime ModifiedDate
         {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
+            get { return _modifiedDate; }
+            set{ _modifiedDate = value; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
         public Feedback()
         {
-            FeedbackId = Guid.Empty;
-            Comments = string.Empty;
-            Rating = Rating.Worst;
-            CreatedDate = DateTime.MaxValue;
-            ModifiedDate = DateTime.MaxValue;
+            _feedbackId = Guid.Empty;
+            _reviewee = new User();
+            _reviewer = new User();
+            _review = string.Empty;
+            _rating = Rating.Worst;
+            _createdDate = DateTime.MaxValue;
+            _modifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

@@ -7,7 +7,7 @@ namespace GameShop.Contracts.Enumerations
 {
     public enum Salutation : short
     {
-        NotSpecified = 0,
+        Unspecified = 0,
         Mr,
         Ms,
         Mrs,

@@ -8,20 +8,20 @@ namespace GameShop.Contracts.Entities
 {
     public class Advertisement<TProduct> where TProduct : Product
     {
-        #region Fields
+        #region Declarations
 
         private Guid _advertisementId;
         private string _friendlyId;
         private string _title;
         private string _description;
-        private string _reasonForSelling;
         private List<TProduct> _products;
         private MeetupInformation _meetupInformation;
-        private AdvertisementState _status;
+        private AdvertisementState _state;
+        private User _owner;
         private DateTime _createdDate;
         private DateTime _modifiedDate;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
 
@@ -51,19 +51,6 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public AdvertisementState Status
-        {
-            get
-            {
-                return _status;
-            }
-
-            set
-            {
-                _status = value;
-            }
-        }
-
         public string Title
         {
             get
@@ -90,16 +77,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string ReasonForSelling
+        public AdvertisementState State
         {
             get
             {
-                return _reasonForSelling;
+                return _state;
             }
 
             set
             {
-                _reasonForSelling = value;
+                _state = value;
             }
         }
 
@@ -128,6 +115,18 @@ namespace GameShop.Contracts.Entities
                 _meetupInformation = value;
             }
         }
+        
+        public User Owner
+        {
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+            }
+        }
 
         public DateTime CreatedDate
         {
@@ -153,16 +152,21 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
         public Advertisement()
         {
-            Products = new List<TProduct>();
-            MeetupInformation = new MeetupInformation();
-            CreatedDate = DateTime.MaxValue;
-            ModifiedDate = DateTime.MaxValue;
+            _advertisementId = Guid.Empty;
+            _friendlyId = string.Empty;
+            _title = string.Empty;
+            _description = string.Empty;
+            _products = new List<TProduct>();
+            _meetupInformation = new MeetupInformation();
+            _state = AdvertisementState.Inactive;
+            _createdDate = DateTime.MaxValue;
+            _modifiedDate = DateTime.MaxValue;
         }
 
         public Advertisement(IEnumerable<TProduct> products)
@@ -171,35 +175,11 @@ namespace GameShop.Contracts.Entities
             Products = products.ToList();
         }
 
-        #endregion
-
-        #region Private Methods
-
-
-
-        #endregion
-
-        #region Public Methods
-
-
-
-        #endregion
+        #endregion Constructors
     }
 
     public class Advertisement : Advertisement<Product>
     {
-        #region Fields
-
-
-
-        #endregion
-
-        #region Properties
-
-
-
-        #endregion
-
         #region Constructors
 
         public Advertisement()
@@ -214,18 +194,6 @@ namespace GameShop.Contracts.Entities
 
         }
 
-        #endregion
-
-        #region Private Methods
-
-
-
-        #endregion
-
-        #region Public Methods
-
-
-
-        #endregion
+        #endregion Constructors
     }
 }

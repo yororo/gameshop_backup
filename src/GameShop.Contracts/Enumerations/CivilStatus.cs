@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum ProductState : short
+    public enum CivilStatus : short
     {
-        ForSale = 1,
-        ForTrade,
-        ForSaleOrTrade,
-        Sold,
-        Traded
+        Unspecified = 0,
+        Single,
+        Married,
+        Divorced,
+        Widowed
     }
 }

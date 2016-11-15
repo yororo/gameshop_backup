@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using GameShop.Api.Filters;
 using GameShop.Contracts.Entities;
 using GameShop.Data.Repositories.Interfaces;
 
@@ -79,7 +78,7 @@ namespace GameShop.Api.Controllers
             //Product not found.
             if (ad == null)
             {
-                return NotFound();
+                return NotFound(friendlyId);
             }
 
             return Ok(ad);
@@ -107,7 +106,7 @@ namespace GameShop.Api.Controllers
                 }
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
         
         [HttpPut("games/{id}")]
@@ -120,7 +119,7 @@ namespace GameShop.Api.Controllers
                 return Ok();
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
         
         [HttpDelete("games/{id}")]
@@ -131,7 +130,7 @@ namespace GameShop.Api.Controllers
                 return Ok();
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         #endregion Game Advertisements

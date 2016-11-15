@@ -9,9 +9,12 @@ namespace GameShop.Contracts.Entities
     {
         #region Declarations
 
+        private Guid _accountId;
         private string _username;
         private string _email;
-        private string _password;
+        private bool _emailVerified;
+        private string _passwordHash;
+        private bool _isActive;
         private DateTime _createdDate;
         private DateTime _modifiedDate;
 
@@ -19,21 +22,40 @@ namespace GameShop.Contracts.Entities
 
         #region Properties
 
+        public Guid AccountId
+        {
+            get { return _accountId; }
+            set { _accountId = value; }
+        }
+
         public string Username
         {
             get { return _username; }
             set { _username = value; }
         }
+
         public string Email
         {
             get { return _email; }
             set { _email = value; }
         }
 
-        public string Password
+        public bool EmailVerified
         {
-            get { return _password; }
-            set { _password = value; }
+            get { return _emailVerified; }
+            set { _emailVerified = value; }
+        }
+
+        public string PasswordHash
+        {
+            get { return _passwordHash; }
+            set { _passwordHash = value; }
+        }
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { _isActive = value; }
         }
 
         public DateTime CreatedDate
@@ -54,11 +76,14 @@ namespace GameShop.Contracts.Entities
 
         public Account()
         {
-            Username = string.Empty;
-            Email = string.Empty;
-            Password = string.Empty;
-            CreatedDate = DateTime.MaxValue;
-            ModifiedDate = DateTime.MaxValue;
+            _accountId = Guid.Empty;
+            _username = string.Empty;
+            _email = string.Empty;
+            _emailVerified = false;
+            _passwordHash = string.Empty;
+            _isActive = false;
+            _createdDate = DateTime.MaxValue;
+            _modifiedDate = DateTime.MaxValue;
         }
 
         #endregion Constructors
