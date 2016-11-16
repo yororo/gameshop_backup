@@ -35,12 +35,11 @@ namespace GameShop.Api.Services
 
             if (_passwordHashingService.VerifyHashedPassword(user.Account.PasswordHash, context.Password))
             {
-                result = new GrantValidationResult(userName, "password");
+                //result = new GrantValidationResult(userName, "password");
             }
 
-            result = new GrantValidationResult();
+            //result = new GrantValidationResult();
         }
 
     }
-}
 }
