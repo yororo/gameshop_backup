@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Web.Models.ManageViewModels
+namespace GameShop.Website.Models.ManageViewModels
 {
     public class FactorViewModel
     {

@@ -8,23 +8,15 @@ namespace GameShop.Contracts.Entities
 {
     public class Game : Product
     {
-        #region Fields
-
-        private Guid _gameId;
+        #region Declarations
+        
         private GamingPlatform _gamingPlatform;
         private GameGenre _gameGenre;
-        private DateTime _releaseDate;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
 
-        public Guid GameId
-        {
-            get { return _gameId; }
-            set { _gameId = value; }
-        }
-        
         public GamingPlatform GamingPlatform
         {
             get
@@ -51,31 +43,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public DateTime ReleaseDate
-        {
-            get
-            {
-                return _releaseDate;
-            }
-
-            set
-            {
-                _releaseDate = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
         public Game()
         {
-            GameId = Guid.Empty;
-            GamingPlatform = GamingPlatform.None;
-            GameGenre = GameGenre.None;
-            ReleaseDate = DateTime.MaxValue;
+            GamingPlatform = GamingPlatform.Unspecified;
+            GameGenre = GameGenre.Unspecified;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

@@ -12,7 +12,7 @@ namespace GameShop.Data.Providers
         /// <summary>
         /// Contructor.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
+        /// <param name="connectionString">MySQL connection string.</param>
         public MySqlClient(string connectionString)
             : base(connectionString)
         {
@@ -20,9 +20,9 @@ namespace GameShop.Data.Providers
         }
 
         /// <summary>
-        /// Create a Sql Server connection.
+        /// Create a MySQL database connection.
         /// </summary>
-        /// <returns>Sql Server database connection.</returns>
+        /// <returns>MySQL database connection.</returns>
         public override DbConnection CreateConnection()
         {
             return new MySqlConnection(ConnectionString);

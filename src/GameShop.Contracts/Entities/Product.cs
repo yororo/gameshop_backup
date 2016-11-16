@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameShop.Contracts.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +13,11 @@ namespace GameShop.Contracts.Entities
         private Guid _productId;
         private string _name;
         private string _description;
-        private PricingInformation _pricingInformation;
-        private DateTime _created;
-        private DateTime _modified;
+        private SellingInformation _sellingInformation;
+        private TradingInformation _tradingInformation;
+        private ProductState _state;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -59,43 +62,66 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public PricingInformation PricingInformation
+        public SellingInformation SellingInformation
         {
             get
             {
-                return _pricingInformation;
+                return _sellingInformation;
             }
             set
             {
-                _pricingInformation = value;
+                _sellingInformation = value;
             }
         }
 
-        public DateTime Created
+        public TradingInformation TradingInformation
         {
             get
             {
-                return _created;
+                return _tradingInformation;
             }
-
             set
             {
-                _created = value;
+                _tradingInformation = value;
             }
         }
 
-        public DateTime Modified
+        public ProductState ProductState
         {
             get
             {
-                return _modified;
+                return _state;
             }
-
             set
             {
-                _modified = value;
+                _state = value;
             }
         }
+
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return _createdDate;
+            }
+            set
+            {
+                _createdDate = value;
+            }
+        }
+
+        public DateTime ModifiedDate
+        {
+            get
+            {
+                return _modifiedDate;
+            }
+            set
+            {
+                _modifiedDate = value;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -104,8 +130,9 @@ namespace GameShop.Contracts.Entities
             ProductId = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
+            SellingInformation = new SellingInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

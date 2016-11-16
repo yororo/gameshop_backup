@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
+    /// <summary>
+    /// Address
+    /// </summary>
     public class Address
     {
         #region Fields
@@ -20,8 +23,8 @@ namespace GameShop.Contracts.Entities
         private string _province;
         private string _region;
         private string _country;
-        private DateTime _created;
-        private DateTime _modified;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -167,30 +170,28 @@ namespace GameShop.Contracts.Entities
                 _country = value;
             }
         }
-
-        public DateTime Created
+        
+        public DateTime CreatedDate
         {
             get
             {
-                return _created;
+                return _createdDate;
             }
-
             set
             {
-                _created = value;
+                _createdDate = value;
             }
         }
-
-        public DateTime Modified
+        
+        public DateTime ModifiedDate
         {
             get
             {
-                return _modified;
+                return _modifiedDate;
             }
-
             set
             {
-                _modified = value;
+                _modifiedDate = value;
             }
         }
 
@@ -208,8 +209,8 @@ namespace GameShop.Contracts.Entities
             Province = string.Empty;
             Region = string.Empty;
             Country = string.Empty;
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

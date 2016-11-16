@@ -7,15 +7,15 @@ namespace GameShop.Contracts.Entities
 {
     public class ContactInformation
     {
-        #region Fields
+        #region Declarations
 
         private Guid _contactInformationId;
         private string _email;
-        private string _contactNumber;
-        private DateTime _created;
-        private DateTime _modified;
+        private string _mobileNumber;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
-        #endregion
+        #endregion Declarations
 
         #region Properties
 
@@ -45,56 +45,58 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string ContactNumber
+        public string MobileNumber
         {
             get
             {
-                return _contactNumber;
+                return _mobileNumber;
             }
 
             set
             {
-                _contactNumber = value;
+                _mobileNumber = value;
             }
         }
 
-        public DateTime Created
+        public DateTime CreatedDate
         {
             get
             {
-                return _created;
+                return _createdDate;
             }
+
             set
             {
-                _created = value;
+                _createdDate = value;
             }
         }
 
-        public DateTime Modified
+        public DateTime ModifiedDate
         {
             get
             {
-                return _modified;
+                return _modifiedDate;
             }
+
             set
             {
-                _modified = value;
+                _modifiedDate = value;
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
         public ContactInformation()
         {
-            ContactInformationId = Guid.Empty;
-            Email = string.Empty;
-            ContactNumber = string.Empty;
-            Created = DateTime.MaxValue;
-            Modified = DateTime.MaxValue;
+            _contactInformationId = Guid.Empty;
+            _email = string.Empty;
+            _mobileNumber = string.Empty;
+            _createdDate = DateTime.MaxValue;
+            _modifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

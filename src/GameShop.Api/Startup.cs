@@ -9,8 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GameShop.Data.Repositories;
 using GameShop.Data.Providers;
-using GameShop.Data.Extensions;
-using GameShop.Api.Filters;
+using Microsoft.Extensions.Options;
+using GameShop.Api.Configuration;
+using GameShop.Api.RequestFilters;
+using GameShop.Api.Services.Interfaces;
+using GameShop.Api.Services;
+
+using GameShop.Contracts.Entities;
+using GameShop.Api.Contracts.Entities;
 
 namespace GameShop.Api
 {
@@ -21,15 +27,9 @@ namespace GameShop.Api
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
-            if (env.IsEnvironment("Development"))
-            {
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
-
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -38,22 +38,52 @@ namespace GameShop.Api
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            // Add options.
+            // services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+            services.Configure<IdentityServerOptions>(Configuration.GetSection("IdentityServer4"));
 
-            //Game shop PH data services
+            // Add hashing service.
+            services.AddTransient<IPasswordHashingService, PBKDF2PasswordHashingService>();
+
+            // Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
+            // Identity Server 4
+            //services.AddIdentityServer()
+            //        .AddTemporarySigningCredential()
+            //        .AddInMemoryScopes(IdentityServerOptions.GetScopes())
+            //        .AddInMemoryClients(IdentityServerOptions.GetClients())
+            //        .AddInMemoryUsers(IdentityServerOptions.GetUsers());
+           
+            services.AddOpenIddict<Client, string, string, string>()
+            // Register the ASP.NET Core MVC binder used by OpenIddict.
+            // Note: if you don't call this method, you won't be able to
+            // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+            .AddMvcBinders()
+
+            // Enable the token endpoint (required to use the password flow).
+            .EnableTokenEndpoint("/connect/token")
+
+            // Allow client applications to use the grant_type=password flow.
+            .AllowPasswordFlow()
+
+            // During development, you can disable the HTTPS requirement.
+            .DisableHttpsRequirement()
+
+            // Register a new ephemeral key, that is discarded when the application
+            // shuts down. Tokens signed using this key are automatically invalidated.
+            // This method should only be used during development.
+            .AddEphemeralSigningKey();
+
+            // Add MVC.
             services.AddMvc(options => 
             {
-                //Add action filters.
-
-                //Validated ModelState before executing a controller action.
+                // Validate ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
-
             });
 
+            // Add Swagger.
             services.AddSwaggerGen();
         }
 
@@ -63,9 +93,17 @@ namespace GameShop.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseApplicationInsightsRequestTelemetry();
+            app.UseOpenIddict();
 
-            app.UseApplicationInsightsExceptionTelemetry();
+            //app.UseIdentityServer();
+
+            //app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            //{
+            //    Authority = "http://localhost:5000",
+            //    ScopeName = "api1",
+
+            //    RequireHttpsMetadata = false
+            //});
 
             app.UseMvc();
 

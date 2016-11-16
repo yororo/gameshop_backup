@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace GameShop.Web.Models.AccountViewModels
+namespace GameShop.Website.Models.AccountViewModels
 {
     public class SendCodeViewModel
     {

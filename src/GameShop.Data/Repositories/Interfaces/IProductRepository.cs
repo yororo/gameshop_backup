@@ -10,16 +10,20 @@ namespace GameShop.Data.Repositories.Interfaces
     /// <summary>
     /// Product Async Repository which uses Guid as default type for ID.
     /// </summary>
-    /// <typeparam name="TProduct">Object type.</typeparam>
-    public interface IProductRepository<TProduct> : IProductRepository<Guid, TProduct> where TProduct : Product
+    /// <typeparam name="TProduct">Product type.</typeparam>
+    public interface IProductRepository<TProduct> where TProduct : Product
     {
+        Task<IEnumerable<TProduct>> GetAllAsync();
+        Task<IEnumerable<TProduct>> GetByNameAsync(string name);
+        Task<IEnumerable<TProduct>> GetByGenreAsync(GameGenre genre);
+        Task<TProduct> GetByIdAsync(Guid id);
     }
 
     /// <summary>
     /// Product Async Repository.
     /// </summary>
-    /// <typeparam name="TId">Type to use for an ID.</typeparam>
     /// <typeparam name="TProduct">Object type.</typeparam>
+    /// <typeparam name="TId">Type to use for an ID.</typeparam>
     public interface IProductRepository<TId, TProduct> where TProduct : Product
     {
         Task<IEnumerable<TProduct>> GetAllAsync();

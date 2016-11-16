@@ -5,19 +5,13 @@ using System.Threading.Tasks;
 
 namespace GameShop.Api.Contracts.Requests
 {
-    public abstract class ApiRequest
+    public class ApiRequest
     {
-        private Guid _requestId;
-
-        public Guid RequestId
-        {
-            get { return _requestId; }
-            set { _requestId = value; }
-        }
+        public Guid RequestId { get; set; }
 
         public ApiRequest()
         {
-            _requestId = Guid.Empty;
+            RequestId = Guid.NewGuid();
         }
     }
 }

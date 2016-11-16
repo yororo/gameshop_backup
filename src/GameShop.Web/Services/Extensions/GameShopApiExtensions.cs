@@ -1,12 +1,12 @@
-﻿using GameShop.Web.Services.GameShopApis;
-using GameShop.Web.Services.GameShopApis.Interfaces;
+﻿using GameShop.Website.Services.GameShop;
+using GameShop.Website.Services.GameShop.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Web.Services.Extensions
+namespace GameShop.Website.Services.Extensions
 {
     /// <summary>
     /// Extension for ASP.NET Core IServiceCollection.

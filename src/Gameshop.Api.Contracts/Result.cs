@@ -7,7 +7,7 @@ namespace GameShop.Api.Contracts
 {
     public enum Result
     {
-        Unknown,
+        Unknown = 0,
         Success,
         Error
     }

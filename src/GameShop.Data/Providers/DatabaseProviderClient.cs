@@ -16,7 +16,7 @@ namespace GameShop.Data.Providers
         public string ConnectionString { get; set; }
 
         /// <summary>
-        /// Constructor
+        /// Constructor.
         /// </summary>
         /// <param name="connectionString">Database connection string.</param>
         public DatabaseProviderClient(string connectionString)
@@ -27,7 +27,7 @@ namespace GameShop.Data.Providers
         /// <summary>
         /// Create a database connection.
         /// </summary>
-        /// <returns>Database provider's connection.</returns>
+        /// <returns>Database provider connection.</returns>
         public abstract DbConnection CreateConnection();
     }
 }

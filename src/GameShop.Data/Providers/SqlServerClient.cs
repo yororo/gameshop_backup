@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameShop.Data.Providers.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -10,9 +11,9 @@ namespace GameShop.Data.Providers
     public class SqlServerClient : DatabaseProviderClient
     {
         /// <summary>
-        /// Constructor.
+        /// Contructor.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
+        /// <param name="connectionString">SQL Server connection string.</param>
         public SqlServerClient(string connectionString)
             : base(connectionString)
         {
@@ -20,9 +21,9 @@ namespace GameShop.Data.Providers
         }
 
         /// <summary>
-        /// Create a Sql Server connection.
+        /// Create a SQL Server database connection.
         /// </summary>
-        /// <returns>Sql Server database connection.</returns>
+        /// <returns>SQL Server database connection.</returns>
         public override DbConnection CreateConnection()
         {
             return new SqlConnection(ConnectionString);

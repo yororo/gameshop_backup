@@ -12,6 +12,8 @@ namespace GameShop.Contracts.Entities
         private Name _name;
         private List<Address> _addresses;
         private List<ContactInformation> _contactInformation;
+        private DateTime _createdDate;
+        private DateTime _modifiedDate;
 
         #endregion
 
@@ -56,6 +58,30 @@ namespace GameShop.Contracts.Entities
             }
         }
 
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return _createdDate;
+            }
+            set
+            {
+                _createdDate = value;
+            }
+        }
+
+        public DateTime ModifiedDate
+        {
+            get
+            {
+                return _modifiedDate;
+            }
+            set
+            {
+                _modifiedDate = value;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -68,6 +94,8 @@ namespace GameShop.Contracts.Entities
             Name = new Name();
             Addresses = new List<Address>();
             ContactInformation = new List<ContactInformation>();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

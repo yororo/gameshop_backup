@@ -5,15 +5,33 @@ using System.Threading.Tasks;
 
 namespace GameShop.Api.Contracts.Responses
 {
-    public abstract class ApiResponse
+    public class ApiResponse
     {
-        private Result _result;
+        #region Properties
+        
+        public Result Result { get; set; }
+        public string Message { get; set; }
 
-        public Result Result
+        #endregion Properties
+
+        #region Constructors
+
+        public ApiResponse(Result result, string message)
         {
-            get { return _result; }
-            set { _result = value; }
+            Result = result;
+            Message = message;
         }
 
+        public ApiResponse(Result result)
+            : this(result, string.Empty)
+        {
+        }
+
+        public ApiResponse()
+            : this(Result.Unknown, string.Empty)
+        {
+        }
+
+        #endregion Constructors
     }
 }

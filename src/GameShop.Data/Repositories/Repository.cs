@@ -12,7 +12,7 @@ using GameShop.Data.Providers.Interfaces;
 
 namespace GameShop.Data.Repositories
 {
-    public class Repository
+    public abstract class Repository
     {
         /// <summary>
         /// Database provider client.
