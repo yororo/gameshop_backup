@@ -3,44 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using GameShop.Contracts.Entities;
-using GameShop.Website.Services.GameShop.Interfaces;
 
-namespace GameShop.Website.Controllers
+namespace GameShop.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IGameShopApi _gameShopApi;
-
-        public HomeController(IGameShopApi gameShopApi)
+        public IActionResult Index()
         {
-            _gameShopApi = gameShopApi;
+            return View();
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult About()
         {
-            var products = await _gameShopApi.Products.GetAllAdsAsync();
+            ViewData["Message"] = "Your application description page.";
 
-            return View(products);
-        }
-
-        public async Task<IActionResult> Search(string id)
-        {
-            var products = await _gameShopApi.Products.FindAdsByTitleAsync(id);
-
-            return View(products);
+            return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
 
-            return View();
-        }
-
-        public IActionResult Test()
-        {
             return View();
         }
 
