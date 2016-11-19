@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameShop.Website.Controllers
+namespace GameShop.Web.Controllers
 {
     public class HomeController : Controller
     {

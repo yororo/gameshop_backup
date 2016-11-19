@@ -12,7 +12,6 @@ using Dapper;
 using System.Data.Common;
 using System.Text;
 using System.Diagnostics;
-using GameShop.Data.Extensions;
 using GameShop.Data.Translators;
 
 namespace GameShop.Data.Repositories
@@ -325,7 +324,7 @@ namespace GameShop.Data.Repositories
                 {
                     Address tempAddress = new Address();
 
-                    tempAddress = DynamicDataTranslator.TranslateMeetupLocation(tempMeetupLocation);
+                    tempAddress = DynamicDataTranslator.TranslateAddress(tempMeetupLocation);
 
                     meetupLocations.Add(tempAddress);
                 }

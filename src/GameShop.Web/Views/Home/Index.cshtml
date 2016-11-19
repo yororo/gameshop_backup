@@ -1,13 +1,39 @@
 ﻿@using GameShop.Contracts.Entities
 
-@model IEnumerable<Product>
+@model IEnumerable<Advertisement<Game>>
 
 @{
     ViewData["Title"] = "Home Page";
 }
-<ol>
-    @foreach(var product in Model)
+<div class="ui centered cards">
+    @if (Model.Count() != 0)
     {
-        <li>@string.Format("{0}:{1}", product.ProductId, product.Name)</li>
+        @foreach (var announcement in Model)
+        {
+            <div class="card">
+                <a asp-controller="Announcement" asp-action="Details" asp-route-id="1" class="image">
+                    <img src="~/images/banner1.svg">
+                </a>
+                <div class="content">
+                    <a asp-controller="Announcement" asp-action="Details" asp-route-id="1" class="header">1</a>
+                    <div class="meta">
+                        <span class="date">@announcement.Created</span>
+                    </div>
+                    <div class="description">
+                        <p>@announcement.Description</p>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <a asp-controller="Announcement" asp-action="Details" asp-route-id="1">
+                        <i class="info icon"></i>
+                        See announcement
+                    </a>
+                </div>
+            </div>
+        }
     }
-</ol>
+    else
+    {
+        <p>No products to diplay.</p>
+    }
+</div>

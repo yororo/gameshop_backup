@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using GameShop.Web.Options;
 
-namespace GameShop.Website
+namespace GameShop.Web
 {
     public class Startup
     {
@@ -27,6 +28,12 @@ namespace GameShop.Website
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add options.
+            services.AddOptions();
+
+            // Add auth0 options.
+            services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+
             // Add framework services.
             services.AddMvc();
         }

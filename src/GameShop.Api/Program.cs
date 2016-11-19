@@ -17,6 +17,7 @@ namespace GameShop.Api
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls(@"https://localhost:5000")
                 .Build();
 
             host.Run();
