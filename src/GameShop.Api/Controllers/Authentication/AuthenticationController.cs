@@ -32,8 +32,8 @@ namespace GameShop.Api.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("signin")]
-        public IActionResult Signin()
+        [HttpGet("login")]
+        public IActionResult Login()
 
         {
             Uri authorizationUri = _auth0AuthenticationApiClient.BuildAuthorizationUrl()
@@ -53,8 +53,8 @@ namespace GameShop.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("signout")]
-        public IActionResult Signout([FromQuery]string returnUrl)
+        [HttpGet("logout")]
+        public IActionResult Logout([FromQuery]string returnUrl)
         {
             Uri signoutUri = _auth0AuthenticationApiClient.BuildLogoutUrl()
                                                             .WithReturnUrl(returnUrl)

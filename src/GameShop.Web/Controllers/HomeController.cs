@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
 namespace GameShop.Web.Controllers
 {
@@ -19,10 +21,22 @@ namespace GameShop.Web.Controllers
 
             return View();
         }
-
-        public IActionResult Contact()
+        
+        public async Task<IActionResult> Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            // Get bearer from cooking.
+            string bearerToken = Request.Cookies["bearer"];
+
+            HttpClient client = new HttpClient();
+            // Set bearer token.
+            client.SetBearerToken(bearerToken);
+
+            using (var response = await client.GetAsync("http://localhost:5000/auth/test"))
+            {
+                var responseText = await response.Content.ReadAsStringAsync();
+
+                ViewData["Message"] = responseText;
+            }
 
             return View();
         }
