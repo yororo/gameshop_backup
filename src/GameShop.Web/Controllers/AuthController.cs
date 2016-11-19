@@ -3,6 +3,7 @@ using GameShop.Web.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,28 @@ namespace GameShop.Web.Controllers
             _auth0Options = auth0Options.Value;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Signin()
+        [HttpGet("login")]
+        public async Task<IActionResult> Login()
         {
             return View();
+        }
+
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            HttpClient client = new HttpClient();
+            client.SetBearerToken(HttpContext.Request.Cookies["bearer"]);
+
+            using (var response = await client.GetAsync("http://localhost:5000/auth/logout?returnUrl=http://localhost:5002"))
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                
+                // Add the tokens to cookies to be used as Bearer token in succeeding requests to GameShop API.
+                HttpContext.Response.Cookies.Delete("bearer");
+                HttpContext.Response.Cookies.Delete("access_token");
+
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet("signin-auth0")]
@@ -37,9 +56,13 @@ namespace GameShop.Web.Controllers
             HttpClient client = new HttpClient();
             using (var response = await client.GetAsync("http://localhost:5000/token?redirectUri=http://localhost:5002&code=" + code))
             {
-                string responseText = await response.Content.ReadAsStringAsync();
+                string json = await response.Content.ReadAsStringAsync();
 
+                Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                
                 // Add the tokens to cookies to be used as Bearer token in succeeding requests to GameShop API.
+                HttpContext.Response.Cookies.Append("bearer", values["id_token"], new Microsoft.AspNetCore.Http.CookieOptions() { HttpOnly = true });
+                HttpContext.Response.Cookies.Append("access_token", values["access_token"], new Microsoft.AspNetCore.Http.CookieOptions() { HttpOnly = true });
             }
 
             // TODO: Add validation in Home screen.

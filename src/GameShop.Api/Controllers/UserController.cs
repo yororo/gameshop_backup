@@ -1,4 +1,5 @@
-﻿using GameShop.Data.Repositories.Interfaces;
+﻿using Auth0.ManagementApi;
+using GameShop.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,16 @@ namespace GameShop.Api.Controllers
         #region Declarations
 
         private IUserRepository _userRepository;
+        IManagementApiClient _auth0ManagementApiClient;
 
         #endregion Declarations
 
         #region Constructors
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IManagementApiClient auth0ManagementApiClient)
         {
             _userRepository = userRepository;
+            _auth0ManagementApiClient = auth0ManagementApiClient;
         }
 
         #endregion Constructors
@@ -72,6 +75,12 @@ namespace GameShop.Api.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpGet("claims")]
+        public async Task<IActionResult> GetUserClaims([FromQuery]string code)
+        {
+            return Ok();
         }
 
         #endregion Methods

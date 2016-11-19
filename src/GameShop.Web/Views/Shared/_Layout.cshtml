@@ -34,7 +34,14 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     
-                    <li><a class="btn" onclick="auth0Lock.show();">Signin</a></li>
+                    @if (Context.Request.Cookies["bearer"] == null)
+                    {
+                        <li><a class="btn" onclick="auth0Lock.show();">Login</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a></li>
+                    }
                 </ul>
             </div>
         </div>
