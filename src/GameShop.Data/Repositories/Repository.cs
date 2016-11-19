@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dapper;
-using GameShop.Data.Providers.Interfaces;
 using System.Data;
-using System.Text;
 using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Dapper;
+using GameShop.Data.Providers;
+using GameShop.Data.Providers.Interfaces;
 
 namespace GameShop.Data.Repositories
 {

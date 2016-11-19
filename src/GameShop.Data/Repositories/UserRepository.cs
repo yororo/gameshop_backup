@@ -103,10 +103,10 @@ namespace GameShop.Data.Repositories
 
         public async Task<Account> GetUserAccountAsync(User user)
         {
-            return await GetUserAccountByIdAsync(user.UserId);
+            return await GetAccountByUserIdAsync(user.UserId);
         }
 
-        public async Task<Account> GetUserAccountByIdAsync(Guid userId)
+        public async Task<Account> GetAccountByUserIdAsync(Guid userId)
         {
             var commandText = "SELECT * FROM Users u, Accounts a WHEREu.UserId LIKE @userId AND u.AccountId LIKE a.AccountId";
 
@@ -127,10 +127,10 @@ namespace GameShop.Data.Repositories
 
         public async Task<Profile> GetUserProfileAsync(User user)
         {
-            return await GetUserProfileByIdAsync(user.UserId);
+            return await GetProfileByUserIdAsync(user.UserId);
         }
 
-        public async Task<Profile> GetUserProfileByIdAsync(Guid userId)
+        public async Task<Profile> GetProfileByUserIdAsync(Guid userId)
         {
             var commandText = "SELECT * FROM Users u, Profiles p WHERE u.UserId LIKE @userId AND u.ProfileId LIKE p.ProfileId";
 

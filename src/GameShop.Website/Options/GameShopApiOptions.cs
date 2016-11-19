@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Website.Options
+namespace GameShop.Web.Options
 {
     public class GameShopApiOptions
     {
