@@ -9,9 +9,11 @@ namespace GameShop.Data.Repositories.Interfaces
 {
     public interface IGameRepository : IProductRepository<Guid, Game>
     {
+        Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre);
     }
 
     public interface IGameRepository<TId> : IProductRepository<TId, Game>
     {
+        Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre);
     }
 }

@@ -50,6 +50,7 @@ namespace GameShop.Data.Extensions
         public static IServiceCollection UseGameShopRepositories(this IServiceCollection services)
         {
             services.AddSingleton<IGameAdvertisementRepository, GameAdvertisementRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
 
             return services;
         }
