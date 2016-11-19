@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Website.Services.GameShop.Interfaces
+namespace GameShop.Web.Services.GameShop.Interfaces
 {
     public interface IGameShopAdvertisementsApi
     {

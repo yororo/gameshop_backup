@@ -13,9 +13,9 @@ namespace GameShop.Data.Repositories.Interfaces
         Task<User> FindUserByEmail(string email);
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<Account> GetUserAccountAsync(User user);
-        Task<Account> GetUserAccountByIdAsync(Guid userId);
+        Task<Account> GetAccountByUserIdAsync(Guid userId);
         Task<Profile> GetUserProfileAsync(User user);
-        Task<Profile> GetUserProfileByIdAsync(Guid userId);
+        Task<Profile> GetProfileByUserIdAsync(Guid userId);
 
         Task AddUserAsync(User user);
         Task<User> UpdateUserAsync(Guid userId, User updatedUser);
