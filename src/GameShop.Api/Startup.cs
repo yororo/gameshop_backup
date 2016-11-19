@@ -10,13 +10,17 @@ using Microsoft.Extensions.Logging;
 using GameShop.Data.Repositories;
 using GameShop.Data.Providers;
 using Microsoft.Extensions.Options;
-using GameShop.Api.Configuration;
 using GameShop.Api.RequestFilters;
 using GameShop.Api.Services.Interfaces;
 using GameShop.Api.Services;
 
 using GameShop.Contracts.Entities;
 using GameShop.Api.Contracts.Entities;
+using Microsoft.IdentityModel.Tokens;
+using GameShop.Api.Options;
+using Microsoft.AspNetCore.Authorization;
+using System.Text;
+using Auth0.AuthenticationApi;
 
 namespace GameShop.Api
 {
@@ -30,51 +34,51 @@ namespace GameShop.Api
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if(env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
+
             Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
             // Add options.
-            // services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
-            services.Configure<IdentityServerOptions>(Configuration.GetSection("IdentityServer4"));
+            services.AddOptions();
+            // Add configuration to services.
+            services.AddTransient<IConfiguration>(provider => Configuration);
+            // Add Auth0 options.
+            services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
 
-            // Add hashing service.
-            services.AddTransient<IPasswordHashingService, PBKDF2PasswordHashingService>();
+            // Add Auth0 services.
+            services.AddTransient<IAuthenticationApiClient>(provider => new AuthenticationApiClient(Configuration["Auth0:Domain"]));
+
+
+            //// Get options from app settings
+            //var tokenProviderOptions = Configuration.GetSection(nameof(TokenProviderOptions));
+
+            //// Configure TokenProviderOptions
+            //services.Configure<TokenProviderOptions>(options =>
+            //{
+            //    options.Issuer = tokenProviderOptions[nameof(TokenProviderOptions.Issuer)];
+            //    options.Audience = tokenProviderOptions[nameof(TokenProviderOptions.Audience)];
+            //    options.SecurityAlgorithm = tokenProviderOptions[nameof(TokenProviderOptions.SecurityAlgorithm)];
+            //    options.SigningCredentials = new SigningCredentials(_signingKey, options.SecurityAlgorithm);
+            //    options.ValidityInMinutes = double.Parse(tokenProviderOptions[nameof(TokenProviderOptions.ValidityInMinutes)]);
+            //});
+
+            //// Add hashing service.
+            //services.AddTransient<IPasswordHashingService, PBKDF2PasswordHashingService>();
+            //// Add token service.
+            //services.AddTransient<ITokenProvider, AccessTokenProvider>();
 
             // Game shop PH data services
             services.UseGameShopRepositories()
                     .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
-            // Identity Server 4
-            //services.AddIdentityServer()
-            //        .AddTemporarySigningCredential()
-            //        .AddInMemoryScopes(IdentityServerOptions.GetScopes())
-            //        .AddInMemoryClients(IdentityServerOptions.GetClients())
-            //        .AddInMemoryUsers(IdentityServerOptions.GetUsers());
-           
-            services.AddOpenIddict<Client, string, string, string>()
-            // Register the ASP.NET Core MVC binder used by OpenIddict.
-            // Note: if you don't call this method, you won't be able to
-            // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-            .AddMvcBinders()
-
-            // Enable the token endpoint (required to use the password flow).
-            .EnableTokenEndpoint("/connect/token")
-
-            // Allow client applications to use the grant_type=password flow.
-            .AllowPasswordFlow()
-
-            // During development, you can disable the HTTPS requirement.
-            .DisableHttpsRequirement()
-
-            // Register a new ephemeral key, that is discarded when the application
-            // shuts down. Tokens signed using this key are automatically invalidated.
-            // This method should only be used during development.
-            .AddEphemeralSigningKey();
 
             // Add MVC.
             services.AddMvc(options => 
@@ -88,22 +92,17 @@ namespace GameShop.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<Auth0Options> auth0Options)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseOpenIddict();
-
-            //app.UseIdentityServer();
-
-            //app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-            //{
-            //    Authority = "http://localhost:5000",
-            //    ScopeName = "api1",
-
-            //    RequireHttpsMetadata = false
-            //});
+            // Validate JWT tokens.
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                Audience = auth0Options.Value.ClientId,
+                Authority = $"https://{ auth0Options.Value.Domain }/"
+            });
 
             app.UseMvc();
 
