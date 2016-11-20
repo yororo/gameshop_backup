@@ -3,44 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using GameShop.Contracts.Entities;
-using GameShop.Website.Services.GameShop.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
-namespace GameShop.Website.Controllers
+namespace GameShop.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IGameShopApi _gameShopApi;
-
-        public HomeController(IGameShopApi gameShopApi)
+        public IActionResult Index()
         {
-            _gameShopApi = gameShopApi;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var products = await _gameShopApi.Products.GetAllAdsAsync();
-
-            return View(products);
-        }
-
-        public async Task<IActionResult> Search(string id)
-        {
-            var products = await _gameShopApi.Products.FindAdsByTitleAsync(id);
-
-            return View(products);
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
-        public IActionResult Test()
+        public IActionResult About()
         {
+            ViewData["Message"] = "Your application description page.";
+
+            return View();
+        }
+        
+        public async Task<IActionResult> Contact()
+        {
+            // Get bearer from cooking.
+            string bearerToken = Request.Cookies["bearer"];
+
+            HttpClient client = new HttpClient();
+            // Set bearer token.
+            client.SetBearerToken(bearerToken);
+
+            using (var response = await client.GetAsync("http://localhost:5000/auth/test"))
+            {
+                var responseText = await response.Content.ReadAsStringAsync();
+
+                ViewData["Message"] = responseText;
+            }
+
             return View();
         }
 

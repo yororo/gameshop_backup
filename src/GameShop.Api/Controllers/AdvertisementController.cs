@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using GameShop.Contracts.Entities;
 using GameShop.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -93,6 +94,7 @@ namespace GameShop.Api.Controllers
             return Ok(ads);
         }
         
+        [Authorize]
         [HttpPost("games")]
         public async Task<IActionResult> CreateGameAdvertisementAsync([FromBody]Advertisement<Game> advertisement)
         {
@@ -108,7 +110,8 @@ namespace GameShop.Api.Controllers
 
             return BadRequest(ModelState);
         }
-        
+
+        [Authorize]
         [HttpPut("games/{id}")]
         public async Task<IActionResult> UpdateGameAdvertisementAsync(Guid id, [FromBody]Advertisement<Game> advertisement)
         {
@@ -121,7 +124,8 @@ namespace GameShop.Api.Controllers
 
             return BadRequest(ModelState);
         }
-        
+
+        [Authorize]
         [HttpDelete("games/{id}")]
         public async Task<IActionResult> DeleteGameAdvertisementAsync(Guid id)
         {
