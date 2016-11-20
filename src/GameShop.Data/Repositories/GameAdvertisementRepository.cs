@@ -49,7 +49,7 @@ namespace GameShop.Data.Repositories
                 }
 
                 //Instantiate.
-                var advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                var advertisement = DynamicDataTranslator.TranslateAdvertisement(advertisementData);
 
                 //Load advertisement products.
                 var products = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -87,7 +87,7 @@ namespace GameShop.Data.Repositories
                 }
 
                 //Instantiate.
-                var advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                var advertisement = DynamicDataTranslator.TranslateAdvertisement(advertisementData);
                 
                 //Load advertisement products.
                 var products = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -119,9 +119,9 @@ namespace GameShop.Data.Repositories
                 foreach (var advertisementData in advertisementsData)
                 {
                     //Instantiate.
-                    var advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                    var advertisement = DynamicDataTranslator.TranslateAdvertisement(advertisementData);
                     //Load advertisement owner. Partial.
-                    advertisement.Owner = DynamicTranslator.TranslateUser(advertisementData);
+                    advertisement.Owner = DynamicDataTranslator.TranslateUser(advertisementData);
 
                     //Load advertisement products.
                     var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -155,10 +155,10 @@ namespace GameShop.Data.Repositories
                 foreach (var advertisementData in advertisementsData)
                 {
                     //Load advertisements.
-                    Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                    Advertisement advertisement = DynamicDataTranslator.TranslateAdvertisement(advertisementData);
 
                     //Load advertisement audit information such as CreatedBy, CreatedDTTM, ModifiedBy, and ModifiedDTTM.
-                    advertisement.AuditInformation = DynamicTranslator.TranslateUser(advertisementData);
+                    advertisement.Owner = DynamicDataTranslator.TranslateUser(advertisementData);
 
                     //Load all games in the advertisement.
                     var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
@@ -167,7 +167,7 @@ namespace GameShop.Data.Repositories
                     //Load meetup locations.
                     var meetupLocationsData = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
 
-                    advertisement.MeetupLocations.AddRange(meetupLocationsData);
+                    advertisement.MeetupInformation.MeetupLocations.AddRange(meetupLocationsData);
 
                     advertisements.Add(advertisement);
                 }
@@ -222,7 +222,7 @@ namespace GameShop.Data.Repositories
                 foreach (var advertisementData in advertisementsData)
                 {
                     //Translate advertisement.
-                    Advertisement advertisement = DynamicTranslator.TranslateAdvertisement(advertisementData);
+                    Advertisement advertisement = DynamicDataTranslator.TranslateAdvertisement(advertisementData);
 
                     //Initialize.
                     var games = new List<Game>();
@@ -232,10 +232,10 @@ namespace GameShop.Data.Repositories
                         if (productData.AdvertisementId == advertisement.AdvertisementId)
                         {
                             //Translate game.
-                            Game game = DynamicTranslator.TranslateGame(productData);
+                            Game game = DynamicDataTranslator.TranslateGame(productData);
 
                             //Instantiate pricing information.
-                            game.SellingInformation = DynamicTranslator.TranslatePricingInformation(productData);
+                            game.SellingInformation = DynamicDataTranslator.TranslateSellingInformation(productData);
                             
                             //Add game to the advertisement.
                             advertisement.Products.Add(game);
@@ -258,7 +258,7 @@ namespace GameShop.Data.Repositories
                             var address = addresses.FirstOrDefault(a => map.AddressId == a.AddressId);
 
                             //Add address to meetup locations.
-                            advertisement.MeetupLocations.Add(address);
+                            advertisement.MeetupInformation.MeetupLocations.Add(address);
                         }
                     }
 
@@ -325,7 +325,7 @@ namespace GameShop.Data.Repositories
                 {
                     Address tempAddress = new Address();
 
-                    tempAddress = DynamicTranslator.TranslateMeetupLocations(tempMeetupLocation);
+                    tempAddress = DynamicDataTranslator.TranslateMeetupLocation(tempMeetupLocation);
 
                     meetupLocations.Add(tempAddress);
                 }
@@ -348,9 +348,9 @@ namespace GameShop.Data.Repositories
 
                 foreach (var gameData in gamesData)
                 {
-                    Game game = DynamicTranslator.TranslateGame(gameData);
+                    Game game = DynamicDataTranslator.TranslateGame(gameData);
 
-                    game.SellingInformation = DynamicTranslator.TranslatePricingInformation(gameData);
+                    game.SellingInformation = DynamicDataTranslator.TranslateSellingInformation(gameData);
 
                     games.Add(game);
                 }
@@ -378,7 +378,7 @@ namespace GameShop.Data.Repositories
                     return null;
                 }
 
-                var user = DynamicTranslator.TranslateUser(userData);
+                var user = DynamicDataTranslator.TranslateUser(userData);
 
                 var profileInfos = await databaseConnection.QueryAsync(spGetUserProfileInfo, new { UserId = user.UserId }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
 

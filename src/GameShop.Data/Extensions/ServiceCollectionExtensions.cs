@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using GameShop.Data.Providers;
 using GameShop.Data.Providers.Interfaces;
-using GameShop.Data.Repositories.Interfaces;
 using GameShop.Data.Repositories;
-using System.Data.Common;
+using GameShop.Data.Repositories.Interfaces;
 
-namespace GameShop.Data.Extensions
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// ASP.NET Core Service Collection Extensions.
@@ -50,6 +49,7 @@ namespace GameShop.Data.Extensions
         public static IServiceCollection UseGameShopRepositories(this IServiceCollection services)
         {
             services.AddSingleton<IGameAdvertisementRepository, GameAdvertisementRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
 
             return services;

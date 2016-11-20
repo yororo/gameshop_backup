@@ -15,7 +15,7 @@ namespace GameShop.Contracts.Entities
         private decimal _tradingPrice;
         private string _reasonForTrading;
         private bool _isOwnerwillingToAddCash;
-        private decimal _amountToAdd;
+        private decimal _cashAmountToAdd;
         private bool _isOwnerWillingToReceiveCash;
         private string _tradeNotes;
         private DateTime _createdDate;
@@ -25,7 +25,7 @@ namespace GameShop.Contracts.Entities
 
         #region Properties
 
-        public Guid SellingInformationId
+        public Guid TradingInformationId
         {
             get { return _tradingInformationId; }
             set { _tradingInformationId = value; }
@@ -55,10 +55,10 @@ namespace GameShop.Contracts.Entities
             set { _isOwnerwillingToAddCash = value; }
         }
 
-        public decimal AmountToAdd
+        public decimal CashAmountToAdd
         {
-            get { return _amountToAdd; }
-            set { _amountToAdd = value; }
+            get { return _cashAmountToAdd; }
+            set { _cashAmountToAdd = value; }
         }
 
         public bool IsOwnerWillingToReceiveCash
