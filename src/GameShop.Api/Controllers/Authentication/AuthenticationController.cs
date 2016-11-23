@@ -6,7 +6,6 @@ using GameShop.Api.Contracts.Responses;
 using GameShop.Api.Options;
 using GameShop.Api.Services.Interfaces;
 using GameShop.Contracts.Entities;
-using GameShop.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

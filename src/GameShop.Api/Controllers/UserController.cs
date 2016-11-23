@@ -1,5 +1,8 @@
 ﻿using Auth0.ManagementApi;
-using GameShop.Data.Repositories.Interfaces;
+using GameShop.Api.Contracts;
+using GameShop.Api.Contracts.Responses;
+using GameShop.Contracts.Entities;
+using GameShop.Data.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,16 +17,14 @@ namespace GameShop.Api.Controllers
         #region Declarations
 
         private IUserRepository _userRepository;
-        IManagementApiClient _auth0ManagementApiClient;
 
         #endregion Declarations
 
         #region Constructors
 
-        public UserController(IUserRepository userRepository, IManagementApiClient auth0ManagementApiClient)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _auth0ManagementApiClient = auth0ManagementApiClient;
         }
 
         #endregion Constructors
@@ -31,11 +32,28 @@ namespace GameShop.Api.Controllers
         #region Methods
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]Guid? id = null, [FromQuery]string username = null, [FromQuery]string email = null)
         {
-            var users = await _userRepository.GetAllUsersAsync();
+            // No query parameters. Get all users.
+            if (HttpContext.Request.Query.Count == 0)
+            {
+                return Ok(await _userRepository.GetAllUsersAsync());
+            }
 
-            return Ok(users);
+            if(id.HasValue)
+            {
+                return await GetById(id.Value);
+            }
+            else if(!string.IsNullOrEmpty(username))
+            {
+                return await GetByUsername(username);
+            }
+            else if (!string.IsNullOrEmpty(email))
+            {
+                return await GetByEmail(email);
+            }
+
+            return NotFound();
         }
 
         [HttpGet("id/{id}")]
@@ -77,10 +95,37 @@ namespace GameShop.Api.Controllers
             return Ok(user);
         }
 
-        [HttpGet("claims")]
-        public async Task<IActionResult> GetUserClaims([FromQuery]string code)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
+            User user = await _userRepository.FindUserById(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            int result = await _userRepository.DeleteUserByIdAsync(id);
+
+            if (result == 0)
+            {
+                return Ok(new ApiResponse(Result.Failure, $"Unable to delete user with id:{ id }"));
+            }
+
             return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody]User user)
+        {
+            int result = await _userRepository.AddUserAsync(user);
+
+            if (result == 0)
+            {
+                return Ok(new ApiResponse(Result.Failure, $"Unable to create user."));
+            }
+
+            return Ok(user);
         }
 
         #endregion Methods

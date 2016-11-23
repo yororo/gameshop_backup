@@ -1,5 +1,4 @@
-﻿using GameShop.Data.Repositories;
-using GameShop.Data.Repositories.Interfaces;
+﻿using GameShop.Data.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,13 +11,6 @@ namespace GameShop.Api.Controllers
     [Route("[controller]")]
     public class TestController : Controller
     {
-        IGameAdvertisementRepository _gameAdsRepository;
-
-        public TestController(IGameAdvertisementRepository gameAdsRepository)
-        {
-            _gameAdsRepository = gameAdsRepository;
-        }
-
         [HttpGet("guid")]
         public IActionResult GenerateGuid()
         {
@@ -37,12 +29,6 @@ namespace GameShop.Api.Controllers
         public IActionResult GetCurrentUtcDateTime()
         {
             return Ok(DateTime.UtcNow);
-        }
-
-        [HttpGet("test/1")]
-        public IActionResult Test1()
-        {
-            return Ok(_gameAdsRepository.GetAllAsync());
         }
 
         [Authorize]
