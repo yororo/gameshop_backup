@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Data.Repositories.Interfaces
+namespace GameShop.Data.Contracts
 {
     /// <summary>
     /// Advertisement Async Repository whose Advertisement ID is of type Guid.

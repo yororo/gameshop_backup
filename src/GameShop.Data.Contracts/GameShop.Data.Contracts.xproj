@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>61e328f3-9e25-4fe8-9c71-7d14cf38a93b</ProjectGuid>
-    <RootNamespace>GameShop.Data</RootNamespace>
+    <ProjectGuid>40ced162-4c17-4d4d-94e0-52bb4b797188</ProjectGuid>
+    <RootNamespace>GameShop.Data.Contracts</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>

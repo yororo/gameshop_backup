@@ -97,7 +97,9 @@ namespace GameShop.Contracts.Entities
         {
             get
             {
-                return $"{ Salutation } { FirstName } { MiddleName } { LastName } { Suffix }";
+                string salutation = Salutation != Salutation.Unspecified ? Salutation.ToString() : string.Empty;
+
+                return $"{ salutation } { FirstName } { MiddleName } { LastName } { Suffix }".Trim();
             }
         }
 
