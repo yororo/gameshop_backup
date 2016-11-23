@@ -1,5 +1,4 @@
-﻿using GameShop.Data.Repositories.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using GameShop.Data.Providers.Interfaces;
 using Dapper;
 using GameShop.Data.Translators;
 using System.Data;
+using GameShop.Data.Contracts;
 
 namespace GameShop.Data.Repositories
 {
@@ -103,10 +103,10 @@ namespace GameShop.Data.Repositories
 
         public async Task<Account> GetUserAccountAsync(User user)
         {
-            return await GetAccountByUserIdAsync(user.UserId);
+            return await FindAccountByUserIdAsync(user.UserId);
         }
 
-        public async Task<Account> GetAccountByUserIdAsync(Guid userId)
+        public async Task<Account> FindAccountByUserIdAsync(Guid userId)
         {
             var commandText = "SELECT * FROM Users u, Accounts a WHEREu.UserId LIKE @userId AND u.AccountId LIKE a.AccountId";
 
@@ -127,10 +127,10 @@ namespace GameShop.Data.Repositories
 
         public async Task<Profile> GetUserProfileAsync(User user)
         {
-            return await GetProfileByUserIdAsync(user.UserId);
+            return await FindProfileByUserIdAsync(user.UserId);
         }
 
-        public async Task<Profile> GetProfileByUserIdAsync(Guid userId)
+        public async Task<Profile> FindProfileByUserIdAsync(Guid userId)
         {
             var commandText = "SELECT * FROM Users u, Profiles p WHERE u.UserId LIKE @userId AND u.ProfileId LIKE p.ProfileId";
 
@@ -276,6 +276,31 @@ namespace GameShop.Data.Repositories
         }
 
         public Task DeleteUserByIdAsync(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IUserRepository.AddUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IUserRepository.UpdateUserAsync(Guid userId, User updatedUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IUserRepository.DeleteUserByIdAsync(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IUserRepository.DeleteUserAsync(User user)
         {
             throw new NotImplementedException();
         }

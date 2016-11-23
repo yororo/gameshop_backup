@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GameShop.Data.Repositories;
-using GameShop.Data.Providers;
+using GameShop.Data.Contracts;
 using Microsoft.Extensions.Options;
 using GameShop.Api.RequestFilters;
 using GameShop.Api.Services.Interfaces;
@@ -57,6 +56,9 @@ namespace GameShop.Api
             // Add Auth0 services.
             services.AddTransient<IAuthenticationApiClient>(provider => new AuthenticationApiClient(Configuration["Auth0:Domain"]));
 
+            // Add gameshop repositories.
+            services.AddGameShopContext(Configuration.GetConnectionString("DefaultConnection"))
+                    .AddGameShopRepositories();
 
             //// Get options from app settings
             //var tokenProviderOptions = Configuration.GetSection(nameof(TokenProviderOptions));
@@ -77,8 +79,8 @@ namespace GameShop.Api
             //services.AddTransient<ITokenProvider, AccessTokenProvider>();
 
             // Game shop PH data services
-            services.UseGameShopRepositories()
-                    .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //services.UseGameShopRepositories()
+            //        .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
             // Add MVC.
             services.AddMvc(options => 

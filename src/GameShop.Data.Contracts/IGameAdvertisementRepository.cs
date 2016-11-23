@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Data.Repositories.Interfaces
+namespace GameShop.Data.Contracts
 {
     /// <summary>
     /// Ad Async Repository which uses <typeparamref name="Guid"/> as default type for ID.
