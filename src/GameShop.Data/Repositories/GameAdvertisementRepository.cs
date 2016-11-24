@@ -1,5 +1,4 @@
-﻿using GameShop.Data.Repositories.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +12,7 @@ using System.Data.Common;
 using System.Text;
 using System.Diagnostics;
 using GameShop.Data.Translators;
+using GameShop.Data.Contracts;
 
 namespace GameShop.Data.Repositories
 {

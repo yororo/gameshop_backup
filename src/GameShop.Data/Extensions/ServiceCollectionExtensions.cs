@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using GameShop.Data.Providers;
 using GameShop.Data.Providers.Interfaces;
+using GameShop.Data.Contracts;
 using GameShop.Data.Repositories;
-using GameShop.Data.Repositories.Interfaces;
 
 namespace Microsoft.AspNetCore.Builder
 {

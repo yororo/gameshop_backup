@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using GameShop.Data.Repositories.Interfaces;
 using GameShop.Contracts.Entities;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using GameShop.Api.Options;
 using Microsoft.Extensions.Options;
+using GameShop.Data.Contracts;
 
 namespace GameShop.Api.Services
 {
