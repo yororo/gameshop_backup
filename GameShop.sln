@@ -26,7 +26,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data", "src\GameSh
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.EF", "src\GameShop.Data.EF\GameShop.Data.EF.xproj", "{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.EF.Migrator", "src\GameShop.Data.EF.Migrations\GameShop.Data.EF.Migrator.xproj", "{A508B831-D0CF-4B5C-8091-5122CFCC603A}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.EF.Migrator", "src\GameShop.Data.EF.Migrator\GameShop.Data.EF.Migrator.xproj", "{A508B831-D0CF-4B5C-8091-5122CFCC603A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
