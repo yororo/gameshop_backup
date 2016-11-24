@@ -40,59 +40,28 @@ namespace GameShop.Api.Controllers
                 return Ok(await _userRepository.GetAllUsersAsync());
             }
 
+            User user = null;
+
             if(id.HasValue)
             {
-                return await GetById(id.Value);
+                user = await _userRepository.FindUserById(id.Value);
             }
             else if(!string.IsNullOrEmpty(username))
             {
-                return await GetByUsername(username);
+                user = await _userRepository.FindUserByUsername(username);
             }
             else if (!string.IsNullOrEmpty(email))
             {
-                return await GetByEmail(email);
+                user = await _userRepository.FindUserByEmail(email);
+            }
+
+            // Check if a user is found.
+            if (user != null)
+            {
+                return Ok(user);
             }
 
             return NotFound();
-        }
-
-        [HttpGet("id/{id}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var user = await _userRepository.FindUserById(id);
-
-            if(user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
-
-        [HttpGet("username/{username}")]
-        public async Task<IActionResult> GetByUsername(string username)
-        {
-            var user = await _userRepository.FindUserByUsername(username);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
-
-        [HttpGet("email/{email}")]
-        public async Task<IActionResult> GetByEmail(string email)
-        {
-            var user = await _userRepository.FindUserByEmail(email);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
         }
 
         [HttpDelete("{id}")]

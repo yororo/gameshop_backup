@@ -12,6 +12,9 @@ namespace GameShop.Data.Contracts
         Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre);
         Task<int> AddGameAsync(Game game);
     }
+
     public interface IGameRepository : IGameRepository<Guid>
-    { }
+    {
+
+    }
 }

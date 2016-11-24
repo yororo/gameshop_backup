@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using GameShop.Contracts.Entities;
 using GameShop.Data.Providers.Interfaces;
-using GameShop.Data.Repositories.Interfaces;
+using GameShop.Data.Contracts;
 using GameShop.Data.Translators;
 using System;
 using System.Collections.Generic;
