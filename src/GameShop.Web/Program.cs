@@ -14,9 +14,9 @@ namespace GameShop.Web
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls(@"http://localhost:5002")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls(@"http://localhost:5002")
                 .Build();
 
             host.Run();

@@ -50,6 +50,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             services.AddSingleton<IGameAdvertisementRepository, GameAdvertisementRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
 
             return services;
         }

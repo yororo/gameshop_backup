@@ -8,10 +8,19 @@ using System.Threading.Tasks;
 namespace GameShop.Data.Contracts
 {
     /// <summary>
+    /// This will implement the use of Guid and Product types.
+    /// </summary>
+    public interface IProductRepository : IProductRepository<Product>
+    {
+
+    }
+
+    /// <summary>
     /// Product Async Repository which uses Guid as default type for ID.
     /// </summary>
     /// <typeparam name="TProduct">Product type.</typeparam>
-    public interface IProductRepository<TProduct> : IProductRepository<Guid, TProduct> where TProduct : Product
+    public interface IProductRepository<TProduct> : IProductRepository<Guid, TProduct> 
+        where TProduct : Product
     {
 
     }
@@ -25,7 +34,6 @@ namespace GameShop.Data.Contracts
     {
         Task<IEnumerable<TProduct>> GetAllAsync();
         Task<IEnumerable<TProduct>> GetByNameAsync(string name);
-        Task<IEnumerable<TProduct>> GetByGenreAsync(GameGenre genre);
         Task<TProduct> GetByIdAsync(TId id);
     }
 }

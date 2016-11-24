@@ -60,7 +60,11 @@
   },
 
   "runtimes": {
-    "win10-x64": {}
+    "win10-x64": {},
+    "win10-x86": {},
+    "win81-x86": {},
+    "win8-x86": {},
+    "win7-x86": {}
   },
   "userSecretsId": "aspnet-GameShop.Api-20161119014424"
 }

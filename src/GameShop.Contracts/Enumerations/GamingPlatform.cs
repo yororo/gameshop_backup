@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum GamingPlatform : short
+    public enum GamePlatform : short
     {
         Unspecified = 0,
         GameBoy,
