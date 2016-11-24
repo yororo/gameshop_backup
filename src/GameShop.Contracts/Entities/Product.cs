@@ -9,7 +9,7 @@ namespace GameShop.Contracts.Entities
     public abstract class Product
     {
         #region Fields
-
+        
         private Guid _productId;
         private string _name;
         private string _description;
@@ -131,6 +131,7 @@ namespace GameShop.Contracts.Entities
             Name = string.Empty;
             Description = string.Empty;
             SellingInformation = new SellingInformation();
+            TradingInformation = new TradingInformation();
             CreatedDate = DateTime.MaxValue;
             ModifiedDate = DateTime.MaxValue;
         }

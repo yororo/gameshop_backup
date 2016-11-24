@@ -30,6 +30,11 @@ namespace GameShop.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<int> AddGameAsync(Game game)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<int> DeleteByIdAsync(Guid id)
         {
             throw new NotImplementedException();

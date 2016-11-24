@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.Providers.Interfaces;
+using Dapper;
+using System.Data;
 
 namespace GameShop.Data.Repositories
 {
@@ -19,9 +21,36 @@ namespace GameShop.Data.Repositories
         public GameRepository(IDatabaseProviderClient databaseProvider)
             : base (databaseProvider)
         { }
+
         #endregion Constructor
 
         #region Methods
+        public async Task<int> AddGameAsync(Game game)
+        {
+            string spAddGame = @"spAddGame";
+
+            var parameters = new DynamicParameters();
+            parameters.Add(@"GameId", game.ProductId, dbType: DbType.Guid);
+            parameters.Add(@"AdvertisementId", new Guid(), dbType: DbType.Guid);
+            parameters.Add(@"SellingInformationId", game.SellingInformation.SellingInformationId, dbType: DbType.Guid);
+            parameters.Add(@"TradingInformationId", game.TradingInformation.TradingInformationId, dbType: DbType.Guid);
+            parameters.Add(@"Title", game.Name, dbType: DbType.String);
+            parameters.Add(@"Description", game.Description, dbType: DbType.String);
+            parameters.Add(@"GameGenre", game.GameGenre, dbType: DbType.Int16);
+            parameters.Add(@"GamePlatform", game.GamingPlatform, dbType: DbType.Int16);
+            parameters.Add(@"State", game.ProductState, dbType: DbType.Int16);
+            parameters.Add(@"CreatedDate", game.CreatedDate, dbType: DbType.DateTime2);
+            parameters.Add(@"ModifiedDate", game.ModifiedDate, dbType: DbType.DateTime2);
+
+            using (var databaseConnection = Client.CreateConnection())
+            {
+                return await databaseConnection.ExecuteAsync(
+                    spAddGame, 
+                    parameters, 
+                    commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+            }
+        }
+
         public Task<IEnumerable<Game>> GetAllAsync()
         {
             throw new NotImplementedException();

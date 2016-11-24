@@ -10,14 +10,14 @@ namespace GameShop.Contracts.Entities
     {
         #region Declarations
         
-        private GamingPlatform _gamingPlatform;
+        private GamePlatform _gamingPlatform;
         private GameGenre _gameGenre;
 
         #endregion Declarations
 
         #region Properties
 
-        public GamingPlatform GamingPlatform
+        public GamePlatform GamingPlatform
         {
             get
             {
@@ -49,7 +49,7 @@ namespace GameShop.Contracts.Entities
 
         public Game()
         {
-            GamingPlatform = GamingPlatform.Unspecified;
+            GamingPlatform = GamePlatform.Unspecified;
             GameGenre = GameGenre.Unspecified;
         }
 

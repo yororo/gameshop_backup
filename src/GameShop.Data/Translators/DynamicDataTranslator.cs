@@ -59,7 +59,7 @@ namespace GameShop.Data.Translators
             game.Name = gameData.Name;
             game.Description = gameData.Description;
             game.ProductState = parseEnum<ProductState>($"{ gameData.State }");
-            game.GamingPlatform = parseEnum<GamingPlatform>($"{ gameData.GamingPlatform }");
+            game.GamingPlatform = parseEnum<GamePlatform>($"{ gameData.GamingPlatform }");
             game.GameGenre = parseEnum<GameGenre>($"{ gameData.GameGenre }");
             game.SellingInformation = TranslateSellingInformation(gameData);
             game.TradingInformation = TranslateSellingInformation(gameData);
