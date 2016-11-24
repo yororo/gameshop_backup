@@ -26,6 +26,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.Dapper", "src
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.EF", "src\GameShop.Data.EF\GameShop.Data.EF.xproj", "{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.EF.Migrator", "src\GameShop.Data.EF.Migrations\GameShop.Data.EF.Migrator.xproj", "{A508B831-D0CF-4B5C-8091-5122CFCC603A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A508B831-D0CF-4B5C-8091-5122CFCC603A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A508B831-D0CF-4B5C-8091-5122CFCC603A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A508B831-D0CF-4B5C-8091-5122CFCC603A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A508B831-D0CF-4B5C-8091-5122CFCC603A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,5 +83,6 @@ Global
 		{40CED162-4C17-4D4D-94E0-52BB4B797188} = {6E2C5444-7E72-4CCB-8F26-5A98A4C8CAC0}
 		{B87B0E74-7488-4C7E-A8D6-2E60A6F2240C} = {6E2C5444-7E72-4CCB-8F26-5A98A4C8CAC0}
 		{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47} = {6E2C5444-7E72-4CCB-8F26-5A98A4C8CAC0}
+		{A508B831-D0CF-4B5C-8091-5122CFCC603A} = {6E2C5444-7E72-4CCB-8F26-5A98A4C8CAC0}
 	EndGlobalSection
 EndGlobal
