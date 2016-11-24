@@ -22,7 +22,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Console", "src\Gam
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.Contracts", "src\GameShop.Data.Contracts\GameShop.Data.Contracts.xproj", "{40CED162-4C17-4D4D-94E0-52BB4B797188}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.Dapper", "src\GameShop.Data.Dapper\GameShop.Data.Dapper.xproj", "{B87B0E74-7488-4C7E-A8D6-2E60A6F2240C}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data", "src\GameShop.Data.Dapper\GameShop.Data.xproj", "{B87B0E74-7488-4C7E-A8D6-2E60A6F2240C}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GameShop.Data.EF", "src\GameShop.Data.EF\GameShop.Data.EF.xproj", "{8FDB40DA-B1FD-4A92-80B7-27ECB940CA47}"
 EndProject
