@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GameShop.Data.EF.Migrations
+namespace GameShop.Data.EF.Migrator.Migrations
 {
     public partial class init : Migration
     {

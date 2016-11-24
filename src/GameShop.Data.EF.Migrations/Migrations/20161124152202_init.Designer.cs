@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using GameShop.Data.EF.Contexts;
 using GameShop.Contracts.Enumerations;
 
-namespace GameShop.Data.EF.Migrations
+namespace GameShop.Data.EF.Migrator.Migrations
 {
     [DbContext(typeof(GameShopContext))]
-    partial class GameShopContextModelSnapshot : ModelSnapshot
+    [Migration("20161124152202_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
