@@ -158,5 +158,97 @@ namespace GameShop.Data.EF.Translators
 
             return model;
         }
+
+        public static EFEntities.Advertisement ToAdvertisementEntity(this Advertisement advertisement)
+        {
+            // Guard clause.
+            if (advertisement == null)
+            {
+                return null;
+            }
+
+            var model = new EFEntities.Advertisement();
+
+            model.AdvertisementId = advertisement.AdvertisementId;
+            model.CreatedDate = advertisement.CreatedDate;
+            model.Description = advertisement.Description;
+            model.FriendlyId = advertisement.FriendlyId;
+            model.ModifiedDate = advertisement.ModifiedDate;
+            model.State = advertisement.State;
+            model.Title = advertisement.Title;
+
+            return model;
+        }
+
+        public static EFEntities.SellingInformation ToSellingInformationEntity(this SellingInformation sellingInformation)
+        {
+            // Guard clause.
+            if (sellingInformation == null)
+            {
+                return null;
+            }
+
+            var model = new EFEntities.SellingInformation();
+
+            model.Currency = sellingInformation.Currency;
+            model.ReasonForSelling = sellingInformation.ReasonForSelling;
+            model.SellingInformationId = sellingInformation.SellingInformationId;
+            model.SellingPrice = sellingInformation.SellingPrice;
+            model.CreatedDate = sellingInformation.CreatedDate;
+            model.ModifiedDate = sellingInformation.ModifiedDate;
+
+            return model;
+        }
+
+        public static EFEntities.TradingInformation ToTradingInformationEntity(this TradingInformation tradingInformation)
+        {
+            // Guard clause.
+            if (tradingInformation == null)
+            {
+                return null;
+            }
+
+            var model = new EFEntities.TradingInformation();
+
+            model.CashAmountToAdd = tradingInformation.CashAmountToAdd;
+            model.Currency = tradingInformation.Currency;
+            model.IsOwnerWillingToAddCash = tradingInformation.IsOwnerWillingToAddCash;
+            model.IsOwnerWillingToReceiveCash = tradingInformation.IsOwnerWillingToReceiveCash;
+            model.ReasonForSelling = tradingInformation.ReasonForTrading;
+            model.TradeNotes = tradingInformation.TradeNotes;
+            model.TradingInformationId = tradingInformation.TradingInformationId;
+            model.TradingPrice = tradingInformation.TradingPrice;
+            model.CreatedDate = tradingInformation.CreatedDate;
+            model.ModifiedDate = tradingInformation.ModifiedDate;
+
+            return model;
+        }
+
+        #region Product Translations
+
+        public static EFEntities.Game ToGameEntity(this Game game)
+        {
+            // Guard clause.
+            if (game == null)
+            {
+                return null;
+            }
+
+            var model = new EFEntities.Game();
+            model.Advertisement = game.Advertisement.ToAdvertisementEntity();
+            model.Description = game.Description;
+            model.Name = game.Name;
+            model.ProductId = game.ProductId;
+            model.SellingInformation = game.SellingInformation.ToSellingInformationEntity();
+            model.State = game.ProductState;
+            model.TradingInformation = game.TradingInformation.ToTradingInformationEntity();
+            model.CreatedDate = game.CreatedDate;
+            model.ModifiedDate = game.ModifiedDate;
+
+            return model;
+        }
+
+
+        #endregion Product Translations
     }
 }
