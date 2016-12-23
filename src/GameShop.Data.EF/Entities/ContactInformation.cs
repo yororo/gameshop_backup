@@ -7,7 +7,6 @@ namespace GameShop.Data.EF.Entities
 {
     internal class ContactInformation : Entity
     {
-        public Guid ContactInformationId { get; set; }
         public string Email { get; set; }
         public string MobileNumber { get; set; }
     }

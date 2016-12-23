@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class User
+    public class User : Person
     {
         #region Fields
 
         private Guid _userId;
         private Account _account;
-        private Profile _profile;
         private DateTime _createdDate;
         private DateTime _modifiedDate;
 
@@ -22,65 +21,26 @@ namespace GameShop.Contracts.Entities
 
         public Guid UserId
         {
-            get
-            {
-                return _userId;
-            }
-
-            set
-            {
-                _userId = value;
-            }
+            get { return _userId; }
+            set { _userId = value; }
         }
 
         public Account Account
         {
-            get
-            {
-                return _account;
-            }
-
-            set
-            {
-                _account = value;
-            }
-        }
-
-        public Profile Profile
-        {
-            get
-            {
-                return _profile;
-            }
-
-            set
-            {
-                _profile = value;
-            }
+            get { return _account; }
+            set { _account = value; }
         }
 
         public DateTime CreatedDate
         {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
+            get{ return _createdDate; }
+            set {  _createdDate = value; }
         }
 
         public DateTime ModifiedDate
         {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
+            get { return _modifiedDate; }
+            set { _modifiedDate = value; }
         }
 
         #endregion
@@ -92,11 +52,10 @@ namespace GameShop.Contracts.Entities
         /// </summary>
         public User()
         {
-            UserId = Guid.Empty;
-            Account = new Account();
-            Profile = new Profile();
-            CreatedDate = DateTime.MaxValue;
-            ModifiedDate = DateTime.MaxValue;
+            _userId = Guid.Empty;
+            _account = new Account();
+            _createdDate = DateTime.MaxValue;
+            _modifiedDate = DateTime.MaxValue;
         }
 
         #endregion

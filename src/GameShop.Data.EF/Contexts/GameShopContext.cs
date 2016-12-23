@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using GameShop.Data.EF.Entities;
 using System.Threading;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using OpenIddict;
 
 namespace GameShop.Data.EF.Contexts
 {
-    public class GameShopContext : DbContext
+    internal class GameShopContext : OpenIddictDbContext<User, IdentityRole<Guid>, Guid>
     {
-        internal DbSet<User> Users { get; set; }
-        internal DbSet<Account> Accounts { get; set; }
-        internal DbSet<Profile> Profiles { get; set; }
-        internal DbSet<ProfileAddress> ProfileAddresses { get; set; }
-        internal DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<ProfileAddress> ProfileAddresses { get; set; }
+        public DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
 
         public GameShopContext(DbContextOptions options)
             : base(options)
@@ -24,11 +24,29 @@ namespace GameShop.Data.EF.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // User-Account relationships.
+            base.OnModelCreating(modelBuilder);
+
+            // Identity table names.
             modelBuilder.Entity<User>()
-                        .HasOne(user => user.Account)
-                        .WithOne(account => account.User)
-                        .HasForeignKey<Account>(account => account.UserId);
+                        .ToTable("Users");
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>()
+                        .ToTable("UserRoles");
+
+            modelBuilder.Entity<IdentityRole<Guid>>()
+                        .ToTable("Roles");
+
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>()
+                        .ToTable("RoleClaims");
+
+            modelBuilder.Entity<IdentityUserClaim<Guid>>()
+                         .ToTable("UserClaims");
+
+            modelBuilder.Entity<IdentityUserToken<Guid>>()
+                        .ToTable("UserTokens");
+
+            modelBuilder.Entity<IdentityUserLogin<Guid>>()
+                        .ToTable("UserLogins");
 
             // User-Profile relationships.
             modelBuilder.Entity<User>()
@@ -53,8 +71,6 @@ namespace GameShop.Data.EF.Contexts
 
             modelBuilder.Entity<ProfileContactInformation>()
                         .HasKey(pc => pc.ProfileId);
-
-            base.OnModelCreating(modelBuilder);
         }
 
         #region Save Methods
@@ -165,16 +181,16 @@ namespace GameShop.Data.EF.Contexts
         {
             // Get all entities who are in Added/Modified state.
             var entities = ChangeTracker.Entries()
-                            .Where(x => x.Entity is Entity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                            .Where(x => x.Entity is IEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    ((Entity)entity.Entity).CreatedDate = DateTime.Now;
+                    ((IEntity)entity.Entity).CreatedDate = DateTime.Now;
                 }
 
-                ((Entity)entity.Entity).ModifiedDate = DateTime.Now;
+                ((IEntity)entity.Entity).ModifiedDate = DateTime.Now;
             }
         }
 

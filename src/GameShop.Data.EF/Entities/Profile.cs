@@ -9,7 +9,6 @@ namespace GameShop.Data.EF.Entities
 {
     internal class Profile : Entity
     {
-        public Guid ProfileId { get; set; }
         public Salutation Salutation { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameShop.Data.EF.Entities
 {
-    internal class User : Entity
+    internal class User : IdentityUser<Guid>, IEntity
     {
-        public Guid UserId { get; set; }
-        public virtual Account Account { get; set; }
         public virtual Profile Profile { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

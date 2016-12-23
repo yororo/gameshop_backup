@@ -13,7 +13,7 @@ namespace GameShop.Api.Contracts.Requests
         [Required]
         public string Username { get; set; }
         public string Email { get; set; }
-        public string MobileNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public Salutation Salutation { get; set; }
         [Required]
         public string FirstName { get; set; }

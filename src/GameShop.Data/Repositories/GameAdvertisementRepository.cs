@@ -254,10 +254,10 @@ namespace GameShop.Data.Repositories
                     {
                         if(map.AdvertisementId == advertisementData.AdvertisementId)
                         {
-                            var address = addresses.FirstOrDefault(a => map.AddressId == a.AddressId);
+                            //var address = addresses.FirstOrDefault(a => map.AddressId == a.AddressId);
 
                             //Add address to meetup locations.
-                            advertisement.MeetupInformation.MeetupLocations.Add(address);
+                           // advertisement.MeetupInformation.MeetupLocations.Add(address);
                         }
                     }
 

@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "Auth0": "3.5.0",
+    "AspNet.Security.OAuth.Introspection": "1.0.0-alpha3-final",
+    "AspNet.Security.OAuth.Validation": "1.0.0-alpha3-final",
+    "GameShop.Data.Contracts": "1.0.0-*",
     "GameShop.Contracts": "1.0.0-*",
-    "Gameshop.Api.Contracts": "1.0.0-*",
-    "Swashbuckle": "6.0.0-beta902",
-    "CryptoHelper": "2.1.0",
-    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0",
+    "GameShop.Data.EF": "1.0.0-*",
+    "Microsoft.AspNetCore.Identity": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
@@ -17,26 +17,38 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-    "Microsoft.NETCore.App": "1.1.0",
-    "GameShop.Data.Contracts": "1.0.0-*",
-    "GameShop.Data.EF": "1.0.0-*"
+    "OpenIddict.EF": "1.0.0-alpha2-0288",
+    "Swashbuckle": "6.0.0-beta902",
+    "OpenIddict.Mvc": "1.0.0-beta1-0493",
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0",
+    "GameShop.Api.Contracts": "1.0.0-*",
+    "NWebsec.AspNetCore.Middleware": "1.0.0-gamma1-15"
   },
 
   "tools": {
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.1.0"
+        }
+      },
+
       "imports": [
-        "dotnet5.6",
-        "portable-net45+win8"
+        "dnxcore50",
+        "portable-net451+win8"
       ]
     }
   },
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "debugType": "portable"
   },
 
   "runtimeOptions": {
@@ -59,12 +71,5 @@
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   },
 
-  "runtimes": {
-    "win10-x64": {},
-    "win10-x86": {},
-    "win81-x86": {},
-    "win8-x86": {},
-    "win7-x86": {}
-  },
   "userSecretsId": "aspnet-GameShop.Api-20161119014424"
 }

@@ -20,8 +20,18 @@ namespace GameShop.Data.EF.Translators
 
             var user = new User();
 
-            user.UserId = model.UserId;
-            user.Account = model.Account.ToAccountContract();
+            user.UserId = model.Id;
+            user.Account = new Account()
+            {
+                Username = model.UserName,
+                Email = model.Email,
+                //EmailConfirmed = model.EmailConfirmed,
+                PhoneNumber = model.PhoneNumber,
+                //PhoneNumberConfirmed = model.PhoneNumberConfirmed,
+                //CreatedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue),
+                //ModifiedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue)
+            };
+
             user.Profile = model.Profile.ToProfileContract();
             user.CreatedDate = model.CreatedDate.GetValueOrDefault(DateTime.MaxValue);
             user.ModifiedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue);
@@ -29,27 +39,27 @@ namespace GameShop.Data.EF.Translators
             return user;
         }
 
-        public static Account ToAccountContract(this EFEntities.Account model)
-        {
-            // Guard clause.
-            if (model == null)
-            {
-                return null;
-            }
+        //public static Account ToAccountContract(this EFEntities.Account model)
+        //{
+        //    // Guard clause.
+        //    if (model == null)
+        //    {
+        //        return null;
+        //    }
 
-            var account = new Account();
+        //    var account = new Account();
 
-            account.AccountId = model.AccountId;
-            account.Username = model.Username;
-            account.Email = model.Email;
-            account.EmailVerified = model.EmailVerified;
-            account.PasswordHash = model.PasswordHash;
-            account.IsActive = model.IsActive;
-            account.CreatedDate = DateTime.Now;
-            account.ModifiedDate = DateTime.Now;
+        //    account.AccountId = model.AccountId;
+        //    account.Username = model.Username;
+        //    account.Email = model.Email;
+        //    account.EmailVerified = model.EmailVerified;
+        //    account.PasswordHash = model.PasswordHash;
+        //    account.IsActive = model.IsActive;
+        //    account.CreatedDate = DateTime.Now;
+        //    account.ModifiedDate = DateTime.Now;
 
-            return account;
-        }
+        //    return account;
+        //}
 
         public static Profile ToProfileContract(this EFEntities.Profile model)
         {
@@ -61,7 +71,7 @@ namespace GameShop.Data.EF.Translators
 
             var profile = new Profile();
 
-            profile.ProfileId = model.ProfileId;
+            profile.ProfileId = model.Id;
             profile.Name.Salutation = model.Salutation;
             profile.Name.FirstName = model.FirstName;
             profile.Name.MiddleName = model.MiddleName;
@@ -96,7 +106,7 @@ namespace GameShop.Data.EF.Translators
 
             var address = new Address();
 
-            address.AddressId = model.AddressId;
+            //address.AddressId = model.Id;
             address.Street1 = model.Street1;
             address.Street2 = model.Street2;
             address.Street3 = model.Street3;
@@ -107,8 +117,8 @@ namespace GameShop.Data.EF.Translators
             address.Province = model.Province;
             address.Region = model.Region;
             address.Country = model.Country;
-            address.CreatedDate = model.CreatedDate.GetValueOrDefault(DateTime.MaxValue);
-            address.ModifiedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue);
+            //address.CreatedDate = model.CreatedDate.GetValueOrDefault(DateTime.MaxValue);
+            //address.ModifiedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue);
 
             return address;
         }
@@ -123,11 +133,11 @@ namespace GameShop.Data.EF.Translators
 
             var contactInformation = new ContactInformation();
 
-            contactInformation.ContactInformationId = model.ContactInformationId;
+           // contactInformation.ContactInformationId = model.Id;
             contactInformation.Email = model.Email;
-            contactInformation.MobileNumber = model.MobileNumber;
-            contactInformation.CreatedDate = model.CreatedDate.GetValueOrDefault(DateTime.MaxValue);
-            contactInformation.ModifiedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue);
+            contactInformation.PhoneNumber = model.MobileNumber;
+            //contactInformation.CreatedDate = model.CreatedDate.GetValueOrDefault(DateTime.MaxValue);
+            //contactInformation.ModifiedDate = model.ModifiedDate.GetValueOrDefault(DateTime.MaxValue);
 
             return contactInformation;
         }

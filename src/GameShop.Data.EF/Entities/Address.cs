@@ -7,7 +7,6 @@ namespace GameShop.Data.EF.Entities
 {
     internal class Address : Entity
     {
-        public Guid AddressId { get; set; }
         public string Street1 { get; set; }
         public string Street2 { get; set; }
         public string Street3 { get; set; }

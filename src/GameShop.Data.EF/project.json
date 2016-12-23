@@ -1,16 +1,29 @@
-﻿{
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
   "dependencies": {
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.1.0"
+    },
     "GameShop.Contracts": "1.0.0-*",
     "GameShop.Data.Contracts": "1.0.0-*",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
-    "NETStandard.Library": "1.6.1"
+    "OpenIddict": "1.0.0-beta1-0493"
   },
 
   "frameworks": {
-    "netstandard1.6": {
+    "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
+  },
+
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
   }
 }

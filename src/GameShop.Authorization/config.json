@@ -1,0 +1,15 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  },
+  "Data": {
+    "DefaultConnection": {
+      "ConnectionString": "Server=jeyjeyemem-pc\\sqlexpress;Database=aspnet-GameShop.Authorization-07605380-087a-4636-9641-d870438ba93b;Trusted_Connection=True;MultipleActiveResultSets=true"
+    }
+  }
+}

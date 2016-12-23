@@ -20,8 +20,13 @@ namespace GameShop.Data.EF.Translators
 
             var model = new EFEntities.User();
 
-            model.UserId = user.UserId;
-            model.Account = user.Account.ToAccountEntity(model);
+            model.Id = user.UserId;
+            model.UserName = user.Account.Username;
+            model.Email = user.Account.Email;
+            //model.EmailConfirmed = user.Account.EmailConfirmed;
+            model.PhoneNumber = user.Account.PhoneNumber;
+            //model.PhoneNumberConfirmed = user.Account.PhoneNumberConfirmed;
+            //model.Account = user.Account.ToAccountEntity(model);
             model.Profile = user.Profile.ToProfileEntity(model);
             model.CreatedDate = user.CreatedDate;
             model.ModifiedDate = user.ModifiedDate;
@@ -29,33 +34,33 @@ namespace GameShop.Data.EF.Translators
             return model;
         }
 
-        public static EFEntities.Account ToAccountEntity(this Account account, EFEntities.User parentUser = null)
-        {
-            // Guard clause.
-            if (account == null)
-            {
-                return null;
-            }
+        //public static EFEntities.Account ToAccountEntity(this Account account, EFEntities.User parentUser = null)
+        //{
+        //    // Guard clause.
+        //    if (account == null)
+        //    {
+        //        return null;
+        //    }
 
-            var model = new EFEntities.Account();
+        //    var model = new EFEntities.Account();
 
-            model.AccountId = account.AccountId;
-            model.Username = account.Username;
-            model.Email = account.Email;
-            model.EmailVerified = account.EmailVerified;
-            model.PasswordHash = account.PasswordHash;
-            model.IsActive = account.IsActive;
-            model.CreatedDate = account.CreatedDate;
-            model.ModifiedDate = account.ModifiedDate;
+        //    model.AccountId = account.AccountId;
+        //    model.Username = account.Username;
+        //    model.Email = account.Email;
+        //    model.EmailVerified = account.EmailVerified;
+        //    model.PasswordHash = account.PasswordHash;
+        //    model.IsActive = account.IsActive;
+        //    model.CreatedDate = account.CreatedDate;
+        //    model.ModifiedDate = account.ModifiedDate;
 
-            if (parentUser != null)
-            {
-                model.UserId = parentUser.UserId;
-                model.User = parentUser;
-            }
+        //    if (parentUser != null)
+        //    {
+        //        model.UserId = parentUser.UserId;
+        //        model.User = parentUser;
+        //    }
 
-            return model;
-        }
+        //    return model;
+        //}
 
         public static EFEntities.Profile ToProfileEntity(this Profile profile, EFEntities.User parentUser = null)
         {
@@ -67,7 +72,7 @@ namespace GameShop.Data.EF.Translators
 
             var model = new EFEntities.Profile();
 
-            model.ProfileId = profile.ProfileId;
+            model.Id = profile.ProfileId;
             model.Salutation = profile.Name.Salutation;
             model.FirstName = profile.Name.FirstName;
             model.MiddleName = profile.Name.MiddleName;
@@ -93,7 +98,7 @@ namespace GameShop.Data.EF.Translators
 
             if(parentUser != null)
             {
-                model.UserId = parentUser.UserId;
+                model.UserId = parentUser.Id;
                 model.User = parentUser;
             }
 
@@ -110,7 +115,7 @@ namespace GameShop.Data.EF.Translators
 
             var model = new EFEntities.ProfileAddress();
 
-            model.AddressId = address.AddressId;
+           // model.Id = address.AddressId;
             model.Street1 = address.Street1;
             model.Street2 = address.Street2;
             model.Street3 = address.Street3;
@@ -121,12 +126,12 @@ namespace GameShop.Data.EF.Translators
             model.Province = address.Province;
             model.Region = address.Region;
             model.Country = address.Country;
-            model.CreatedDate = address.CreatedDate;
-            model.ModifiedDate = address.ModifiedDate;
+            //model.CreatedDate = address.CreatedDate;
+            //model.ModifiedDate = address.ModifiedDate;
 
             if (parentProfile != null)
             {
-                model.ProfileId = parentProfile.ProfileId;
+                model.ProfileId = parentProfile.Id;
                 model.Profile = parentProfile;
             }
 
@@ -144,15 +149,15 @@ namespace GameShop.Data.EF.Translators
 
             var model = new EFEntities.ProfileContactInformation();
 
-            model.ContactInformationId = contactInformation.ContactInformationId;
+            //model.Id = contactInformation.ContactInformationId;
             model.Email = contactInformation.Email;
-            model.MobileNumber = contactInformation.MobileNumber;
-            model.CreatedDate = contactInformation.CreatedDate;
-            model.ModifiedDate = contactInformation.ModifiedDate;
+            model.MobileNumber = contactInformation.PhoneNumber;
+            //model.CreatedDate = contactInformation.CreatedDate;
+            //model.ModifiedDate = contactInformation.ModifiedDate;
 
             if (parentProfile != null)
             {
-                model.ProfileId = parentProfile.ProfileId;
+                model.ProfileId = parentProfile.Id;
                 model.Profile = parentProfile;
             }
 

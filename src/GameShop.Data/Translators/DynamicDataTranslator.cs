@@ -205,14 +205,14 @@ namespace GameShop.Data.Translators
 
             var account = new Account();
 
-            account.AccountId = accountData.AccountId;
-            account.Email = accountData.Email;
-            account.EmailVerified = accountData.EmailConfirmed;
+            //account.AccountId = accountData.AccountId;
             account.Username = accountData.Username;
-            account.PasswordHash = accountData.PasswordHash;
-            account.IsActive = accountData.IsActive;
-            account.CreatedDate = accountData.CreatedDate;
-            account.ModifiedDate = accountData.ModifiedDate;
+            account.Email = accountData.Email;
+            //account.EmailConfirmed = accountData.EmailConfirmed;
+            //account.PasswordHash = accountData.PasswordHash;
+            //account.IsActive = accountData.IsActive;
+            //account.CreatedDate = accountData.CreatedDate;
+            //account.ModifiedDate = accountData.ModifiedDate;
 
             return account;
         }
@@ -230,7 +230,7 @@ namespace GameShop.Data.Translators
             }
 
             var address = new Address();
-            address.AddressId = addressData.AddressId;
+            //address.AddressId = addressData.AddressId;
             address.Street1 = addressData.Street1;
             address.Street2 = addressData.Street2;
             address.Street3 = addressData.Street3;
@@ -241,8 +241,8 @@ namespace GameShop.Data.Translators
             address.Province = addressData.Province;
             address.Region = addressData.Region;
             address.Country = addressData.Country;
-            address.CreatedDate = addressData.CreatedDate;
-            address.ModifiedDate = addressData.ModifiedDate;
+            //address.CreatedDate = addressData.CreatedDate;
+            //address.ModifiedDate = addressData.ModifiedDate;
 
             return address;
         }
@@ -260,11 +260,11 @@ namespace GameShop.Data.Translators
             }
 
             var contactInformation = new ContactInformation();
-            contactInformation.ContactInformationId = contactInformationData.ContactInformationId;
+            //contactInformation.ContactInformationId = contactInformationData.ContactInformationId;
             contactInformation.Email = contactInformationData.Email;
-            contactInformation.MobileNumber = contactInformationData.ContactNumber;
-            contactInformation.CreatedDate = contactInformationData.CreatedDate;
-            contactInformation.ModifiedDate = contactInformationData.ModifiedDate;
+            contactInformation.PhoneNumber = contactInformationData.ContactNumber;
+            //contactInformation.CreatedDate = contactInformationData.CreatedDate;
+            //contactInformation.ModifiedDate = contactInformationData.ModifiedDate;
 
             return contactInformation;
         }
