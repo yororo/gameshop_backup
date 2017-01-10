@@ -30,7 +30,7 @@ namespace GameShop.Data.Repositories
             string spAddGame = @"spAddGame";
 
             var parameters = new DynamicParameters();
-            parameters.Add(@"GameId", game.ProductId, dbType: DbType.Guid);
+            parameters.Add(@"GameId", game.Id, dbType: DbType.Guid);
             parameters.Add(@"AdvertisementId", new Guid(), dbType: DbType.Guid);
             parameters.Add(@"SellingInformationId", game.SellingInformation.SellingInformationId, dbType: DbType.Guid);
             parameters.Add(@"TradingInformationId", game.TradingInformation.TradingInformationId, dbType: DbType.Guid);

@@ -7,7 +7,7 @@ using GameShop.Contracts.Entities;
 
 namespace GameShop.Data.EF.Repositories
 {
-    public class GameAdvertisementRepository : IGameAdvertisementRepository
+    internal class GameAdvertisementRepository : IGameAdvertisementRepository
     {
         public Task<int> AddAsync(Advertisement<Game> advertisement)
         {

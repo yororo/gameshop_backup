@@ -21,8 +21,10 @@ namespace GameShop.Data.EF.Migrations
                     return File.ReadAllText("ConnectionString.txt");
                 }
                 catch(Exception ex)
-                {
-                    throw new Exception($"Please create a text file named 'ConnectionString.txt' on { Directory.GetCurrentDirectory() } containing the connection string of the migration database.", ex);
+                {     
+                    File.Create(Directory.GetCurrentDirectory());
+                                   
+                    throw new Exception($"Please enter the connection string in the ConnectionString.txt file found in { Directory.GetCurrentDirectory() }.", ex);
                 }
             }
         }

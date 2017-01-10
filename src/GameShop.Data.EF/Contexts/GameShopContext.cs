@@ -1,21 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using GameShop.Data.EF.Entities;
 using System.Threading;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using OpenIddict;
+using Microsoft.EntityFrameworkCore.Metadata;
+using GameShop.Data.EF.Entities.Games;
+using GameShop.Data.EF.Entities;
 
 namespace GameShop.Data.EF.Contexts
 {
-    internal class GameShopContext : OpenIddictDbContext<User, IdentityRole<Guid>, Guid>
-    {
-        public DbSet<Profile> Profiles { get; set; }
-        public DbSet<ProfileAddress> ProfileAddresses { get; set; }
-        public DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
+    internal class GameShopContext : DbContext
+     {
+        // public DbSet<Profile> Profiles { get; set; }
+        // public DbSet<ProfileAddress> ProfileAddresses { get; set; }
+        // public DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
+
+        public DbSet<GameAdvertisement> GameAdvertisements { get; set; }
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<GameSellingInformation> GameSellingInformation { get; set; }
+        public DbSet<GameTradingInformation> GameTradingInformation { get; set; }
 
         public GameShopContext(DbContextOptions options)
             : base(options)
@@ -26,51 +30,75 @@ namespace GameShop.Data.EF.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Identity table names.
-            modelBuilder.Entity<User>()
-                        .ToTable("Users");
+            modelBuilder.Entity<GameAdvertisement>()
+                        .HasMany(ad => ad.Games)
+                        .WithOne(game => game.Advertisement)
+                        .HasForeignKey(game => game.AdvertisementId)
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<IdentityUserRole<Guid>>()
-                        .ToTable("UserRoles");
+            modelBuilder.Entity<Game>()
+                        .HasOne(game => game.SellingInformation)
+                        .WithOne(info => info.Game)
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<IdentityRole<Guid>>()
-                        .ToTable("Roles");
+            modelBuilder.Entity<GameSellingInformation>()
+                        .HasOne(info => info.Game)
+                        .WithOne(game => game.SellingInformation);
 
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>()
-                        .ToTable("RoleClaims");
+            modelBuilder.Entity<Game>()
+                        .HasOne(game => game.TradingInformation)
+                        .WithOne(info => info.Game)
+                        .OnDelete(DeleteBehavior.Cascade);                   
 
-            modelBuilder.Entity<IdentityUserClaim<Guid>>()
-                         .ToTable("UserClaims");
+            modelBuilder.Entity<GameTradingInformation>()
+                        .HasOne(info => info.Game)
+                        .WithOne(game => game.TradingInformation);
 
-            modelBuilder.Entity<IdentityUserToken<Guid>>()
-                        .ToTable("UserTokens");
+            // // Identity table names.
+            // modelBuilder.Entity<User>()
+            //             .ToTable("Users");
 
-            modelBuilder.Entity<IdentityUserLogin<Guid>>()
-                        .ToTable("UserLogins");
+            // modelBuilder.Entity<IdentityUserRole<Guid>>()
+            //             .ToTable("UserRoles");
 
-            // User-Profile relationships.
-            modelBuilder.Entity<User>()
-                        .HasOne(user => user.Profile)
-                        .WithOne(profile => profile.User)
-                        .HasForeignKey<Profile>(profile => profile.UserId);
+            // modelBuilder.Entity<IdentityRole<Guid>>()
+            //             .ToTable("Roles");
 
-            // Profile-Address relationships.
-            modelBuilder.Entity<Profile>()
-                        .HasMany(profile => profile.Addresses)
-                        .WithOne(address => address.Profile)
-                        .HasForeignKey(address => address.ProfileId);
+            // modelBuilder.Entity<IdentityRoleClaim<Guid>>()
+            //             .ToTable("RoleClaims");
 
-            modelBuilder.Entity<ProfileAddress>()
-                        .HasKey(pa => pa.ProfileId);
+            // modelBuilder.Entity<IdentityUserClaim<Guid>>()
+            //              .ToTable("UserClaims");
 
-            // Profile-ContactInformation relationships.
-            modelBuilder.Entity<Profile>()
-                        .HasMany(profile => profile.ContactInformation)
-                        .WithOne(contactInformation => contactInformation.Profile)
-                        .HasForeignKey(contactInformation => contactInformation.ProfileId);
+            // modelBuilder.Entity<IdentityUserToken<Guid>>()
+            //             .ToTable("UserTokens");
 
-            modelBuilder.Entity<ProfileContactInformation>()
-                        .HasKey(pc => pc.ProfileId);
+            // modelBuilder.Entity<IdentityUserLogin<Guid>>()
+            //             .ToTable("UserLogins");
+
+            // // User-Profile relationships.
+            // modelBuilder.Entity<User>()
+            //             .HasOne(user => user.Profile)
+            //             .WithOne(profile => profile.User)
+            //             .HasForeignKey<Profile>(profile => profile.UserId);
+
+            // // Profile-Address relationships.
+            // modelBuilder.Entity<Profile>()
+            //             .HasMany(profile => profile.Addresses)
+            //             .WithOne(address => address.Profile)
+            //             .HasForeignKey(address => address.ProfileId);
+
+            // modelBuilder.Entity<ProfileAddress>()
+            //             .HasKey(pa => pa.ProfileId);
+
+            // // Profile-ContactInformation relationships.
+            // modelBuilder.Entity<Profile>()
+            //             .HasMany(profile => profile.ContactInformation)
+            //             .WithOne(contactInformation => contactInformation.Profile)
+            //             .HasForeignKey(contactInformation => contactInformation.ProfileId);
+
+            // modelBuilder.Entity<ProfileContactInformation>()
+            //             .HasKey(pc => pc.ProfileId);
         }
 
         #region Save Methods

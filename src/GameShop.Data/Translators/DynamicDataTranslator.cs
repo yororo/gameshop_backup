@@ -55,11 +55,11 @@ namespace GameShop.Data.Translators
             var game = new Game();
 
             //Initialize game information.
-            game.ProductId = gameData.GameId;
+            game.Id = gameData.GameId;
             game.Name = gameData.Name;
             game.Description = gameData.Description;
             game.ProductState = parseEnum<ProductState>($"{ gameData.State }");
-            game.GamingPlatform = parseEnum<GamePlatform>($"{ gameData.GamingPlatform }");
+            game.GamingPlatform = parseEnum<GamingPlatform>($"{ gameData.GamingPlatform }");
             game.GameGenre = parseEnum<GameGenre>($"{ gameData.GameGenre }");
             game.SellingInformation = TranslateSellingInformation(gameData);
             game.TradingInformation = TranslateSellingInformation(gameData);

@@ -160,11 +160,11 @@ namespace GameShop.Data.Repositories
                     advertisement.Owner = DynamicDataTranslator.TranslateUser(advertisementData);
 
                     //Load all games in the advertisement.
-                    var games = await GetProductsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+                    var games = await GetProductsAsync(advertisement.Id).ConfigureAwait(false);
                     advertisement.Products.AddRange(games);
 
                     //Load meetup locations.
-                    var meetupLocationsData = await GetMeetupLocationsAsync(advertisement.AdvertisementId).ConfigureAwait(false);
+                    var meetupLocationsData = await GetMeetupLocationsAsync(advertisement.Id).ConfigureAwait(false);
 
                     advertisement.MeetupInformation.MeetupLocations.AddRange(meetupLocationsData);
 
@@ -228,7 +228,7 @@ namespace GameShop.Data.Repositories
 
                     foreach (var productData in productsData)
                     {
-                        if (productData.AdvertisementId == advertisement.AdvertisementId)
+                        if (productData.AdvertisementId == advertisement.Id)
                         {
                             //Translate game.
                             Game game = DynamicDataTranslator.TranslateGame(productData);

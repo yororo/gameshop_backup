@@ -10,7 +10,7 @@ namespace GameShop.Data.EF.Migrations.Factory
     {
         public static void Main(string[] args)
         {
-
+            
         }
     }
 }

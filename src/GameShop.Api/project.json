@@ -18,7 +18,8 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "NWebsec.AspNetCore.Middleware": "1.0.0-gamma1-15",
-    "Swashbuckle": "6.0.0-beta902"
+    "Swashbuckle": "6.0.0-beta902",
+    "CryptoHelper": "2.1.0"
   },
 
   "tools": {

@@ -5,21 +5,25 @@
   },
 
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.1.0"
-    },
     "GameShop.Contracts": "1.0.0-*",
     "GameShop.Data.Contracts": "1.0.0-*",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
-    "OpenIddict": "1.0.0-beta1-0493"
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0"
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
-      "imports": "dnxcore50"
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.1.0"
+        }
+      },
+
+      "imports": [
+        "dnxcore50",
+        "portable-net451+win8"
+      ]
     }
   },
 

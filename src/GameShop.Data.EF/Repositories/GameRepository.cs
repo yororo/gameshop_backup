@@ -7,10 +7,11 @@ using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.EF.Contexts;
 using EFEntities = GameShop.Data.EF.Entities;
+using GameShop.Data.EF.Translators;
 
 namespace GameShop.Data.EF.Repositories
 {
-    public class GameRepository : IGameRepository
+    internal class GameRepository : IGameRepository
     {
         private GameShopContext _context;
 
@@ -19,14 +20,23 @@ namespace GameShop.Data.EF.Repositories
             _context = context;
         }
 
-        public Task<int> AddGameAsync(Game game)
+        public async Task<int> AddAsync(Game game)
         {
-            throw new NotImplementedException();
+            await _context.Games.AddAsync(game.ToGameEntity());
+            
+            return 1;
         }
 
-        public Task<IEnumerable<Game>> GetAllAsync()
+        public async Task<IEnumerable<Game>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var games = new List<Game>();
+
+            foreach(EFEntities.Games.Game game in _context.Games.ToList())
+            {
+                games.Add(game.ToGameContract());
+            }
+
+            return games;
         }
 
         public Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)

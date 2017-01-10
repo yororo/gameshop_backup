@@ -32,6 +32,7 @@ namespace GameShop.Data.Contracts
     /// <typeparam name="TId">Type to use for an ID.</typeparam>
     public interface IProductRepository<TId, TProduct> where TProduct : Product
     {
+        Task<int> AddAsync(TProduct product);
         Task<IEnumerable<TProduct>> GetAllAsync();
         Task<IEnumerable<TProduct>> GetByNameAsync(string name);
         Task<TProduct> GetByIdAsync(TId id);
