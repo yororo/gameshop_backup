@@ -8,29 +8,13 @@ namespace GameShop.Contracts.Entities
     public class ContactInformation
     {
         #region Declarations
-
-        private Guid _contactInformationId;
+        
         private string _email;
-        private string _mobileNumber;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
+        private string _phoneNumber;
 
         #endregion Declarations
 
         #region Properties
-
-        public Guid ContactInformationId
-        {
-            get
-            {
-                return _contactInformationId;
-            }
-
-            set
-            {
-                _contactInformationId = value;
-            }
-        }
 
         public string Email
         {
@@ -45,42 +29,16 @@ namespace GameShop.Contracts.Entities
             }
         }
 
-        public string MobileNumber
+        public string PhoneNumber
         {
             get
             {
-                return _mobileNumber;
+                return _phoneNumber;
             }
 
             set
             {
-                _mobileNumber = value;
-            }
-        }
-
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return _createdDate;
-            }
-
-            set
-            {
-                _createdDate = value;
-            }
-        }
-
-        public DateTime ModifiedDate
-        {
-            get
-            {
-                return _modifiedDate;
-            }
-
-            set
-            {
-                _modifiedDate = value;
+                _phoneNumber = value;
             }
         }
 
@@ -90,11 +48,8 @@ namespace GameShop.Contracts.Entities
 
         public ContactInformation()
         {
-            _contactInformationId = Guid.Empty;
             _email = string.Empty;
-            _mobileNumber = string.Empty;
-            _createdDate = DateTime.MaxValue;
-            _modifiedDate = DateTime.MaxValue;
+            _phoneNumber = string.Empty;
         }
 
         #endregion Constructors

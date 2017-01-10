@@ -20,7 +20,7 @@ namespace GameShop.Api.Contracts.Responses
         public AccessTokenResponse(Result result, string message)
         {
             Result = result;
-            Message = message;
+            Description = message;
         }
 
         public AccessTokenResponse(Result result)

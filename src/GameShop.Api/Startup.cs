@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GameShop.Api.Options;
+using GameShop.Api.RequestFilters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GameShop.Data.Contracts;
 using Microsoft.Extensions.Options;
-using GameShop.Api.RequestFilters;
-using GameShop.Api.Services.Interfaces;
-using GameShop.Api.Services;
-
-using GameShop.Contracts.Entities;
-using GameShop.Api.Contracts.Entities;
+using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using GameShop.Api.Options;
-using Microsoft.AspNetCore.Authorization;
-using System.Text;
-using Auth0.AuthenticationApi;
+using System.Collections.Generic;
 
 namespace GameShop.Api
 {
@@ -41,7 +30,10 @@ namespace GameShop.Api
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        /// <summary>
+        /// Configuration.
+        /// </summary>
+        public IConfigurationRoot Configuration { get; set; }
         
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
@@ -49,39 +41,16 @@ namespace GameShop.Api
             // Add options.
             services.AddOptions();
             // Add configuration to services.
-            services.AddTransient<IConfiguration>(provider => Configuration);
-            // Add Auth0 options.
-            services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
+            services.AddSingleton<IConfiguration>(provider => Configuration);
 
-            // Add Auth0 services.
-            services.AddTransient<IAuthenticationApiClient>(provider => new AuthenticationApiClient(Configuration["Auth0:Domain"]));
+            services.AddCors();
 
+            //services.AddAuthentication(options => options.SignInScheme = OAuthIntrospectionDefaults.AuthenticationScheme);
+            
             // Add gameshop repositories.
-            services.AddGameShopContext(Configuration.GetConnectionString("DefaultConnection"))
-                    .AddGameShopRepositories();
-
-            //// Get options from app settings
-            //var tokenProviderOptions = Configuration.GetSection(nameof(TokenProviderOptions));
-
-            //// Configure TokenProviderOptions
-            //services.Configure<TokenProviderOptions>(options =>
-            //{
-            //    options.Issuer = tokenProviderOptions[nameof(TokenProviderOptions.Issuer)];
-            //    options.Audience = tokenProviderOptions[nameof(TokenProviderOptions.Audience)];
-            //    options.SecurityAlgorithm = tokenProviderOptions[nameof(TokenProviderOptions.SecurityAlgorithm)];
-            //    options.SigningCredentials = new SigningCredentials(_signingKey, options.SecurityAlgorithm);
-            //    options.ValidityInMinutes = double.Parse(tokenProviderOptions[nameof(TokenProviderOptions.ValidityInMinutes)]);
-            //});
-
-            //// Add hashing service.
-            //services.AddTransient<IPasswordHashingService, PBKDF2PasswordHashingService>();
-            //// Add token service.
-            //services.AddTransient<ITokenProvider, AccessTokenProvider>();
-
-            // Game shop PH data services
-            //services.UseGameShopRepositories()
-            //        .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
+            //services.AddGameShopUserAuthorization(Configuration.GetConnectionString("UsersDatabase"));
+            //services.AddGameShopRepositories(Configuration.GetConnectionString("DefaultDatabase"));
+                        
             // Add MVC.
             services.AddMvc(options => 
             {
@@ -94,16 +63,50 @@ namespace GameShop.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<Auth0Options> auth0Options)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            // Validate JWT tokens.
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            // CORS
+            app.UseCors(options =>
             {
-                Audience = auth0Options.Value.ClientId,
-                Authority = $"https://{ auth0Options.Value.Domain }/"
+                options.AllowAnyHeader();
+                options.AllowAnyMethod();
+                options.AllowAnyOrigin();
+                options.AllowCredentials();
+            });
+
+            // NWebsec
+            //app.UseNWebsec();
+
+            //app.UseOAuthValidation();
+
+            // Alternatively, you can also use the introspection middleware.
+            // Using it is recommended if your resource server is in a
+            // different application/separated from the authorization server.
+            // app.UseOAuthIntrospection(options => {
+            //     options.AutomaticAuthenticate = true;
+            //     options.AutomaticChallenge = true;
+            //     options.Authority = "http://localhost:5000/";
+            //     options.Audiences.Add("http://localhost:6001/");
+            //     options.ClientId = "GameShop.Api";
+            //     options.ClientSecret = "secret_secret_secret";
+            //     options.SaveToken = true;
+            // });
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                RequireHttpsMetadata = false,
+                Audience = "http://localhost:6001/",
+                Authority = "http://localhost:5000/",
+                TokenValidationParameters = new TokenValidationParameters(){
+                    ValidAudiences = new List<string>(){ "http://localhost:6001/" },
+                    ValidIssuers = new List<string>(){ "http://localhost:5000/" }
+                },
+                SaveToken = true
             });
 
             app.UseMvc();

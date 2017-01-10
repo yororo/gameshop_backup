@@ -7,7 +7,7 @@ namespace GameShop.Api.Contracts.Requests
 {
     public class ApiRequest
     {
-        public Guid RequestId { get; set; }
+        public Guid RequestId { get; private set; }
 
         public ApiRequest()
         {

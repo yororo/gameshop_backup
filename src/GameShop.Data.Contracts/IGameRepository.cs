@@ -10,7 +10,6 @@ namespace GameShop.Data.Contracts
     public interface IGameRepository<TId> : IProductRepository<TId, Game>
     {
         Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre);
-        Task<int> AddGameAsync(Game game);
     }
 
     public interface IGameRepository : IGameRepository<Guid>

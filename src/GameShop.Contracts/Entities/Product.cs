@@ -10,8 +10,8 @@ namespace GameShop.Contracts.Entities
     {
         #region Fields
         
-        private Guid _productId;
-        private Advertisement _advertisement;
+        private Guid _id;
+        // private Advertisement _advertisement;
         private string _name;
         private string _description;
         private SellingInformation _sellingInformation;
@@ -24,31 +24,31 @@ namespace GameShop.Contracts.Entities
 
         #region Properties
 
-        public Guid ProductId
+        public Guid Id
         {
             get
             {
-                return _productId;
+                return _id;
             }
 
             set
             {
-                _productId = value;
+                _id = value;
             }
         }
 
-        public Advertisement Advertisement
-        {
-            get
-            {
-                return _advertisement;
-            }
+        // public Advertisement Advertisement
+        // {
+        //     get
+        //     {
+        //         return _advertisement;
+        //     }
 
-            set
-            {
-                _advertisement = value;
-            }
-        }
+        //     set
+        //     {
+        //         _advertisement = value;
+        //     }
+        // }
 
         public string Name
         {
@@ -141,7 +141,7 @@ namespace GameShop.Contracts.Entities
         #region Constructors
         public Product()
         {
-            ProductId = Guid.Empty;
+            Id = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
             SellingInformation = new SellingInformation();

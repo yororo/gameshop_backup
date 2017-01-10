@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class Advertisement<TProduct> where TProduct : Product
+    public abstract class Advertisement<TProduct> where TProduct : Product
     {
         #region Declarations
 
-        private Guid _advertisementId;
+        private Guid _id;
         private string _friendlyId;
         private string _title;
         private string _description;
@@ -25,16 +25,16 @@ namespace GameShop.Contracts.Entities
 
         #region Properties
 
-        public Guid AdvertisementId
+        public Guid Id
         {
             get
             {
-                return _advertisementId;
+                return _id;
             }
 
             set
             {
-                _advertisementId = value;
+                _id = value;
             }
         }
 
@@ -158,7 +158,7 @@ namespace GameShop.Contracts.Entities
 
         public Advertisement()
         {
-            _advertisementId = Guid.Empty;
+            _id = Guid.Empty;
             _friendlyId = string.Empty;
             _title = string.Empty;
             _description = string.Empty;
@@ -178,7 +178,7 @@ namespace GameShop.Contracts.Entities
         #endregion Constructors
     }
 
-    public class Advertisement : Advertisement<Product>
+    public abstract class Advertisement : Advertisement<Product>
     {
         #region Constructors
 

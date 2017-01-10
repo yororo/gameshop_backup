@@ -104,7 +104,7 @@ namespace GameShop.Api.Controllers
 
                 if (result > 0)
                 {
-                    return CreatedAtRoute(new { controller = nameof(AdvertisementController), action = nameof(AdvertisementController.FindGameAdvertisementByIdAsync), id = advertisement.AdvertisementId }, advertisement);
+                    return CreatedAtRoute(new { controller = nameof(AdvertisementController), action = nameof(AdvertisementController.FindGameAdvertisementByIdAsync), id = advertisement.Id }, advertisement);
                 }
             }
 

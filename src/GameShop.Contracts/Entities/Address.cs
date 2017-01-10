@@ -11,8 +11,7 @@ namespace GameShop.Contracts.Entities
     public class Address
     {
         #region Fields
-
-        private Guid _addressId;
+        
         private string _street1;
         private string _street2;
         private string _street3;
@@ -23,25 +22,10 @@ namespace GameShop.Contracts.Entities
         private string _province;
         private string _region;
         private string _country;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
 
         #endregion
 
         #region Properties
-
-        public Guid AddressId
-        {
-            get
-            {
-                return _addressId;
-            }
-
-            set
-            {
-                _addressId = value;
-            }
-        }
 
         public string Street1
         {
@@ -170,30 +154,6 @@ namespace GameShop.Contracts.Entities
                 _country = value;
             }
         }
-        
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
-        }
-        
-        public DateTime ModifiedDate
-        {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
-        }
 
         #endregion
 
@@ -201,7 +161,6 @@ namespace GameShop.Contracts.Entities
 
         public Address()
         {
-            AddressId = Guid.Empty;
             Barangay = string.Empty;
             Municipality = string.Empty;
             City = string.Empty;
@@ -209,8 +168,6 @@ namespace GameShop.Contracts.Entities
             Province = string.Empty;
             Region = string.Empty;
             Country = string.Empty;
-            CreatedDate = DateTime.MaxValue;
-            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion

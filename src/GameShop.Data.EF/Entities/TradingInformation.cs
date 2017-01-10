@@ -8,7 +8,7 @@ namespace GameShop.Data.EF.Entities
 {
     internal class TradingInformation : Entity
     {
-        public Guid TradingInformationId { get; set; }
+        public Guid Id { get; set; }
         public Currency Currency { get; set; }
         public decimal TradingPrice { get; set; }
         public string ReasonForSelling { get; set; }
@@ -16,8 +16,5 @@ namespace GameShop.Data.EF.Entities
         public decimal CashAmountToAdd { get; set; }
         public bool IsOwnerWillingToReceiveCash { get; set; }
         public string TradeNotes { get; set; }
-
-        public Guid ProductId { get; set; }
-        public virtual Product Product { get; set; }
     }
 }

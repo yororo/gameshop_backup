@@ -11,8 +11,6 @@ namespace GameShop.Contracts.Entities
 
         private Guid _meetupInformationId;
         private List<Address> _meetupLocations;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
 
         #endregion Declarations
 
@@ -41,31 +39,6 @@ namespace GameShop.Contracts.Entities
                 _meetupLocations = value;
             }
         }
-
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
-        }
-
-        public DateTime ModifiedDate
-        {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
-        }
-
 
         #endregion Properties
     }

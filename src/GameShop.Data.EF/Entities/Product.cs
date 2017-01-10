@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.EF.Entities
 {
-    internal class Product : Entity
+    internal abstract class Product : Entity
     {
-        public virtual Advertisement Advertisement { get; set; }
-        public Guid ProductId { get;set; }
+        public Guid Id { get;set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual SellingInformation SellingInformation { get; set; }
-        public virtual TradingInformation TradingInformation { get; set; }
         public ProductState State { get; set; }
     }
 }

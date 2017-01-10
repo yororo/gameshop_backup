@@ -1,21 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using GameShop.Data.EF.Entities;
 using System.Threading;
+using Microsoft.EntityFrameworkCore.Metadata;
+using GameShop.Data.EF.Entities.Games;
+using GameShop.Data.EF.Entities;
 
 namespace GameShop.Data.EF.Contexts
 {
-    public class GameShopContext : DbContext
-    {
-        internal DbSet<User> Users { get; set; }
-        internal DbSet<Account> Accounts { get; set; }
-        internal DbSet<Profile> Profiles { get; set; }
-        internal DbSet<ProfileAddress> ProfileAddresses { get; set; }
-        internal DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
+    internal class GameShopContext : DbContext
+     {
+        // public DbSet<Profile> Profiles { get; set; }
+        // public DbSet<ProfileAddress> ProfileAddresses { get; set; }
+        // public DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
+
+        public DbSet<GameAdvertisement> GameAdvertisements { get; set; }
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<GameSellingInformation> GameSellingInformation { get; set; }
+        public DbSet<GameTradingInformation> GameTradingInformation { get; set; }
 
         public GameShopContext(DbContextOptions options)
             : base(options)
@@ -24,37 +28,77 @@ namespace GameShop.Data.EF.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // User-Account relationships.
-            modelBuilder.Entity<User>()
-                        .HasOne(user => user.Account)
-                        .WithOne(account => account.User)
-                        .HasForeignKey<Account>(account => account.UserId);
-
-            // User-Profile relationships.
-            modelBuilder.Entity<User>()
-                        .HasOne(user => user.Profile)
-                        .WithOne(profile => profile.User)
-                        .HasForeignKey<Profile>(profile => profile.UserId);
-
-            // Profile-Address relationships.
-            modelBuilder.Entity<Profile>()
-                        .HasMany(profile => profile.Addresses)
-                        .WithOne(address => address.Profile)
-                        .HasForeignKey(address => address.ProfileId);
-
-            modelBuilder.Entity<ProfileAddress>()
-                        .HasKey(pa => pa.ProfileId);
-
-            // Profile-ContactInformation relationships.
-            modelBuilder.Entity<Profile>()
-                        .HasMany(profile => profile.ContactInformation)
-                        .WithOne(contactInformation => contactInformation.Profile)
-                        .HasForeignKey(contactInformation => contactInformation.ProfileId);
-
-            modelBuilder.Entity<ProfileContactInformation>()
-                        .HasKey(pc => pc.ProfileId);
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<GameAdvertisement>()
+                        .HasMany(ad => ad.Games)
+                        .WithOne(game => game.Advertisement)
+                        .HasForeignKey(game => game.AdvertisementId)
+                        .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Game>()
+                        .HasOne(game => game.SellingInformation)
+                        .WithOne(info => info.Game)
+                        .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<GameSellingInformation>()
+                        .HasOne(info => info.Game)
+                        .WithOne(game => game.SellingInformation);
+
+            modelBuilder.Entity<Game>()
+                        .HasOne(game => game.TradingInformation)
+                        .WithOne(info => info.Game)
+                        .OnDelete(DeleteBehavior.Cascade);                   
+
+            modelBuilder.Entity<GameTradingInformation>()
+                        .HasOne(info => info.Game)
+                        .WithOne(game => game.TradingInformation);
+
+            // // Identity table names.
+            // modelBuilder.Entity<User>()
+            //             .ToTable("Users");
+
+            // modelBuilder.Entity<IdentityUserRole<Guid>>()
+            //             .ToTable("UserRoles");
+
+            // modelBuilder.Entity<IdentityRole<Guid>>()
+            //             .ToTable("Roles");
+
+            // modelBuilder.Entity<IdentityRoleClaim<Guid>>()
+            //             .ToTable("RoleClaims");
+
+            // modelBuilder.Entity<IdentityUserClaim<Guid>>()
+            //              .ToTable("UserClaims");
+
+            // modelBuilder.Entity<IdentityUserToken<Guid>>()
+            //             .ToTable("UserTokens");
+
+            // modelBuilder.Entity<IdentityUserLogin<Guid>>()
+            //             .ToTable("UserLogins");
+
+            // // User-Profile relationships.
+            // modelBuilder.Entity<User>()
+            //             .HasOne(user => user.Profile)
+            //             .WithOne(profile => profile.User)
+            //             .HasForeignKey<Profile>(profile => profile.UserId);
+
+            // // Profile-Address relationships.
+            // modelBuilder.Entity<Profile>()
+            //             .HasMany(profile => profile.Addresses)
+            //             .WithOne(address => address.Profile)
+            //             .HasForeignKey(address => address.ProfileId);
+
+            // modelBuilder.Entity<ProfileAddress>()
+            //             .HasKey(pa => pa.ProfileId);
+
+            // // Profile-ContactInformation relationships.
+            // modelBuilder.Entity<Profile>()
+            //             .HasMany(profile => profile.ContactInformation)
+            //             .WithOne(contactInformation => contactInformation.Profile)
+            //             .HasForeignKey(contactInformation => contactInformation.ProfileId);
+
+            // modelBuilder.Entity<ProfileContactInformation>()
+            //             .HasKey(pc => pc.ProfileId);
         }
 
         #region Save Methods
@@ -165,16 +209,16 @@ namespace GameShop.Data.EF.Contexts
         {
             // Get all entities who are in Added/Modified state.
             var entities = ChangeTracker.Entries()
-                            .Where(x => x.Entity is Entity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                            .Where(x => x.Entity is IEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    ((Entity)entity.Entity).CreatedDate = DateTime.Now;
+                    ((IEntity)entity.Entity).CreatedDate = DateTime.Now;
                 }
 
-                ((Entity)entity.Entity).ModifiedDate = DateTime.Now;
+                ((IEntity)entity.Entity).ModifiedDate = DateTime.Now;
             }
         }
 
