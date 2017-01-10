@@ -1,5 +1,4 @@
-﻿using AspNet.Security.OAuth.Validation;
-using GameShop.Api.Options;
+﻿using GameShop.Api.Options;
 using GameShop.Api.RequestFilters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
-using AspNet.Security.OAuth.Introspection;
+using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 
 namespace GameShop.Api
 {
@@ -68,20 +68,6 @@ namespace GameShop.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            // Validate OAuth.
-            app.UseOAuthIntrospection(options => 
-            {
-                options.AutomaticAuthenticate = true;
-                options.AutomaticChallenge = true;
-                //options.Authority = Configuration["GameShop:Authorization:Authority"];
-                options.Authority = "http://localhost:54540";
-                options.Audiences.Add("GameShop.Api");
-                //options.ClientId = Configuration["GameShop:Authorization:ClientId"];
-                options.ClientId = "GameShop.Api";
-                //options.ClientSecret = Configuration["GameShop:Authorization:ClientSecret"];
-                options.ClientSecret = "secret";
-            });
-
             // CORS
             app.UseCors(options =>
             {
@@ -92,24 +78,38 @@ namespace GameShop.Api
             });
 
             // NWebsec
-            app.UseNWebsec();
+            //app.UseNWebsec();
 
             //app.UseOAuthValidation();
 
-            // app.UseJwtBearerAuthentication(new JwtBearerOptions()
-            // {
-            //     AutomaticAuthenticate = true,
-            //     AutomaticChallenge = true,
-            //     RequireHttpsMetadata = false,
-            //     Audience = "http://localhost:5001/",
-            //     Authority = "http://localhost:54540/"
+            // Alternatively, you can also use the introspection middleware.
+            // Using it is recommended if your resource server is in a
+            // different application/separated from the authorization server.
+            // app.UseOAuthIntrospection(options => {
+            //     options.AutomaticAuthenticate = true;
+            //     options.AutomaticChallenge = true;
+            //     options.Authority = "http://localhost:5000/";
+            //     options.Audiences.Add("http://localhost:6001/");
+            //     options.ClientId = "GameShop.Api";
+            //     options.ClientSecret = "secret_secret_secret";
+            //     options.SaveToken = true;
             // });
-            
-            //app.UseOpenIddict();
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                RequireHttpsMetadata = false,
+                Audience = "http://localhost:6001/",
+                Authority = "http://localhost:5000/",
+                TokenValidationParameters = new TokenValidationParameters(){
+                    ValidAudiences = new List<string>(){ "http://localhost:6001/" },
+                    ValidIssuers = new List<string>(){ "http://localhost:5000/" }
+                },
+                SaveToken = true
+            });
 
             app.UseMvc();
-
-            //Task.Run(async () => await app.Seed());
 
             app.UseSwagger();
             app.UseSwaggerUi();

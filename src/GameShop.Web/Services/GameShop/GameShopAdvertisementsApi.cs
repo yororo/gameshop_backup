@@ -70,7 +70,7 @@ namespace GameShop.Web.Services.GameShop
                 try
                 {
                     //Get URL from settings.
-                    client.BaseAddress = new Uri(_apiOptions.Value.ApiUrl);
+                    client.BaseAddress = new Uri(_apiOptions.Value.Url);
 
                     //Get request.
                     var response = await client.GetAsync(path);

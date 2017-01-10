@@ -3,10 +3,11 @@ using GameShop.Authorization.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict;
+using OpenIddict.Models;
 
 namespace GameShop.Authorization.Data 
 {
-    public class ApplicationDbContext : OpenIddictDbContext<ApplicationUser, IdentityRole> 
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options)
             : base(options) { }

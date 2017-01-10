@@ -20,6 +20,7 @@ namespace Microsoft.AspNetCore.Builder
         public static void AddGameShopApis(this IServiceCollection services)
         {
             services.AddSingleton<IGameShopAdvertisementsApi, GameShopAdvertisementsApi>();
+            services.AddSingleton<IGameShopTokenServices, GameShopTokenServices>();
         }
     }
 }

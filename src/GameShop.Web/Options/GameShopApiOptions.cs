@@ -5,6 +5,6 @@ namespace GameShop.Web.Options
         /// <summary>
         /// URL of the GameShop resource server.
         /// </summary>
-        public string ApiUrl { get; set; }
+        public string Url { get; set; }
     }
 }

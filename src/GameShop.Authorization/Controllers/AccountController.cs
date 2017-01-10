@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AspNet.Security.OAuth.Validation;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +12,7 @@ using GameShop.Authorization.Services;
 using GameShop.Authorization.ViewModels.Account;
 using Newtonsoft.Json.Linq;
 using OpenIddict;
+using OpenIddict.Core;
 
 namespace GameShop.Authorization.Controllers 
 {
@@ -40,47 +40,47 @@ namespace GameShop.Authorization.Controllers
 
         //
         // GET: /Account/Userinfo
-        [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
-        [HttpGet, Produces("application/json")]
-        public async Task<IActionResult> UserInfo() 
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) 
-            {
-                return BadRequest(new OpenIdConnectResponse 
-                {
-                    Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                    ErrorDescription = "The user profile is no longer available."
-                });
-            }
+        // [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+        // [HttpGet, Produces("application/json")]
+        // public async Task<IActionResult> UserInfo() 
+        // {
+        //     var user = await _userManager.GetUserAsync(User);
+        //     if (user == null) 
+        //     {
+        //         return BadRequest(new OpenIdConnectResponse 
+        //         {
+        //             Error = OpenIdConnectConstants.Errors.InvalidGrant,
+        //             ErrorDescription = "The user profile is no longer available."
+        //         });
+        //     }
 
-            var claims = new JObject();
+        //     var claims = new JObject();
 
-            // Note: the "sub" claim is a mandatory claim and must be included in the JSON response.
-            claims[OpenIdConnectConstants.Claims.Subject] = user.Id.ToString();
+        //     // Note: the "sub" claim is a mandatory claim and must be included in the JSON response.
+        //     claims[OpenIdConnectConstants.Claims.Subject] = user.Id.ToString();
 
-            if (User.HasClaim(OpenIdConnectConstants.Claims.Scope, OpenIdConnectConstants.Scopes.Email)) 
-            {
-                claims[OpenIdConnectConstants.Claims.Email] = user.Email;
-                claims[OpenIdConnectConstants.Claims.EmailVerified] = user.EmailConfirmed;
-            }
+        //     if (User.HasClaim(OpenIdConnectConstants.Claims.Scope, OpenIdConnectConstants.Scopes.Email)) 
+        //     {
+        //         claims[OpenIdConnectConstants.Claims.Email] = user.Email;
+        //         claims[OpenIdConnectConstants.Claims.EmailVerified] = user.EmailConfirmed;
+        //     }
 
-            if (User.HasClaim(OpenIdConnectConstants.Claims.Scope, OpenIdConnectConstants.Scopes.Phone)) 
-            {
-                claims[OpenIdConnectConstants.Claims.PhoneNumber] = user.PhoneNumber;
-                claims[OpenIdConnectConstants.Claims.PhoneNumberVerified] = user.PhoneNumberConfirmed;
-            }
+        //     if (User.HasClaim(OpenIdConnectConstants.Claims.Scope, OpenIdConnectConstants.Scopes.Phone)) 
+        //     {
+        //         claims[OpenIdConnectConstants.Claims.PhoneNumber] = user.PhoneNumber;
+        //         claims[OpenIdConnectConstants.Claims.PhoneNumberVerified] = user.PhoneNumberConfirmed;
+        //     }
 
-            if (User.HasClaim(OpenIdConnectConstants.Claims.Scope, OpenIddictConstants.Scopes.Roles)) 
-            {
-                claims[OpenIddictConstants.Claims.Roles] = JArray.FromObject(await _userManager.GetRolesAsync(user));
-            }
+        //     if (User.HasClaim(OpenIdConnectConstants.Claims.Scope, OpenIddictConstants.Scopes.Roles)) 
+        //     {
+        //         claims[OpenIddictConstants.Claims.Roles] = JArray.FromObject(await _userManager.GetRolesAsync(user));
+        //     }
 
-            // Note: the complete list of standard claims supported by the OpenID Connect specification
-            // can be found here: http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+        //     // Note: the complete list of standard claims supported by the OpenID Connect specification
+        //     // can be found here: http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
 
-            return Json(claims);
-        }
+        //     return Json(claims);
+        // }
 
         //
         // GET: /Account/Login

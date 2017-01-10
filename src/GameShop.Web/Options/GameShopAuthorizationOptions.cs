@@ -10,7 +10,7 @@ namespace GameShop.Web.Options
         /// <summary>
         /// URL of the GameShop authorization server.
         /// </summary>
-        public string Authority { get; set; }
+        public string Url { get; set; }
 
         /// <summary>
         /// GameShop API client ID.

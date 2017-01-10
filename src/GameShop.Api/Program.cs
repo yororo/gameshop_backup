@@ -17,7 +17,7 @@ namespace GameShop.Api
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseUrls(@"https://localhost:5001")
+                .UseUrls(@"http://localhost:6001")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

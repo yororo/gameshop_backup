@@ -9,6 +9,7 @@ using GameShop.Authorization.Services;
 using NWebsec.AspNetCore.Middleware;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using GameShop.Authorization.Options;
 
 namespace GameShop.Authorization
 {
@@ -17,8 +18,9 @@ namespace GameShop.Authorization
         public Startup(IHostingEnvironment env)
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"config.{ env.EnvironmentName }.json", optional: true)
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{ env.EnvironmentName }.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = configuration.Build();
@@ -28,11 +30,17 @@ namespace GameShop.Authorization
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+            services.Configure<GameShopOptions>(Configuration.GetSection("GameShop"));
+
             services.AddCors();
             services.AddMvc();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseOpenIddict();
+            });
 
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -40,20 +48,22 @@ namespace GameShop.Authorization
                 .AddDefaultTokenProviders();
 
             // Register the OpenIddict services, including the default Entity Framework stores.
-            services.AddOpenIddict<ApplicationDbContext>()
+            services.AddOpenIddict()
+                .AddEntityFrameworkCoreStores<ApplicationDbContext>()
                 // Enable the authorization, logout, token and userinfo endpoints.
                 .EnableAuthorizationEndpoint("/connect/authorize")
                 .EnableLogoutEndpoint("/connect/logout")
+                .EnableUserinfoEndpoint("/account/userinfo")
                 .EnableTokenEndpoint("/connect/token")
                 .EnableIntrospectionEndpoint("/connect/introspect")
-                .EnableUserinfoEndpoint("/account/userinfo")
+                .UseJsonWebTokens()
 
                 // Note: the Mvc.Client sample only uses the code flow and the password flow, but you
                 // can enable the other flows if you need to support implicit or client credentials.
                 .AllowAuthorizationCodeFlow()
+                .AllowImplicitFlow()
                 .AllowPasswordFlow()
                 .AllowRefreshTokenFlow()
-                .AllowImplicitFlow()
 
                 // Make the "client_id" parameter mandatory when sending a token request.
                 .RequireClientIdentification()
@@ -102,6 +112,19 @@ namespace GameShop.Authorization
 
             app.UseStaticFiles();
 
+            // CORS
+            app.UseCors(options =>
+            {
+                options.AllowAnyHeader();
+                options.AllowAnyMethod();
+                options.AllowAnyOrigin();
+                options.AllowCredentials();
+            });
+            
+            // Add a middleware used to validate access
+            // tokens and protect the API endpoints.
+            app.UseOAuthValidation();
+
             // Alternatively, you can also use the introspection middleware.
             // Using it is recommended if your resource server is in a
             // different application/separated from the authorization server.
@@ -115,49 +138,40 @@ namespace GameShop.Authorization
             //     options.ClientSecret = "api_secret";
             // });
 
-            app.UseCsp(options => options.DefaultSources(directive => directive.Self())
-                .ImageSources(directive => directive.Self()
-                    .CustomSources("*"))
-                .ScriptSources(directive => directive.Self()
-                    .UnsafeInline())
-                .StyleSources(directive => directive.Self()
-                    .UnsafeInline()));
+            // app.UseCsp(options => options.DefaultSources(directive => directive.Self())
+            //     .ImageSources(directive => directive.Self()
+            //         .CustomSources("*"))
+            //     .ScriptSources(directive => directive.Self()
+            //         .UnsafeInline())
+            //     .StyleSources(directive => directive.Self()
+            //         .UnsafeInline()));
 
-            app.UseXContentTypeOptions();
+            // app.UseXContentTypeOptions();
 
-            app.UseXfo(options => options.Deny());
+            // app.UseXfo(options => options.Deny());
 
-            app.UseXXssProtection(options => options.EnabledWithBlockMode());
+            // app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
-            app.UseIdentity(); 
-            
-            app.UseCors(options =>
-            {
-                options.AllowAnyHeader();
-                options.AllowAnyMethod();
-                options.AllowAnyOrigin();
-                options.AllowCredentials();
-            });
+            // app.UseGoogleAuthentication(new GoogleOptions {
+            //     ClientId = "560027070069-37ldt4kfuohhu3m495hk2j4pjp92d382.apps.googleusercontent.com",
+            //     ClientSecret = "n2Q-GEw9RQjzcRbU3qhfTj8f"
+            // });
 
-            app.UseGoogleAuthentication(new GoogleOptions {
-                ClientId = "560027070069-37ldt4kfuohhu3m495hk2j4pjp92d382.apps.googleusercontent.com",
-                ClientSecret = "n2Q-GEw9RQjzcRbU3qhfTj8f"
-            });
+            // app.UseTwitterAuthentication(new TwitterOptions {
+            //     ConsumerKey = "6XaCTaLbMqfj6ww3zvZ5g",
+            //     ConsumerSecret = "Il2eFzGIrYhz6BWjYhVXBPQSfZuS4xoHpSSyD9PI"
+            // });
 
-            app.UseTwitterAuthentication(new TwitterOptions {
-                ConsumerKey = "6XaCTaLbMqfj6ww3zvZ5g",
-                ConsumerSecret = "Il2eFzGIrYhz6BWjYhVXBPQSfZuS4xoHpSSyD9PI"
-            });
+            //app.UseStatusCodePagesWithReExecute("/error");
 
-            app.UseStatusCodePagesWithReExecute("/error");
+            //app.UseIdentity();
 
             app.UseOpenIddict();
 
-            // Add a middleware used to validate access
-            // tokens and protect the API endpoints.
-            app.UseOAuthValidation();
-
             app.UseMvcWithDefaultRoute();
+
+            // Seed
+            app.SeedOpenIddictApplications();
         }
     }
 }

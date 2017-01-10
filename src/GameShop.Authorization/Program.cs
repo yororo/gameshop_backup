@@ -10,7 +10,7 @@ namespace GameShop.Authorization
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseUrls("http://localhost:54540")
+                .UseUrls("http://localhost:5000")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

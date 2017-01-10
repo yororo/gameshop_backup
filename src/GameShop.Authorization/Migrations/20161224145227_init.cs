@@ -16,12 +16,10 @@ namespace GameShop.Authorization.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
@@ -103,34 +101,6 @@ namespace GameShop.Authorization.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpenIddictScopes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Profile",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Birthday = table.Column<DateTime>(nullable: false),
-                    CivilStatus = table.Column<short>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    Gender = table.Column<short>(nullable: false),
-                    LastName = table.Column<string>(nullable: true),
-                    MiddleName = table.Column<string>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    Salutation = table.Column<short>(nullable: false),
-                    Suffix = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profile", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Profile_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,58 +215,6 @@ namespace GameShop.Authorization.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProfileAddress",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Barangay = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    Municipality = table.Column<string>(nullable: true),
-                    ProfileId = table.Column<Guid>(nullable: false),
-                    Province = table.Column<string>(nullable: true),
-                    Region = table.Column<string>(nullable: true),
-                    Street1 = table.Column<string>(nullable: true),
-                    Street2 = table.Column<string>(nullable: true),
-                    Street3 = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProfileAddress", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProfileAddress_Profile_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProfileContactInformation",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    ProfileId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProfileContactInformation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProfileContactInformation_Profile_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
@@ -309,25 +227,10 @@ namespace GameShop.Authorization.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profile_UserId",
-                table: "Profile",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProfileAddress_ProfileId",
-                table: "ProfileAddress",
-                column: "ProfileId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProfileContactInformation_ProfileId",
-                table: "ProfileContactInformation",
-                column: "ProfileId");
-
-            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
-                column: "NormalizedName");
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -369,12 +272,6 @@ namespace GameShop.Authorization.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProfileAddress");
-
-            migrationBuilder.DropTable(
-                name: "ProfileContactInformation");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -396,19 +293,16 @@ namespace GameShop.Authorization.Migrations
                 name: "OpenIddictTokens");
 
             migrationBuilder.DropTable(
-                name: "Profile");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

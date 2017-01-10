@@ -7,7 +7,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
-using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -18,8 +17,13 @@ using GameShop.Authorization.Attributes;
 using GameShop.Authorization.Models;
 using GameShop.Authorization.ViewModels.Authorization;
 using GameShop.Authorization.ViewModels.Shared;
-using OpenIddict;
 using Microsoft.AspNetCore.Builder;
+using AspNet.Security.OpenIdConnect.Primitives;
+using OpenIddict.Core;
+using OpenIddict.Models;
+using System.Collections.Generic;
+using GameShop.Authorization.Options;
+using Microsoft.Extensions.Options;
 
 namespace GameShop.Authorization
  {
@@ -28,27 +32,30 @@ namespace GameShop.Authorization
         private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly GameShopOptions _options;
 
         public AuthorizationController(OpenIddictApplicationManager<OpenIddictApplication> applicationManager,
                                         SignInManager<ApplicationUser> signInManager,
-                                        UserManager<ApplicationUser> userManager) 
+                                        UserManager<ApplicationUser> userManager,
+                                        IOptions<GameShopOptions> options) 
         {
             _applicationManager = applicationManager;
             _signInManager = signInManager;
             _userManager = userManager;
+            _options = options.Value;
         }
 
         #region Authorization code, implicit and implicit flows
-        // Note: to support interactive flows like the code flow,
-        // you must provide your own authorization endpoint action:
+        //Note: to support interactive flows like the code flow,
+        //you must provide your own authorization endpoint action:
 
-        [Authorize, HttpGet("~/connect/authorize")]
+        [Authorize(ActiveAuthenticationSchemes = OpenIdConnectServerDefaults.AuthenticationScheme), HttpGet("~/connect/authorize")]
         public async Task<IActionResult> Authorize() 
         {
             OpenIdConnectRequest request = HttpContext.GetOpenIdConnectRequest();
 
             // Retrieve the application details from the database.
-            var application = await _applicationManager.FindByClientIdAsync(request.ClientId);
+            var application = await _applicationManager.FindByClientIdAsync(request.ClientId, HttpContext.RequestAborted);
             if (application == null) 
             {
                 return View("Error", new ErrorViewModel 
@@ -68,7 +75,7 @@ namespace GameShop.Authorization
             });
         }
 
-        [Authorize, FormValueRequired("submit.Accept")]
+        [Authorize(ActiveAuthenticationSchemes = OpenIdConnectServerDefaults.AuthenticationScheme), FormValueRequired("submit.Accept")]
         [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Accept() 
         {
@@ -92,7 +99,7 @@ namespace GameShop.Authorization
             return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
         }
 
-        [Authorize, FormValueRequired("submit.Deny")]
+        [Authorize(ActiveAuthenticationSchemes = OpenIdConnectServerDefaults.AuthenticationScheme), FormValueRequired("submit.Deny")]
         [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
         public IActionResult Deny() 
         {
@@ -137,9 +144,11 @@ namespace GameShop.Authorization
         [HttpPost("~/connect/token"), Produces("application/json")]
         public async Task<IActionResult> Exchange() 
         {
+            // Get open id connect request.
             OpenIdConnectRequest request = HttpContext.GetOpenIdConnectRequest();
 
-            if (request.IsPasswordGrantType()) {
+            if (request.IsPasswordGrantType()) 
+            {
                 var user = await _userManager.FindByNameAsync(request.Username);
                 if (user == null) 
                 {
@@ -205,7 +214,6 @@ namespace GameShop.Authorization
 
                 return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
             }
-
             else if (request.IsRefreshTokenGrantType()) 
             {
                 // Retrieve the claims principal stored in the refresh token.
@@ -288,6 +296,10 @@ namespace GameShop.Authorization
                     OpenIddictConstants.Scopes.Roles
                 }.Intersect(request.GetScopes()));
             }
+                
+            // IMPORTANT TO INCLUDE RESOURCE SERVER URLS IN HERE.
+            // Set valid resource servers for ticket.
+            ticket.SetResources(_options.Resources);
 
             return ticket;
         }
