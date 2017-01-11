@@ -34,13 +34,15 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     
-                    @if (Context.Request.Cookies["bearer"] == null)
+                    @if (User?.Identity?.IsAuthenticated ?? false)
                     {
-                        <li><a class="btn" onclick="auth0Lock.show();">Login</a></li>
+                        // User is authenticated.
+                        <li><a href="/signout">Sign out</a></li>
                     }
                     else
                     {
-                        <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a></li>
+                        // User is null or not authenticated.
+                        <li><a href="/signin">Sign in</a></li>
                     }
                 </ul>
             </div>
@@ -71,7 +73,6 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    @{ await Html.RenderPartialAsync("_Auth0Lock"); }
     @{ await RenderSectionAsync("scripts", required: false); }
 </body>
 </html>

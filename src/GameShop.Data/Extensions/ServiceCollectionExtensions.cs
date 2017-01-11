@@ -49,7 +49,7 @@ namespace Microsoft.AspNetCore.Builder
         public static IServiceCollection UseGameShopRepositories(this IServiceCollection services)
         {
             services.AddSingleton<IGameAdvertisementRepository, GameAdvertisementRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            //services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
 
             return services;

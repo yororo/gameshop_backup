@@ -1,154 +1,179 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GameShop.Contracts.Entities;
-using Microsoft.EntityFrameworkCore;
-using GameShop.Data.EF.Contexts;
-using GameShop.Data.EF.Translators;
-using GameShop.Data.Contracts;
-using EFEntities = GameShop.Data.EF.Entities;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using GameShop.Contracts.Entities;
+//using Microsoft.EntityFrameworkCore;
+//using GameShop.Data.EF.Contexts;
+//using GameShop.Data.EF.Translators;
+//using GameShop.Data.Contracts;
+//using EFEntities = GameShop.Data.EF.Entities;
 
-namespace GameShop.Data.EF.Repositories
-{
-    public class UserRepository : IUserRepository
-    {
-        private GameShopContext _context;
+//namespace GameShop.Data.EF.Repositories
+//{
+//    internal class UserRepository : IUserRepository
+//    {
+//        private GameShopContext _context;
 
-        public UserRepository(GameShopContext context)
-        {
-            _context = context;
-        }
+//        public UserRepository(GameShopContext context)
+//        {
+//            _context = context;
+//        }
 
-        public async Task<int> AddUserAsync(User user)
-        {
-            EFEntities.User model = user.ToUserEntity();
+//        public async Task<int> AddUserAsync(User user)
+//        {
+//            EFEntities.User model = user.ToUserEntity();
 
-            await _context.Users.AddAsync(model);
-            await _context.Accounts.AddAsync(model.Account);
-            await _context.Profiles.AddAsync(model.Profile);
-            await _context.ProfileAddresses.AddRangeAsync(model.Profile.Addresses);
-            await _context.ProfileContactInformation.AddRangeAsync(model.Profile.ContactInformation);
+//            await _context.Users.AddAsync(model);
+//            //await _context.Accounts.AddAsync(model.Account);
+//            await _context.Profiles.AddAsync(model.Profile);
+//            await _context.ProfileAddresses.AddRangeAsync(model.Profile.Addresses);
+//            await _context.ProfileContactInformation.AddRangeAsync(model.Profile.ContactInformation);
 
-            return await _context.SaveChangesAsync();
-        }
+//            return await _context.SaveChangesAsync();
+//        }
 
-        public async Task<User> FindUserByEmail(string email)
-        {
-            EFEntities.User model = await _context.Users.Include(u => u.Account)
-                                                        .Include(u => u.Profile)
-                                                        .Include(u => u.Profile.Addresses)
-                                                        .Include(u => u.Profile.ContactInformation)
-                                                        .SingleOrDefaultAsync<EFEntities.User>(u => u.Account.Email == email);
+//        public async Task<User> FindUserByEmailAsync(string email)
+//        {
+//            EFEntities.User model = await _context.Users.Include(u => u.Profile)
+//                                                        .Include(u => u.Profile.Addresses)
+//                                                        .Include(u => u.Profile.ContactInformation)
+//                                                        .SingleOrDefaultAsync<EFEntities.User>(u => u.Email == email);
 
-            if(model == null)
-            {
-                return null;
-            }
+//            if(model == null)
+//            {
+//                return null;
+//            }
 
-            return model.ToUserContract();
-        }
+//            return model.ToUserContract();
+//        }
 
-        public async Task<User> FindUserById(Guid userId)
-        {
-            EFEntities.User model = await _context.Users.Include(u => u.Account)
-                                                        .Include(u => u.Profile)
-                                                        .Include(u => u.Profile.Addresses)
-                                                        .Include(u => u.Profile.ContactInformation)
-                                                        .SingleOrDefaultAsync<EFEntities.User>(u => u.UserId == userId);
+//        public async Task<User> FindUserByIdAsync(Guid userId)
+//        {
+//            EFEntities.User model = await _context.Users.Include(u => u.Profile)
+//                                                        .Include(u => u.Profile.Addresses)
+//                                                        .Include(u => u.Profile.ContactInformation)
+//                                                        .SingleOrDefaultAsync<EFEntities.User>(user => user.Id == userId);
             
-            return model.ToUserContract();
-        }
+//            return model.ToUserContract();
+//        }
 
-        public async Task<User> FindUserByUsername(string username)
-        {
-            EFEntities.User model = await _context.Users.Include(u => u.Account)
-                                                        .Include(u => u.Profile)
-                                                        .Include(u => u.Profile.Addresses)
-                                                        .Include(u => u.Profile.ContactInformation)
-                                                        .SingleOrDefaultAsync<EFEntities.User>(u => u.Account.Username == username);
+//        public async Task<User> FindUserByUsernameAsync(string username)
+//        {
+//            EFEntities.User model = await _context.Users.Include(u => u.Profile)
+//                                                        .Include(u => u.Profile.Addresses)
+//                                                        .Include(u => u.Profile.ContactInformation)
+//                                                        .SingleOrDefaultAsync<EFEntities.User>(u => u.UserName == username);
 
-            return model.ToUserContract();
-        }
+//            return model.ToUserContract();
+//        }
 
-        public async Task<Account> FindAccountByUserIdAsync(Guid userId)
-        {
-            EFEntities.Account model = await _context.Accounts.SingleOrDefaultAsync<EFEntities.Account>(a => a.UserId == userId);
+//        public async Task<Account> FindAccountByUserIdAsync(Guid userId)
+//        {
+//            EFEntities.User model = await _context.Users.SingleOrDefaultAsync<EFEntities.User>(user => user.Id == userId);
 
-            return model.ToAccountContract();
-        }
+//            Account account = new Account();
+//            // Populate.
 
-        public async Task<Profile> FindProfileByUserIdAsync(Guid userId)
-        {
-            EFEntities.Profile model = await _context.Profiles.Include(p => p.Addresses)
-                                                                .Include(p => p.ContactInformation)
-                                                                .Include(p => p.User)
-                                                                .SingleOrDefaultAsync(p => p.UserId == userId);
+//            return account;
+//        }
 
-            return model.ToProfileContract();
-        }
+//        public async Task<Profile> FindProfileByUserIdAsync(Guid userId)
+//        {
+//            EFEntities.Profile model = await _context.Profiles.Include(p => p.Addresses)
+//                                                                .Include(p => p.ContactInformation)
+//                                                                .Include(p => p.User)
+//                                                                .SingleOrDefaultAsync(p => p.UserId == userId);
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            IEnumerable<EFEntities.User> userModels = await _context.Users.Include(u => u.Account)
-                                                                            .Include(u => u.Profile)
-                                                                            .Include(u => u.Profile.Addresses)
-                                                                            .Include(u => u.Profile.ContactInformation)
-                                                                            .ToListAsync();
+//            return model.ToProfileContract();
+//        }
 
-            List<User> users = new List<User>();
+//        public async Task<IEnumerable<User>> GetAllUsersAsync()
+//        {
+//            IEnumerable<EFEntities.User> userModels = await _context.Users.Include(u => u.Profile)
+//                                                                            .Include(u => u.Profile.Addresses)
+//                                                                            .Include(u => u.Profile.ContactInformation)
+//                                                                            .ToListAsync();
 
-            foreach (EFEntities.User model in userModels)
-            {
-                users.Add(model.ToUserContract());
-            }
+//            List<User> users = new List<User>();
 
-            return users;
-        }
+//            foreach (EFEntities.User model in userModels)
+//            {
+//                users.Add(model.ToUserContract());
+//            }
 
-        public async Task<Account> GetUserAccountAsync(User user)
-        {
-            EFEntities.Account model = await _context.Accounts.SingleOrDefaultAsync(p => p.UserId == user.UserId);
+//            return users;
+//        }
 
-            return model.ToAccountContract();
-        }
+//        public async Task<Account> GetUserAccountAsync(User user)
+//        {
+//            EFEntities.User model = await _context.Users.SingleOrDefaultAsync(u => u.Id == user.UserId);
 
-        public async Task<Profile> GetUserProfileAsync(User user)
-        {
-            EFEntities.Profile model = await _context.Profiles.Include(p => p.Addresses)
-                                                                .Include(p => p.ContactInformation)
-                                                                .Include(p => p.User)
-                                                                .SingleOrDefaultAsync(p => p.UserId == user.UserId);
+//            Account account = new Account();
 
-            return model.ToProfileContract();
-        }
+//            return account;
+//        }
 
-        public async Task<int> UpdateUserAsync(Guid userId, User updatedUser)
-        {
-            EFEntities.User userModelToUpdate = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
-            EFEntities.User updatedUserModel = updatedUser.ToUserEntity();
+//        public async Task<Profile> GetUserProfileAsync(User user)
+//        {
+//            EFEntities.Profile model = await _context.Profiles.Include(p => p.Addresses)
+//                                                                .Include(p => p.ContactInformation)
+//                                                                .Include(p => p.User)
+//                                                                .SingleOrDefaultAsync(p => p.UserId == user.UserId);
 
-            userModelToUpdate.Account = updatedUserModel.Account;
-            userModelToUpdate.Profile = updatedUserModel.Profile;
-            userModelToUpdate.ModifiedDate = updatedUserModel.ModifiedDate;
+//            return model.ToProfileContract();
+//        }
 
-            return await _context.SaveChangesAsync();
-        }
+//        public async Task<int> UpdateUserAsync(Guid userId, User updatedUser)
+//        {
+//            EFEntities.User userModelToUpdate = await _context.Users.SingleOrDefaultAsync(user => user.Id == userId);
+//            EFEntities.User updatedUserModel = updatedUser.ToUserEntity();
 
-        public async Task<int> DeleteUserAsync(User user)
-        {
-            _context.Users.Remove(user.ToUserEntity());
+//            //userModelToUpdate.Account = updatedUserModel.Account;
+//            userModelToUpdate.Profile = updatedUserModel.Profile;
 
-            return await _context.SaveChangesAsync();
-        }
+//            return await _context.SaveChangesAsync();
+//        }
 
-        public async Task<int> DeleteUserByIdAsync(Guid userId)
-        {
-            EFEntities.User user = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
+//        public async Task<int> DeleteUserAsync(User user)
+//        {
+//            _context.Users.Remove(user.ToUserEntity());
 
-            _context.Users.Remove(user);
+//            return await _context.SaveChangesAsync();
+//        }
 
-            return await _context.SaveChangesAsync();
-        }
-    }
-}
+//        public async Task<int> DeleteUserByIdAsync(Guid userId)
+//        {
+//            EFEntities.User user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
+
+//            _context.Users.Remove(user);
+
+//            return await _context.SaveChangesAsync();
+//        }
+
+//        public Task<int> AddUserAsync(User user, string password)
+//        {
+//            throw new NotImplementedException();
+//        }
+
+//        public Task<int> UpdateUserAsync(User updatedUser)
+//        {
+//            throw new NotImplementedException();
+//        }
+
+//        public Task<int> UpdateUserAccountAsync(Guid userId, Account account)
+//        {
+//            throw new NotImplementedException();
+//        }
+
+//        public Task<int> UpdateUserProfileAsync(Guid userId, Profile profile)
+//        {
+//            throw new NotImplementedException();
+//        }
+
+//        public Task<int> ChangeUserPassword(User user, string oldPassword, string newPassword)
+//        {
+//            throw new NotImplementedException();
+//        }
+//    }
+//}

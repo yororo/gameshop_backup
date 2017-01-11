@@ -9,65 +9,152 @@ namespace GameShop.Contracts.Entities
     {
         #region Declarations
 
-        private Guid _accountId;
         private string _username;
+        private string _normalizedUsername;
         private string _email;
+        private string _normalizedEmail;
         private bool _emailVerified;
+        private string _phoneNumber;
+        private bool _phoneNumberVerified;
         private string _passwordHash;
-        private bool _isActive;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
+        private bool _twoFactorEnabled;
+        private bool _lockoutEnabled;
+        private DateTimeOffset? _lockoutEnd;
+        private int _accessFailedCount;
+        private string _securityStamp;
+        private string _concurrencyStamp;
 
         #endregion Declarations
 
         #region Properties
 
-        public Guid AccountId
-        {
-            get { return _accountId; }
-            set { _accountId = value; }
-        }
-
+        /// <summary>
+        /// Gets or sets the user name for this user.
+        /// </summary>
         public string Username
         {
             get { return _username; }
             set { _username = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the normalized user name for this user.
+        /// </summary>
+        public string NormalizedUsername
+        {
+            get { return _normalizedUsername; }
+            set { _normalizedUsername = value; }
+        }
+        
+        /// <summary>
+        /// Gets or sets the email address for this user.
+        /// </summary>
         public string Email
         {
             get { return _email; }
             set { _email = value; }
         }
 
-        public bool EmailVerified
+        /// <summary>
+        /// Gets or sets the email address for this user.
+        /// </summary>
+        public string NormalizedEmail
+        {
+            get { return _normalizedEmail; }
+            set { _normalizedEmail = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a flag indicating if a user has confirmed their email address.
+        /// </summary>
+        public bool EmailConfirmed
         {
             get { return _emailVerified; }
             set { _emailVerified = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a telephone number for the user.
+        /// </summary>
+        public string PhoneNumber
+        {
+            get { return _phoneNumber; }
+            set { _phoneNumber = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a flag indicating if a user has confirmed their telephone address.
+        /// </summary>
+        public bool PhoneNumberConfirmed
+        {
+            get { return _phoneNumberVerified; }
+            set { _phoneNumberVerified = value; }
+        }
+        
+        /// <summary>
+         /// Gets or sets a salted and hashed representation of the password for this user.
+         /// </summary>
         public string PasswordHash
         {
             get { return _passwordHash; }
             set { _passwordHash = value; }
         }
 
-        public bool IsActive
+        /// <summary>
+        ///  Gets or sets a flag indicating if two factor authentication is enabled for this user.
+        /// </summary>
+        public bool TwoFactorEnabled
         {
-            get { return _isActive; }
-            set { _isActive = value; }
+            get { return _twoFactorEnabled; }
+            set { _twoFactorEnabled = value; }
         }
 
-        public DateTime CreatedDate
+        /// <summary>
+        /// Gets or sets a flag indicating if the user could be locked out.
+        /// </summary>
+        public bool LockoutEnabled
         {
-            get { return _createdDate; }
-            set { _createdDate = value; }
+            get { return _lockoutEnabled; }
+            set { _lockoutEnabled = value; }
         }
 
-        public DateTime ModifiedDate
+        /// <summary>
+        /// Gets or sets the date and time, in UTC, when any user lockout ends.
+        /// </summary>
+        /// <remarks>
+        /// A value in the past means the user is not locked out.
+        /// </remarks>
+        public DateTimeOffset? LockoutEnd
         {
-            get { return _modifiedDate; }
-            set { _modifiedDate = value; }
+            get { return _lockoutEnd; }
+            set { _lockoutEnd = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of failed login attempts for the current user.
+        /// </summary>
+        public int AccessFailedCount
+        {
+            get { return _accessFailedCount; }
+            set { _accessFailedCount = value; }
+        }
+
+        /// <summary>
+        /// A random value that must change whenever a users credentials change (password changed, login removed)
+        /// </summary>
+        public string SecurityStamp
+        {
+            get { return _securityStamp; }
+            set { _securityStamp = value; }
+        }
+
+        /// <summary>
+        /// A random value that must change whenever a user is persisted to the store.
+        /// </summary>
+        public string ConcurrencyStamp
+        {
+            get { return _concurrencyStamp; }
+            set { _concurrencyStamp = value; }
         }
 
         #endregion Properties
@@ -76,14 +163,14 @@ namespace GameShop.Contracts.Entities
 
         public Account()
         {
-            _accountId = Guid.Empty;
             _username = string.Empty;
             _email = string.Empty;
             _emailVerified = false;
             _passwordHash = string.Empty;
-            _isActive = false;
-            _createdDate = DateTime.MaxValue;
-            _modifiedDate = DateTime.MaxValue;
+            _phoneNumber = string.Empty;
+            _phoneNumberVerified = false;
+            _lockoutEnabled = true;
+            _accessFailedCount = 0;
         }
 
         #endregion Constructors

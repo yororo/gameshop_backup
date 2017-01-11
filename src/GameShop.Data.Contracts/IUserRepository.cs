@@ -8,9 +8,9 @@ namespace GameShop.Data.Contracts
 {
     public interface IUserRepository
     {
-        Task<User> FindUserById(Guid userId);
-        Task<User> FindUserByUsername(string username);
-        Task<User> FindUserByEmail(string email);
+        Task<User> FindUserByIdAsync(Guid userId);
+        Task<User> FindUserByUsernameAsync(string username);
+        Task<User> FindUserByEmailAsync(string email);
         Task<Account> FindAccountByUserIdAsync(Guid userId);
         Task<Profile> FindProfileByUserIdAsync(Guid userId);
         Task<IEnumerable<User>> GetAllUsersAsync();
@@ -18,8 +18,13 @@ namespace GameShop.Data.Contracts
         Task<Profile> GetUserProfileAsync(User user);
 
         Task<int> AddUserAsync(User user);
-        Task<int> UpdateUserAsync(Guid userId, User updatedUser);
+        Task<int> AddUserAsync(User user, string password);
+        Task<int> UpdateUserAsync(User updatedUser);
+        Task<int> UpdateUserAccountAsync(Guid userId, Account account);
+        Task<int> UpdateUserProfileAsync(Guid userId, Profile profile);
         Task<int> DeleteUserByIdAsync(Guid userId);
         Task<int> DeleteUserAsync(User user);
+
+        Task<int> ChangeUserPassword(User user, string oldPassword, string newPassword);
     }
 }
