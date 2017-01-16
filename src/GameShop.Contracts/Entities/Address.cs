@@ -10,157 +10,40 @@ namespace GameShop.Contracts.Entities
     /// </summary>
     public class Address
     {
-        #region Fields
-        
-        private string _street1;
-        private string _street2;
-        private string _street3;
-        private string _barangay;
-        private string _municipality;
-        private string _city;
-        private string _zipCode;
-        private string _province;
-        private string _region;
-        private string _country;
-
-        #endregion
-
         #region Properties
 
-        public string Street1
-        {
-            get
-            {
-                return _street1;
-            }
+        public string Street1 { get; set; }
 
-            set
-            {
-                _street1 = value;
-            }
-        }
-        public string Street2
-        {
-            get
-            {
-                return _street2;
-            }
+        public string Street2 { get; set; }
+        
+        public string Street3 { get; set; }
 
-            set
-            {
-                _street2 = value;
-            }
-        }
-        public string Street3
-        {
-            get
-            {
-                return _street3;
-            }
+        public string Barangay { get; set; }
 
-            set
-            {
-                _street3 = value;
-            }
-        }
+        public string Municipality { get; set; }
 
-        public string Barangay
-        {
-            get
-            {
-                return _barangay;
-            }
+        public string City { get; set; }
 
-            set
-            {
-                _barangay = value;
-            }
-        }
+        public string ZipCode { get; set; }
 
-        public string Municipality
-        {
-            get
-            {
-                return _municipality;
-            }
+        public string Province { get; set; }
 
-            set
-            {
-                _municipality = value;
-            }
-        }
+        public string Region { get; set; }
 
-        public string City
-        {
-            get
-            {
-                return _city;
-            }
+        public string Country { get; set; }
 
-            set
-            {
-                _city = value;
-            }
-        }
-
-        public string ZipCode
-        {
-            get
-            {
-                return _zipCode;
-            }
-
-            set
-            {
-                _zipCode = value;
-            }
-        }
-
-        public string Province
-        {
-            get
-            {
-                return _province;
-            }
-
-            set
-            {
-                _province = value;
-            }
-        }
-
-        public string Region
-        {
-            get
-            {
-                return _region;
-            }
-
-            set
-            {
-                _region = value;
-            }
-        }
-
-        public string Country
-        {
-            get
-            {
-                return _country;
-            }
-
-            set
-            {
-                _country = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Address()
         {
+            Street1 = string.Empty;
+            Street2 = string.Empty;
+            Street3 = string.Empty;
             Barangay = string.Empty;
             Municipality = string.Empty;
             City = string.Empty;
@@ -170,6 +53,6 @@ namespace GameShop.Contracts.Entities
             Country = string.Empty;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

@@ -8,74 +8,38 @@ namespace GameShop.Contracts.Entities
 {
     public class Feedback
     {
-        #region Declarations
-
-        private Guid _feedbackId;
-        private User _reviewer;
-        private User _reviewee;
-        private string _review;
-        private Rating _rating;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
-
-        #endregion Declarations
-
         #region Properties
-        public Guid FeedbackId
-        {
-            get { return _feedbackId; }
-            set { _feedbackId = value; }
-        }
 
-        public User Reviewee
-        {
-            get { return _reviewee; }
-            set { _reviewee = value; }
-        }
+        public Guid Id { get; set; }
 
-        public User Reviewer
-        {
-            get { return _reviewer; }
-            set { _reviewer = value; }
-        }
+        public User Reviewee { get; set; }
 
-        public string Review
-        {
-            get { return _review; }
-            set { _review = value; }
-        }
+        public User Reviewer { get; set; }
 
-        public Rating Rating
-        {
-            get { return _rating; }
-            set { _rating = value; }
-        }
+        public string Review { get; set; }
 
-        public DateTime CreatedDate
-        {
-            get { return _createdDate; }
-            set { _createdDate = value; }
-        }
+        public Rating Rating { get; set; }
 
-        public DateTime ModifiedDate
-        {
-            get { return _modifiedDate; }
-            set{ _modifiedDate = value; }
-        }
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Feedback()
         {
-            _feedbackId = Guid.Empty;
-            _reviewee = new User();
-            _reviewer = new User();
-            _review = string.Empty;
-            _rating = Rating.Worst;
-            _createdDate = DateTime.MaxValue;
-            _modifiedDate = DateTime.MaxValue;
+            Id = Guid.Empty;
+            Reviewee = new User();
+            Reviewer = new User();
+            Review = string.Empty;
+            Rating = Rating.Worst;
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion Constructors

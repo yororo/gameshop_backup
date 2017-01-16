@@ -8,55 +8,37 @@ namespace GameShop.Contracts.Entities
 {
     public class SellingInformation
     {
-        #region Declarations
-
-        private Guid _sellingInformationId;
-        private Currency _currency;
-        private decimal _sellingPrice;
-        private string _reasonForSelling;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
-
-        #endregion Declarations
-
         #region Properties
 
-        public Guid SellingInformationId
-        {
-            get { return _sellingInformationId; }
-            set { _sellingInformationId = value; }
-        }
+        public Guid Id { get; set; }
 
-        public Currency Currency
-        {
-            get { return _currency; }
-            set { _currency = value; }
-        }
+        public Currency Currency { get; set; }
 
-        public decimal SellingPrice
-        {
-            get { return _sellingPrice; }
-            set { _sellingPrice = value; }
-        }
+        public decimal SellingPrice { get; set; }
 
-        public string ReasonForSelling
-        {
-            get { return _reasonForSelling;}
-            set { _reasonForSelling = value; }
-        }
+        public string ReasonForSelling { get; set; }
 
-        public DateTime CreatedDate
-        {
-            get { return _createdDate; }
-            set { _createdDate = value; }
-        }
+        public DateTime CreatedDate { get; set; }
 
-        public DateTime ModifiedDate
-        {
-            get { return _modifiedDate; }
-            set { _modifiedDate = value; }
-        }
+        public DateTime ModifiedDate { get; set; }
 
         #endregion Properties
+
+        #region Constructors
+            
+        /// <summary>
+        /// Dafault constructor.
+        /// </summary>
+        public SellingInformation()
+        {
+            Id = Guid.Empty;
+            Currency = Currency.PHP;
+            SellingPrice = decimal.Zero;
+            ReasonForSelling = string.Empty;
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
+        }
+
+        #endregion Constructors
     }
 }

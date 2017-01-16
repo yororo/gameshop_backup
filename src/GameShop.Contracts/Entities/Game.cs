@@ -8,49 +8,23 @@ namespace GameShop.Contracts.Entities
 {
     public class Game : Product
     {
-        #region Declarations
-        
-        private GamingPlatform _gamingPlatform;
-        private GameGenre _gameGenre;
-
-        #endregion Declarations
-
         #region Properties
 
-        public GamingPlatform GamingPlatform
-        {
-            get
-            {
-                return _gamingPlatform;
-            }
+        public GamingPlatform GamingPlatform { get; set; }
 
-            set
-            {
-                _gamingPlatform = value;
-            }
-        }
-
-        public GameGenre GameGenre
-        {
-            get
-            {
-                return _gameGenre;
-            }
-
-            set
-            {
-                _gameGenre = value;
-            }
-        }
+        public GameGenre Genre { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Game()
         {
             GamingPlatform = GamingPlatform.Unspecified;
-            GameGenre = GameGenre.Unspecified;
+            Genre = GameGenre.Unspecified;
         }
 
         #endregion Constructors

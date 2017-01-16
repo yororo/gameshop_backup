@@ -8,42 +8,17 @@ namespace GameShop.Contracts.Entities
 {
     public class User : Person
     {
-        #region Fields
-
-        private Guid _userId;
-        private Account _account;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
-
-        #endregion
-
         #region Properties
 
-        public Guid UserId
-        {
-            get { return _userId; }
-            set { _userId = value; }
-        }
+        public Guid Id { get; set; }
 
-        public Account Account
-        {
-            get { return _account; }
-            set { _account = value; }
-        }
+        public Account Account { get; set; }
 
-        public DateTime CreatedDate
-        {
-            get{ return _createdDate; }
-            set {  _createdDate = value; }
-        }
+        public DateTime CreatedDate { get; set; }
 
-        public DateTime ModifiedDate
-        {
-            get { return _modifiedDate; }
-            set { _modifiedDate = value; }
-        }
+        public DateTime ModifiedDate { get; set; }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -52,12 +27,12 @@ namespace GameShop.Contracts.Entities
         /// </summary>
         public User()
         {
-            _userId = Guid.Empty;
-            _account = new Account();
-            _createdDate = DateTime.MaxValue;
-            _modifiedDate = DateTime.MaxValue;
+            Id = Guid.Empty;
+            Account = new Account();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

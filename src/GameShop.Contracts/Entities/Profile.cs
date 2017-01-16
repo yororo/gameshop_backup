@@ -8,155 +8,44 @@ namespace GameShop.Contracts.Entities
 {
     public class Profile
     {
-        #region Declarations
-
-        private Guid _profileId;
-        private Name _name;
-        private Gender _gender;
-        private CivilStatus _civilStatus;
-        private DateTime _birthday;
-        private List<Address> _addresses;
-        private List<ContactInformation> _contactInformation;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
-
-        #endregion Declarations
-
         #region Properties
 
-        public Guid ProfileId
-        {
-            get
-            {
-                return _profileId;
-            }
+        public Guid Id { get; set; }
 
-            set
-            {
-                _profileId = value;
-            }
-        }
+        public Name Name { get; set; }
 
-        public Name Name
-        {
-            get
-            {
-                return _name;
-            }
+        public Gender Gender { get; set; }
 
-            set
-            {
-                _name = value;
-            }
-        }
+        public CivilStatus CivilStatus { get; set; }
 
-        public Gender Gender
-        {
-            get
-            {
-                return _gender;
-            }
+        public DateTime Birthday { get; set; }
 
-            set
-            {
-                _gender = value;
-            }
-        }
+        public List<Address> Addresses { get; set; }
 
-        public CivilStatus CivilStatus
-        {
-            get
-            {
-                return _civilStatus;
-            }
+        public List<ContactInformation> ContactInformation { get; set; }
 
-            set
-            {
-                _civilStatus = value;
-            }
-        }
+        public DateTime CreatedDate { get; set; }
 
-        public DateTime Birthday
-        {
-            get
-            {
-                return _birthday;
-            }
-
-            set
-            {
-                _birthday = value;
-            }
-        }
-
-        public List<Address> Addresses
-        {
-            get
-            {
-                return _addresses;
-            }
-
-            set
-            {
-                _addresses = value;
-            }
-        }
-
-        public List<ContactInformation> ContactInformation
-        {
-            get
-            {
-                return _contactInformation;
-            }
-
-            set
-            {
-                _contactInformation = value;
-            }
-        }
-
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
-        }
-
-        public DateTime ModifiedDate
-        {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
-        }
+        public DateTime ModifiedDate { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
         /// <summary>
-        /// Default constructor initialization.
+        /// Default constructor.
         /// </summary>
         public Profile()
         {
-            _profileId = Guid.Empty;
-            _name = new Name();
-            _gender = Gender.Unspecified;
-            _civilStatus = CivilStatus.Unspecified;
-            _birthday = DateTime.MaxValue;
-            _addresses = new List<Address>();
-            _contactInformation = new List<ContactInformation>();
-            _createdDate = DateTime.MaxValue;
-            _modifiedDate = DateTime.MaxValue;
+            Id = Guid.Empty;
+            Name = new Name();
+            Gender = Gender.Unspecified;
+            CivilStatus = CivilStatus.Unspecified;
+            Birthday = DateTime.MaxValue;
+            Addresses = new List<Address>();
+            ContactInformation = new List<ContactInformation>();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
         #endregion Constructors

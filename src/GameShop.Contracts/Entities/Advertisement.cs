@@ -8,167 +8,53 @@ namespace GameShop.Contracts.Entities
 {
     public abstract class Advertisement<TProduct> where TProduct : Product
     {
-        #region Declarations
-
-        private Guid _id;
-        private string _friendlyId;
-        private string _title;
-        private string _description;
-        private List<TProduct> _products;
-        private MeetupInformation _meetupInformation;
-        private AdvertisementState _state;
-        private User _owner;
-        private DateTime _createdDate;
-        private DateTime _modifiedDate;
-
-        #endregion Declarations
-
         #region Properties
 
-        public Guid Id
-        {
-            get
-            {
-                return _id;
-            }
+        public Guid Id { get; set; }
 
-            set
-            {
-                _id = value;
-            }
-        }
+        public string FriendlyId { get; set; }
 
-        public string FriendlyId
-        {
-            get
-            {
-                return _friendlyId;
-            }
+        public string Title { get; set; }
 
-            set
-            {
-                _friendlyId = value;
-            }
-        }
+        public string Description { get; set; }
 
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
+        public AdvertisementState State { get; set; }
 
-            set
-            {
-                _title = value;
-            }
-        }
+        public List<TProduct> Products { get; set; }
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-
-            set
-            {
-                _description = value;
-            }
-        }
-
-        public AdvertisementState State
-        {
-            get
-            {
-                return _state;
-            }
-
-            set
-            {
-                _state = value;
-            }
-        }
-
-        public List<TProduct> Products
-        {
-            get
-            {
-                return _products;
-            }
-
-            set
-            {
-                _products = value;
-            }
-        }
-
-        public MeetupInformation MeetupInformation
-        {
-            get
-            {
-                return _meetupInformation;
-            }
-
-            set
-            {
-                _meetupInformation = value;
-            }
-        }
+        public MeetupInformation MeetupInformation { get; set; }
         
-        public User Owner
-        {
-            get
-            {
-                return _owner;
-            }
-            set
-            {
-                _owner = value;
-            }
-        }
+        public User Owner { get; set; }
 
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return _createdDate;
-            }
-            set
-            {
-                _createdDate = value;
-            }
-        }
+        public DateTime CreatedDate { get; set; }
 
-        public DateTime ModifiedDate
-        {
-            get
-            {
-                return _modifiedDate;
-            }
-            set
-            {
-                _modifiedDate = value;
-            }
-        }
+        public DateTime ModifiedDate { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Advertisement()
         {
-            _id = Guid.Empty;
-            _friendlyId = string.Empty;
-            _title = string.Empty;
-            _description = string.Empty;
-            _products = new List<TProduct>();
-            _meetupInformation = new MeetupInformation();
-            _state = AdvertisementState.Inactive;
-            _createdDate = DateTime.MaxValue;
-            _modifiedDate = DateTime.MaxValue;
+            Id = Guid.Empty;
+            FriendlyId = string.Empty;
+            Title = string.Empty;
+            Description = string.Empty;
+            Products = new List<TProduct>();
+            State = AdvertisementState.Inactive;
+            MeetupInformation = new MeetupInformation();
+            Owner = new User();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="products">Advertisement products.</param>
         public Advertisement(IEnumerable<TProduct> products)
             : this()
         {
@@ -182,16 +68,21 @@ namespace GameShop.Contracts.Entities
     {
         #region Constructors
 
+        /// <summary>
+        /// Default contructor.
+        /// </summary>
         public Advertisement()
             : base()
         {
-
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="products">Advertisement products.</param>
         public Advertisement(IEnumerable<Product> products)
             : base(products)
         {
-
         }
 
         #endregion Constructors

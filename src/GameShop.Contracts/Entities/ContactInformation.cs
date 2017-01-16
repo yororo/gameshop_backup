@@ -7,49 +7,23 @@ namespace GameShop.Contracts.Entities
 {
     public class ContactInformation
     {
-        #region Declarations
-        
-        private string _email;
-        private string _phoneNumber;
-
-        #endregion Declarations
-
         #region Properties
 
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
+        public string Email { get; set; }
 
-            set
-            {
-                _email = value;
-            }
-        }
-
-        public string PhoneNumber
-        {
-            get
-            {
-                return _phoneNumber;
-            }
-
-            set
-            {
-                _phoneNumber = value;
-            }
-        }
+        public string PhoneNumber { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public ContactInformation()
         {
-            _email = string.Empty;
-            _phoneNumber = string.Empty;
+            Email = string.Empty;
+            PhoneNumber = string.Empty;
         }
 
         #endregion Constructors
