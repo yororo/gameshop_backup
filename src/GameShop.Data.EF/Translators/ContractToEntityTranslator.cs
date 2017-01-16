@@ -219,7 +219,7 @@ namespace GameShop.Data.EF.Translators
 
             var model = new EFEntities.Games.GameTradingInformation();
 
-            model.CashAmountToAdd = tradingInformation.CashAmountToAdd;
+            model.CashAmountToAdd = tradingInformation.CashAmountWillingToAdd;
             model.Currency = tradingInformation.Currency;
             model.IsOwnerWillingToAddCash = tradingInformation.IsOwnerWillingToAddCash;
             model.IsOwnerWillingToReceiveCash = tradingInformation.IsOwnerWillingToReceiveCash;
