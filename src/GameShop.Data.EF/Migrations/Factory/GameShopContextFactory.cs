@@ -18,7 +18,9 @@ namespace GameShop.Data.EF.Migrations
             {
                 try
                 {
-                    return File.ReadAllText("ConnectionString.txt");
+                    //return File.ReadAllText("ConnectionString.txt");
+                    Console.WriteLine("Please enter connection string:");
+                    return Console.ReadLine();
                 }
                 catch(Exception ex)
                 {     
@@ -33,7 +35,7 @@ namespace GameShop.Data.EF.Migrations
         {
             var builder = new DbContextOptionsBuilder<GameShopContext>();
 
-            builder.UseSqlServer(ConnectionString);
+            builder.UseMySql(ConnectionString);
 
             return new GameShopContext(builder.Options);
         }
