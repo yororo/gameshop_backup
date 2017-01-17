@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Api.Controllers
+namespace GameShop.Api.Controllers.Products
 {
     [Route("products/games)")]
     public class GameController : Controller
