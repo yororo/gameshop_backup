@@ -11,17 +11,10 @@ namespace GameShop.Api.Contracts.Responses
         
         public Result Result { get; set; }
         public string Description { get; set; }
-        public IEnumerable<string> ErrorDescriptions { get; set; } = Enumerable.Empty<string>();
 
         #endregion Properties
 
         #region Constructors
-
-        public ApiResponse(Result result, string message, IEnumerable<string> errorDescriptions)
-            : this(result, message)
-        {
-            ErrorDescriptions = errorDescriptions;
-        }
 
         public ApiResponse(Result result, string message)
         {

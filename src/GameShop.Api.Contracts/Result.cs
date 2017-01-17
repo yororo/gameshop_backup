@@ -9,7 +9,6 @@ namespace GameShop.Api.Contracts
     {
         Unknown = 0,
         Success,
-        Failure,
         Error
     }
 }
