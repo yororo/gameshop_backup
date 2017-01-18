@@ -148,5 +148,17 @@ namespace GameShop.Data.EF.Translators
 
             return gameContract;
         }
+        
+        public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> games)
+        {
+            var gameContracts = new List<Game>();
+
+            foreach (EFEntities.Games.Game game in games)
+            {
+                gameContracts.Add(game.ToGameContract());
+            }
+
+            return gameContracts;
+        }
     }
 }

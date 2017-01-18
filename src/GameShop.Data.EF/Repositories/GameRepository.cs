@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.EF.Contexts;
-using EFEntities = GameShop.Data.EF.Entities;
 using GameShop.Data.EF.Translators;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameShop.Data.EF.Repositories
 {
@@ -23,35 +23,41 @@ namespace GameShop.Data.EF.Repositories
         public async Task<int> AddAsync(Game game)
         {
             await _context.Games.AddAsync(game.ToGameEntity());
-            
-            return 1;
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
-            var games = new List<Game>();
+            var gameEntities = await _context.Games.ToListAsync();
 
-            foreach(EFEntities.Games.Game game in _context.Games.ToList())
-            {
-                games.Add(game.ToGameContract());
-            }
-
-            return games;
+            return gameEntities.ToGameContracts();
         }
 
-        public Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
+        public async Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
         {
-            throw new NotImplementedException();
+            var gameEntities = await _context.Games.Where(
+                game => game.GameGenre == genre).ToListAsync();
+
+            return gameEntities.ToGameContracts();
         }
 
-        public Task<Game> GetByIdAsync(Guid id)
+        public async Task<Game> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var gameEntity = await _context.Games.SingleOrDefaultAsync(
+                game => game.Id == id);
+
+            return gameEntity.ToGameContract();
         }
 
-        public Task<IEnumerable<Game>> GetByNameAsync(string name)
+        public async Task<IEnumerable<Game>> GetByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            // we compare lower case strings to avoid mismatch due to casing
+            name = name.Trim().ToLower();
+            
+            var gameEntities = await _context.Games.Where(
+                game => game.Name.Trim().ToLower() == name).ToListAsync();
+
+            return gameEntities.ToGameContracts();
         }
     }
 }
