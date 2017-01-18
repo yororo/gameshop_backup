@@ -34,7 +34,9 @@ namespace GameShop.Data.Contracts
     {
         Task<int> AddAsync(TProduct product);
         Task<IEnumerable<TProduct>> GetAllAsync();
-        Task<IEnumerable<TProduct>> GetByNameAsync(string name);
-        Task<TProduct> GetByIdAsync(TId id);
+        Task<IEnumerable<TProduct>> GetByNameAsync(string productName);
+        Task<TProduct> GetByIdAsync(TId productId);
+        Task<int> UpdateAsync(TId productId, TProduct product);
+        Task<int> DeleteByIdAsync(TId productId);
     }
 }
