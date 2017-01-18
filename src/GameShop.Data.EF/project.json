@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "GameShop.Contracts": "1.0.0-*",
+    "GameShop.Data.Contracts": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore.Design": "1.1.0",
+    "Pomelo.EntityFrameworkCore.MySql": "1.1.0"
+  },
+
+  "frameworks": {
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.1.0"
+        }
+      },
+
+      "imports": [
+        "dnxcore50",
+        "portable-net451+win8"
+      ]
+    }
+  },
+
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
+  }
+}

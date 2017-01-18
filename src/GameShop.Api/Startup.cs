@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GameShop.Api.Options;
+using GameShop.Api.RequestFilters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GameShop.Data.Repositories.Interfaces;
-using GameShop.Data.Repositories;
-using GameShop.Data.Providers.Interfaces;
-using GameShop.Data.Providers;
-using GameShop.Data.Extensions;
-using GameShop.Api.Filters;
-using GameShop.Api.Options;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 
 namespace GameShop.Api
 {
@@ -28,33 +22,39 @@ namespace GameShop.Api
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if(env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
+
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
-
+        /// <summary>
+        /// Configuration.
+        /// </summary>
+        public IConfigurationRoot Configuration { get; set; }
+        
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
             // Add options.
-            //services.Configure<Auth0Options>(Configuration.GetSection("Auth0"));
-            services.Configure<IdentityServer4Options>(Configuration.GetSection("IdentityServer4"));
+            services.AddOptions();
+            // Add configuration to services.
+            services.AddSingleton<IConfiguration>(provider => Configuration);
 
-            //Game shop PH data services
-            services.UseGameShopRepositories()
-                    .UseGameshopSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddCors();
 
-            // Identity Server 4
-            services.AddIdentityServer()
-                    .AddTemporarySigningCredential()
-                    .AddInMemoryScopes(IdentityServer4Options.GetScopes())
-                    .AddInMemoryClients(IdentityServer4Options.GetClients())
-                    .AddInMemoryUsers(IdentityServer4Options.GetUsers());
-
+            //services.AddAuthentication(options => options.SignInScheme = OAuthIntrospectionDefaults.AuthenticationScheme);
+            
+            // Add gameshop repositories.
+            //services.AddGameShopUserAuthorization(Configuration.GetConnectionString("UsersDatabase"));
+            services.AddGameShopRepositories(Configuration.GetConnectionString("DefaultDatabase"));
+                        
             // Add MVC.
             services.AddMvc(options => 
             {
-                //Validated ModelState before executing a controller action.
+                // Validate ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
             });
 
@@ -68,14 +68,45 @@ namespace GameShop.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIdentityServer();
-
-            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            // CORS
+            app.UseCors(options =>
             {
-                Authority = "http://localhost:5000",
-                ScopeName = "api1",
+                options.AllowAnyHeader();
+                options.AllowAnyMethod();
+                options.AllowAnyOrigin();
+                options.AllowCredentials();
+            });
 
-                RequireHttpsMetadata = false
+            // NWebsec
+            //app.UseNWebsec();
+
+            //app.UseOAuthValidation();
+
+            // Alternatively, you can also use the introspection middleware.
+            // Using it is recommended if your resource server is in a
+            // different application/separated from the authorization server.
+            // app.UseOAuthIntrospection(options => {
+            //     options.AutomaticAuthenticate = true;
+            //     options.AutomaticChallenge = true;
+            //     options.Authority = "http://localhost:5000/";
+            //     options.Audiences.Add("http://localhost:6001/");
+            //     options.ClientId = "GameShop.Api";
+            //     options.ClientSecret = "secret_secret_secret";
+            //     options.SaveToken = true;
+            // });
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                RequireHttpsMetadata = false,
+                Audience = "http://localhost:6001/",
+                Authority = "http://localhost:5000/",
+                TokenValidationParameters = new TokenValidationParameters(){
+                    ValidAudiences = new List<string>(){ "http://localhost:6001/" },
+                    ValidIssuers = new List<string>(){ "http://localhost:5000/" }
+                },
+                SaveToken = true
             });
 
             app.UseMvc();

@@ -1,22 +1,23 @@
-﻿using GameShop.Data.Repositories;
-using GameShop.Data.Repositories.Interfaces;
+﻿using GameShop.Data.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GameShop.Api.Controllers
 {
     [Route("[controller]")]
     public class TestController : Controller
     {
-        IGameAdvertisementAsyncRepository _gameAdsRepository;
-
-        public TestController(IGameAdvertisementAsyncRepository gameAdsRepository)
+        private ILogger _logger;
+        
+        public TestController(ILoggerFactory loggerFactory)
         {
-            _gameAdsRepository = gameAdsRepository;
+            _logger = loggerFactory.CreateLogger(typeof(TestController));
         }
 
         [HttpGet("guid")]
@@ -39,17 +40,27 @@ namespace GameShop.Api.Controllers
             return Ok(DateTime.UtcNow);
         }
 
-        [HttpGet("test/1")]
-        public IActionResult Test1()
+        [HttpGet("hash")]
+        public IActionResult GenerateHash([FromQuery]string text)
         {
-            return Ok(_gameAdsRepository.GetAllAsync());
+            return Ok(CryptoHelper.Crypto.HashPassword(text));
         }
+
 
         [Authorize]
         [HttpGet("admin")]
         public IActionResult Admin()
         {
-            return Ok("Admins only can see this.");
+            return Ok("Only logged in users can see this.");
+        }
+
+        [HttpGet("token")]
+        public IActionResult Token()
+        {
+            using(var httpClient = new HttpClient())
+            {
+                return Ok();   
+            }
         }
     }
 }

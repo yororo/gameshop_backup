@@ -8,55 +8,17 @@ namespace GameShop.Contracts.Entities
 {
     public class User : Person
     {
-        #region Fields
-
-        private Guid _userId;
-        private UserType _userType;
-        private List<Feedback> _feedbacks;
-
-        #endregion
-
         #region Properties
 
-        public Guid UserId
-        {
-            get
-            {
-                return _userId;
-            }
+        public Guid Id { get; set; }
 
-            set
-            {
-                _userId = value;
-            }
-        }
+        public Account Account { get; set; }
 
-        public UserType UserType
-        {
-            get
-            {
-                return _userType;
-            }
+        public DateTime CreatedDate { get; set; }
 
-            set
-            {
-                _userType = value;
-            }
-        }
+        public DateTime ModifiedDate { get; set; }
 
-        public List<Feedback> Feedbacks
-        {
-            get
-            {
-                return _feedbacks;
-            }
-            set
-            {
-                _feedbacks = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -65,11 +27,12 @@ namespace GameShop.Contracts.Entities
         /// </summary>
         public User()
         {
-            UserId = Guid.Empty;
-            UserType = UserType.Public;
-            Feedbacks = new List<Feedback>();
+            Id = Guid.Empty;
+            Account = new Account();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

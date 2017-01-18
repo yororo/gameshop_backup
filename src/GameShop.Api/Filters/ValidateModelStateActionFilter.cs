@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Api.Filters
+namespace GameShop.Api.RequestFilters
 {
     public class ValidateModelStateActionFilter : IAsyncActionFilter
     {

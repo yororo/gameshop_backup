@@ -7,7 +7,7 @@ namespace GameShop.Contracts.Enumerations
 {
     public enum GamingPlatform : short
     {
-        None = 0,
+        Unspecified = 0,
         GameBoy,
         PC,
         PlayStationVita,

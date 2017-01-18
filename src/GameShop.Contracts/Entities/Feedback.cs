@@ -8,87 +8,40 @@ namespace GameShop.Contracts.Entities
 {
     public class Feedback
     {
-        #region Fields
-
-        private Guid _feedbackId;
-        private User _user;
-        private string _comments;
-        private Rating _rating;
-        private AuditInformation _auditInformation;
-
-        #endregion
-
         #region Properties
-        public Guid FeedbackId
-        {
-            get
-            {
-                return _feedbackId;
-            }
 
-            set
-            {
-                _feedbackId = value;
-            }
-        }
+        public Guid Id { get; set; }
 
-        public User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
+        public User Reviewee { get; set; }
 
-        public string Comments
-        {
-            get
-            {
-                return _comments;
-            }
+        public User Reviewer { get; set; }
 
-            set
-            {
-                _comments = value;
-            }
-        }
+        public string Review { get; set; }
 
-        public Rating Rating
-        {
-            get
-            {
-                return _rating;
-            }
+        public Rating Rating { get; set; }
 
-            set
-            {
-                _rating = value;
-            }
-        }
-        
-        public AuditInformation AuditInformation
-        {
-            get
-            {
-                return _auditInformation;
-            }
+        public DateTime CreatedDate { get; set; }
 
-            set
-            {
-                _auditInformation = value;
-            }
-        }
+        public DateTime ModifiedDate { get; set; }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Feedback()
         {
-            FeedbackId = Guid.Empty;
-            Comments = string.Empty;
+            Id = Guid.Empty;
+            Reviewee = new User();
+            Reviewer = new User();
+            Review = string.Empty;
             Rating = Rating.Worst;
-            AuditInformation = new AuditInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

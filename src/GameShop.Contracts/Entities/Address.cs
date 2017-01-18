@@ -5,188 +5,45 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
+    /// <summary>
+    /// Address
+    /// </summary>
     public class Address
     {
-        #region Fields
-
-        private Guid _addressId;
-        private string _street1;
-        private string _street2;
-        private string _street3;
-        private string _barangay;
-        private string _municipality;
-        private string _city;
-        private string _zipCode;
-        private string _province;
-        private string _region;
-        private string _country;
-        private AuditInformation _auditInformation;
-
-        #endregion
-
         #region Properties
 
-        public Guid AddressId
-        {
-            get
-            {
-                return _addressId;
-            }
+        public string Street1 { get; set; }
 
-            set
-            {
-                _addressId = value;
-            }
-        }
+        public string Street2 { get; set; }
+        
+        public string Street3 { get; set; }
 
-        public string Street1
-        {
-            get
-            {
-                return _street1;
-            }
+        public string Barangay { get; set; }
 
-            set
-            {
-                _street1 = value;
-            }
-        }
-        public string Street2
-        {
-            get
-            {
-                return _street2;
-            }
+        public string Municipality { get; set; }
 
-            set
-            {
-                _street2 = value;
-            }
-        }
-        public string Street3
-        {
-            get
-            {
-                return _street3;
-            }
+        public string City { get; set; }
 
-            set
-            {
-                _street3 = value;
-            }
-        }
+        public string ZipCode { get; set; }
 
-        public string Barangay
-        {
-            get
-            {
-                return _barangay;
-            }
+        public string Province { get; set; }
 
-            set
-            {
-                _barangay = value;
-            }
-        }
+        public string Region { get; set; }
 
-        public string Municipality
-        {
-            get
-            {
-                return _municipality;
-            }
+        public string Country { get; set; }
 
-            set
-            {
-                _municipality = value;
-            }
-        }
-
-        public string City
-        {
-            get
-            {
-                return _city;
-            }
-
-            set
-            {
-                _city = value;
-            }
-        }
-
-        public string ZipCode
-        {
-            get
-            {
-                return _zipCode;
-            }
-
-            set
-            {
-                _zipCode = value;
-            }
-        }
-
-        public string Province
-        {
-            get
-            {
-                return _province;
-            }
-
-            set
-            {
-                _province = value;
-            }
-        }
-
-        public string Region
-        {
-            get
-            {
-                return _region;
-            }
-
-            set
-            {
-                _region = value;
-            }
-        }
-
-        public string Country
-        {
-            get
-            {
-                return _country;
-            }
-
-            set
-            {
-                _country = value;
-            }
-        }
-
-        public AuditInformation AuditInformation
-        {
-            get
-            {
-                return _auditInformation;
-            }
-
-            set
-            {
-                _auditInformation = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Address()
         {
-            AddressId = Guid.Empty;
+            Street1 = string.Empty;
+            Street2 = string.Empty;
+            Street3 = string.Empty;
             Barangay = string.Empty;
             Municipality = string.Empty;
             City = string.Empty;
@@ -194,9 +51,8 @@ namespace GameShop.Contracts.Entities
             Province = string.Empty;
             Region = string.Empty;
             Country = string.Empty;
-            AuditInformation = new AuditInformation();
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

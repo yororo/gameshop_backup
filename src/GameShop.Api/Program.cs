@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace GameShop.Api
 {
@@ -15,6 +17,7 @@ namespace GameShop.Api
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls(@"http://localhost:6001")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

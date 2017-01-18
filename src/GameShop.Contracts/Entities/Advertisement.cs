@@ -6,212 +6,85 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public class Advertisement<TProduct> where TProduct : Product
+    public abstract class Advertisement<TProduct> where TProduct : Product
     {
-        #region Fields
-
-        private Guid _advertisementId;
-        private string _friendlyId;
-        private AdStatus _adStatusId;
-        private string _title;
-        private string _description;
-        private string _reasonForSelling;
-        private List<TProduct> _products;
-        private List<Address> _meetupLocations;
-        private AuditInformation _auditInformation;
-
-        #endregion
-
         #region Properties
 
-        public Guid AdvertisementId
-        {
-            get
-            {
-                return _advertisementId;
-            }
+        public Guid Id { get; set; }
 
-            set
-            {
-                _advertisementId = value;
-            }
-        }
+        public string FriendlyId { get; set; }
 
-        public string FriendlyId
-        {
-            get
-            {
-                return _friendlyId;
-            }
+        public string Title { get; set; }
 
-            set
-            {
-                _friendlyId = value;
-            }
-        }
+        public string Description { get; set; }
 
-        public AdStatus AdStatusId
-        {
-            get
-            {
-                return _adStatusId;
-            }
+        public AdvertisementState State { get; set; }
 
-            set
-            {
-                _adStatusId = value;
-            }
-        }
+        public List<TProduct> Products { get; set; }
 
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
+        public MeetupInformation MeetupInformation { get; set; }
+        
+        public User Owner { get; set; }
 
-            set
-            {
-                _title = value;
-            }
-        }
+        public DateTime CreatedDate { get; set; }
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+        public DateTime ModifiedDate { get; set; }
 
-            set
-            {
-                _description = value;
-            }
-        }
-
-        public string ReasonForSelling
-        {
-            get
-            {
-                return _reasonForSelling;
-            }
-
-            set
-            {
-                _reasonForSelling = value;
-            }
-        }
-
-        public List<TProduct> Products
-        {
-            get
-            {
-                return _products;
-            }
-
-            set
-            {
-                _products = value;
-            }
-        }
-
-        public List<Address> MeetupLocations
-        {
-            get
-            {
-                return _meetupLocations;
-            }
-
-            set
-            {
-                _meetupLocations = value;
-            }
-        }
-
-        public AuditInformation AuditInformation
-        {
-            get
-            {
-                return _auditInformation;
-            }
-
-            set
-            {
-                _auditInformation = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Advertisement()
         {
+            Id = Guid.Empty;
+            FriendlyId = string.Empty;
+            Title = string.Empty;
+            Description = string.Empty;
             Products = new List<TProduct>();
-            MeetupLocations = new List<Address>();
+            State = AdvertisementState.Inactive;
+            MeetupInformation = new MeetupInformation();
+            Owner = new User();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="products">Advertisement products.</param>
         public Advertisement(IEnumerable<TProduct> products)
             : this()
         {
             Products = products.ToList();
         }
 
-        #endregion
-
-        #region Private Methods
-
-
-
-        #endregion
-
-        #region Public Methods
-
-
-
-        #endregion
+        #endregion Constructors
     }
 
-    public class Advertisement : Advertisement<Product>
+    public abstract class Advertisement : Advertisement<Product>
     {
-        #region Fields
-
-
-
-        #endregion
-
-        #region Properties
-
-
-
-        #endregion
-
         #region Constructors
 
+        /// <summary>
+        /// Default contructor.
+        /// </summary>
         public Advertisement()
             : base()
         {
-
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="products">Advertisement products.</param>
         public Advertisement(IEnumerable<Product> products)
             : base(products)
         {
-
         }
 
-        #endregion
-
-        #region Private Methods
-
-
-
-        #endregion
-
-        #region Public Methods
-
-
-
-        #endregion
+        #endregion Constructors
     }
 }

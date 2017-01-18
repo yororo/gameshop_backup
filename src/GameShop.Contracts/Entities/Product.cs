@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameShop.Contracts.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,137 +8,42 @@ namespace GameShop.Contracts.Entities
 {
     public abstract class Product
     {
-        #region Fields
-
-        private Guid _productId;
-        private string _name;
-        private string _description;
-        private string _reasonForSelling;
-        private bool _isForTrade;
-        private bool _isForSale;
-        private PricingInformation _pricingInformation;
-        private AuditInformation _auditInformation;
-
-        #endregion
-
         #region Properties
 
-        public Guid ProductId
-        {
-            get
-            {
-                return _productId;
-            }
+        public Guid Id { get; set; }
 
-            set
-            {
-                _productId = value;
-            }
-        }
+        public string Name { get; set; }
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+        public string Description { get; set; }
 
-            set
-            {
-                _name = value;
-            }
-        }
+        public SellingInformation SellingInformation { get; set; }
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+        public TradingInformation TradingInformation { get; set; }
 
-            set
-            {
-                _description = value;
-            }
-        }
+        public ProductState ProductState { get; set; }
 
-        public string ReasonForSelling
-        {
-            get
-            {
-                return _reasonForSelling;
-            }
+        public DateTime CreatedDate { get; set; }
 
-            set
-            {
-                _reasonForSelling = value;
-            }
-        }
+        public DateTime ModifiedDate { get; set; }
 
-        public bool IsForTrade
-        {
-            get
-            {
-                return _isForTrade;
-            }
-
-            set
-            {
-                _isForTrade = value;
-            }
-        }
-
-        public bool IsForSale
-        {
-            get
-            {
-                return _isForSale;
-            }
-
-            set
-            {
-                _isForSale = value;
-            }
-        }
-
-        public PricingInformation PricingInformation
-        {
-            get
-            {
-                return _pricingInformation;
-            }
-            set
-            {
-                _pricingInformation = value;
-            }
-        }
-
-        public AuditInformation AuditInformation
-        {
-            get
-            {
-                return _auditInformation;
-            }
-
-            set
-            {
-                _auditInformation = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Product()
         {
-            ProductId = Guid.Empty;
+            Id = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
-            IsForTrade = false;
-            _isForSale = false;
-            AuditInformation = new AuditInformation();
+            SellingInformation = new SellingInformation();
+            TradingInformation = new TradingInformation();
+            CreatedDate = DateTime.MaxValue;
+            ModifiedDate = DateTime.MaxValue;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

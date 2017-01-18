@@ -1,47 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using GameShop.Web.Options;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
-using GameShop.Contracts.Entities;
-using GameShop.Website.Services.GameShop.Interfaces;
+using System.IO;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
-namespace GameShop.Website.Controllers
+namespace GameShop.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IGameShopApi _gameShopApi;
+        private GameShopAuthorizationOptions _authOptions;
+        private GameShopApiOptions _apiOptions;
 
-        public HomeController(IGameShopApi gameShopApi)
+        public HomeController(IOptions<GameShopApiOptions> apiOptions, IOptions<GameShopAuthorizationOptions> authOptions)
         {
-            _gameShopApi = gameShopApi;
+            _authOptions = authOptions.Value;
+            _apiOptions = apiOptions.Value;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var products = await _gameShopApi.Products.GetAllAdsAsync();
-
-            return View(products);
+            return View();
         }
 
-        public async Task<IActionResult> Search(string id)
+        [Authorize]
+        public async Task<IActionResult> About()
         {
-            var products = await _gameShopApi.Products.FindAdsByTitleAsync(id);
+            using(var client = new HttpClient())
+            {
+                var token = await HttpContext.Authentication.GetTokenAsync("access_token");
 
-            return View(products);
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token }");
+
+                using (var response = await client.GetAsync("http://localhost:6001/test/admin"))
+                {
+                    var responseText = await response.Content.ReadAsStringAsync();
+
+                    ViewData["Message"] = responseText;
+                }
+            }
+
+            //ViewData["Message"] = "Your application description page.";
+
+            return View();
         }
-
-        public IActionResult Contact()
+        
+        public async Task<IActionResult> Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            using(HttpClient client = new HttpClient())
+            {
+                string token = await getAccessTokenAsync(client);
+                // Set bearer token.
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer { token }");
+
+                using (var response = await client.GetAsync("http://localhost:6001/test/admin"))
+                {
+                    var responseText = await response.Content.ReadAsStringAsync();
+
+                    ViewData["Message"] = responseText;
+                }
+            }
 
             return View();
         }
 
-        public IActionResult Test()
+        private async Task<string> getAccessTokenAsync(HttpClient client)
         {
-            return View();
+            var result = await client.PostAsync("http://localhost:5000/connect/token", new FormUrlEncodedContent(new[]{
+                new KeyValuePair<string, string>("client_id", "GameShop.Web"),
+                new KeyValuePair<string, string>("client_secret", "secret_secret_secret"),
+                new KeyValuePair<string, string>("grant_type", "password"),
+                new KeyValuePair<string, string>("username", "jj@gmail.com"),
+                new KeyValuePair<string, string>("password", "Password!23")
+            }));
+
+            var response = await result.Content.ReadAsStringAsync();
+            dynamic json = JsonConvert.DeserializeObject(response);
+
+            return json.access_token;
         }
 
         public IActionResult Error()

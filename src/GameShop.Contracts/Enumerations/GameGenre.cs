@@ -7,7 +7,7 @@ namespace GameShop.Contracts.Enumerations
 {
     public enum GameGenre : short
     {
-        None = 0,
+        Unspecified = 0,
         Action,
         Adventure,
         Arcade,

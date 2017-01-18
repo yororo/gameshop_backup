@@ -8,88 +8,23 @@ namespace GameShop.Contracts.Entities
 {
     public class Name
     {
-        #region Fields
-
-        private Salutation _title;
-        private string _firstName;
-        private string _middleName;
-        private string _lastName;
-        private string _suffix;
-
-        #endregion
-
         #region Properties
 
-        public Salutation Salutation
-        {
-            get
-            {
-                return _title;
-            }
+        public Salutation Salutation { get; set; }
 
-            set
-            {
-                _title = value;
-            }
-        }
+        public string FirstName { get; set; }
 
-        public string FirstName
-        {
-            get
-            {
-                return _firstName;
-            }
+        public string MiddleName { get; set; }
 
-            set
-            {
-                _firstName = value;
-            }
-        }
+        public string LastName { get; set; }
 
-        public string MiddleName
-        {
-            get
-            {
-                return _middleName;
-            }
-
-            set
-            {
-                _middleName = value;
-            }
-        }
-
-        public string LastName
-        {
-            get
-            {
-                return _lastName;
-            }
-
-            set
-            {
-                _lastName = value;
-            }
-        }
-
-        public string Suffix
-        {
-            get
-            {
-                return _suffix;
-            }
-
-            set
-            {
-                _suffix = value;
-            }
-        }
+        public string Suffix { get; set; }
 
         public string FullName
         {
             get
             {
-                return string.Format("{0} {1}", FirstName, LastName);
+                return $"{ FirstName } { LastName }";
             }
         }
 
@@ -97,23 +32,79 @@ namespace GameShop.Contracts.Entities
         {
             get
             {
-                return string.Format("{0} {1} {2} {3}, {4}", Salutation, FirstName, MiddleName, LastName, Suffix);
+                string salutation = Salutation != Salutation.Unspecified ? Salutation.ToString() : string.Empty;
+                string firstName = !string.IsNullOrEmpty(FirstName) ? $" { FirstName } " : string.Empty;
+                string lastName = !string.IsNullOrEmpty(LastName) ? $" { LastName } " : string.Empty;
+                string middleName = !string.IsNullOrEmpty(MiddleName) ? $" { MiddleName } " : string.Empty;
+                string suffix = !string.IsNullOrEmpty(Suffix) ? Suffix : string.Empty;
+
+                return $"{ salutation }{ FirstName }{ MiddleName }{ LastName }{ Suffix }".Trim();
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
-        public Name()
+        /// <summary>
+        /// Constructor that creates a name object with specified salutation, first name, middle name, last name, and suffix.
+        /// </summary>
+        /// <param name="salutation">Salutation.</param>
+        /// <param name="firstName">First name.</param>
+        /// <param name="middleName">Middle name.</param>
+        /// <param name="lastName">Last name.</param>
+        /// <param name="suffix">Suffix.</param>
+        public Name(Salutation salutation, string firstName, string middleName, string lastName, string suffix)
         {
-            Salutation = Salutation.NotSpecified;
-            FirstName = string.Empty;
-            MiddleName = string.Empty;
-            LastName = string.Empty;
-            Suffix = string.Empty;
+            Salutation = salutation;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            Suffix = suffix;
         }
 
-        #endregion
+        /// <summary>
+        /// Constructor that creates a name object with specified first name, middle name, and last name with no salutation and suffix.
+        /// </summary>
+        /// <param name="firstName">First name.</param>
+        /// <param name="middleName">Middle name.</param>
+        /// <param name="lastName">Last name.</param>
+        public Name(string firstName, string middleName, string lastName)
+            : this(Salutation.Unspecified, 
+                    firstName, 
+                    middleName, 
+                    lastName, 
+                    string.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Constructor that creates a name object with specified first name, and last name with no salutation and suffix.
+        /// </summary>
+        /// <param name="firstName">First name.</param>
+        /// <param name="middleName">Middle name.</param>
+        /// <param name="lastName">Last name.</param>
+        public Name(string firstName, string lastName)
+            : this(Salutation.Unspecified, 
+                    firstName, 
+                    string.Empty, 
+                    lastName, 
+                    string.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public Name()
+            : this(Salutation.Unspecified, 
+                    string.Empty, 
+                    string.Empty, 
+                    string.Empty, 
+                    string.Empty)
+        {
+        }
+
+        #endregion Constructors
     }
 }

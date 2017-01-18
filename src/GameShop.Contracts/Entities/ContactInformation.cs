@@ -7,81 +7,25 @@ namespace GameShop.Contracts.Entities
 {
     public class ContactInformation
     {
-        #region Fields
-
-        private Guid _contactInformationId;
-        private string _email;
-        private string _contactNumber;
-        private AuditInformation _auditInformation;
-
-        #endregion
-
         #region Properties
 
-        public Guid ContactInformationId
-        {
-            get
-            {
-                return _contactInformationId;
-            }
+        public string Email { get; set; }
 
-            set
-            {
-                _contactInformationId = value;
-            }
-        }
+        public string PhoneNumber { get; set; }
 
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
-
-            set
-            {
-                _email = value;
-            }
-        }
-
-        public string ContactNumber
-        {
-            get
-            {
-                return _contactNumber;
-            }
-
-            set
-            {
-                _contactNumber = value;
-            }
-        }
-
-        public AuditInformation AuditInformation
-        {
-            get
-            {
-                return _auditInformation;
-            }
-
-            set
-            {
-                _auditInformation = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public ContactInformation()
         {
-            ContactInformationId = Guid.Empty;
             Email = string.Empty;
-            ContactNumber = string.Empty;
-            AuditInformation = new AuditInformation();
+            PhoneNumber = string.Empty;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

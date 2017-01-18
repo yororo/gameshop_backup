@@ -8,65 +8,25 @@ namespace GameShop.Contracts.Entities
 {
     public class Game : Product
     {
-        #region Fields
-        
-        private GamingPlatform _gamingPlatform;
-        private GameGenre _gameGenre;
-        private string _title;
-
-        #endregion
-
         #region Properties
-        
-        public GamingPlatform GamingPlatform
-        {
-            get
-            {
-                return _gamingPlatform;
-            }
 
-            set
-            {
-                _gamingPlatform = value;
-            }
-        }
+        public GamingPlatform GamingPlatform { get; set; }
 
-        public GameGenre GameGenre
-        {
-            get
-            {
-                return _gameGenre;
-            }
+        public GameGenre Genre { get; set; }
 
-            set
-            {
-                _gameGenre = value;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-
-            set
-            {
-                _title = value;
-            }
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Game()
         {
-            GamingPlatform = GamingPlatform.None;
-            GameGenre = GameGenre.None;
+            GamingPlatform = GamingPlatform.Unspecified;
+            Genre = GameGenre.Unspecified;
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

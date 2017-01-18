@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
-namespace GameShop.Website
+namespace GameShop.Web
 {
     public class Program
     {
@@ -14,9 +14,9 @@ namespace GameShop.Website
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls(@"http://localhost:7000")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5001")
                 .Build();
 
             host.Run();

@@ -1,4 +1,5 @@
-﻿using IdentityModel.Client;
+﻿using CryptoHelper;
+using IdentityModel.Client;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace GameShop.Console
 
         public async void Start()
         {
-            _discovery = await DiscoveryClient.GetAsync("http://localhost:5000");
+            string password = Crypto.HashPassword("secret");
+            //_discovery = await DiscoveryClient.GetAsync("http://localhost:5000");
         }
 
         public async void GetClientToken()
@@ -62,10 +64,6 @@ namespace GameShop.Console
             System.Console.WriteLine("\n\n");
 
             CallToApi();
-        }
-
-        public async void Authorize()
-        {
         }
 
         public async void CallToApi()
