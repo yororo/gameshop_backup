@@ -11,7 +11,7 @@ using GameShop.Contracts.Enumerations;
 
 namespace GameShop.Api.Controllers.Products
 {
-    [Route("products/games)")]
+    [Route("games")]
     public class GamesController : Controller
     {
         #region Declarations
@@ -39,7 +39,7 @@ namespace GameShop.Api.Controllers.Products
             // No queries. Get all games.
             if(HttpContext.Request.Query.Count == 0)
             {
-                return Ok(await _gameRepository.GetAllAsync());
+                return await GetAllAsync();
             }
 
             if(id.HasValue)
@@ -60,7 +60,14 @@ namespace GameShop.Api.Controllers.Products
             return Ok(new ApiResponse(Result.Error, "Unable to get game/s."));
         }
 
-        public async Task<IActionResult> GetByIdAsync(Guid id)
+        private async Task<IActionResult> GetAllAsync()
+        {
+            var games = await _gameRepository.GetAllAsync();
+
+            return Ok(games);
+        }
+
+        private async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var game = await _gameRepository.GetByIdAsync(id);
 
@@ -72,14 +79,14 @@ namespace GameShop.Api.Controllers.Products
             return NotFound();
         }
 
-        public async Task<IActionResult> GetByNameAsync(string name)
+        private async Task<IActionResult> GetByNameAsync(string name)
         {
             var games = await _gameRepository.GetByNameAsync(name);
 
             return Ok(games);
         }
 
-        public async Task<IActionResult> GetByGenreAsync(GameGenre genre)
+        private async Task<IActionResult> GetByGenreAsync(GameGenre genre)
         {
             var games = await _gameRepository.GetByGenreAsync(genre);
 

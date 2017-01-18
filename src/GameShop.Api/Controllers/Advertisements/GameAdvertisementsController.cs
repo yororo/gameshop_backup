@@ -44,12 +44,17 @@ namespace GameShop.Api.Controllers.Advertisements
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]Guid? id, [FromQuery]string fid, [FromQuery]string title)
+        public async Task<IActionResult> Get([FromQuery]string deep, [FromQuery]Guid? id, [FromQuery]string fid, [FromQuery]string title)
         {
             if(HttpContext.Request.Query.Count == 0)
             {
                 // Get all game ads.
                 return await GetAllAsync();
+            }
+
+            if(!string.IsNullOrEmpty(deep))
+            {
+                return await GetAllDeepAsync();
             }
 
             if(id.HasValue)
@@ -70,22 +75,21 @@ namespace GameShop.Api.Controllers.Advertisements
              return Ok(new ApiResponse(Result.Error, $"Unable to get advertisement/s."));
         }
 
-        public async Task<IActionResult> GetAllAsync()
+        private async Task<IActionResult> GetAllAsync()
         {
             var ads = await _gameAdvertisementsRepository.GetAllAsync();
 
             return Ok(ads);
         }
         
-        [HttpGet("deep")]
-        public async Task<IActionResult> GetAllDeepAsync()
+        private async Task<IActionResult> GetAllDeepAsync()
         {
             var ads = await _gameAdvertisementsRepository.GetAllDeepAsync();
 
             return Ok(ads);
         }
         
-        public async Task<IActionResult> GetByIdAsync(Guid id)
+        private async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var ad = await _gameAdvertisementsRepository.FindByIdAsync(id);
             
@@ -98,7 +102,7 @@ namespace GameShop.Api.Controllers.Advertisements
             return Ok(ad);
         }
         
-        public async Task<IActionResult> GetByFriendlyIdAsync(string friendlyId)
+        private async Task<IActionResult> GetByFriendlyIdAsync(string friendlyId)
         {
             var ad = await _gameAdvertisementsRepository.FindByFriendlyIdAsync(friendlyId);
 
@@ -111,7 +115,7 @@ namespace GameShop.Api.Controllers.Advertisements
             return Ok(ad);
         }
 
-        public async Task<IActionResult> GetByTitleAsync(string title)
+        private async Task<IActionResult> GetByTitleAsync(string title)
         {
             var ads = await _gameAdvertisementsRepository.FindByTitleAsync(title);
 
