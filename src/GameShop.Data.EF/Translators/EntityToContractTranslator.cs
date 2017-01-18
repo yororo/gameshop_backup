@@ -142,9 +142,20 @@ namespace GameShop.Data.EF.Translators
         //     return contactInformation;
         // }
 
-        public static Game ToGameContract(this EFEntities.Games.Game game)
+        public static Game ToGameContract(this EFEntities.Games.Game efGame)
         {
             Game gameContract = new Game();
+
+            gameContract.CreatedDate = efGame.CreatedDate.Value;
+            gameContract.Description = efGame.Description;
+            gameContract.GamingPlatform = efGame.GamePlatform;
+            gameContract.Genre = efGame.GameGenre;
+            gameContract.Id = efGame.Id;
+            gameContract.ModifiedDate = efGame.ModifiedDate.Value;
+            gameContract.Name = efGame.Name;
+            gameContract.ProductState = efGame.State;
+            gameContract.SellingInformation = ToSellingInformation(efGame.SellingInformation);
+            gameContract.TradingInformation = ToTradingInformation(efGame.TradingInformation);
 
             return gameContract;
         }
@@ -159,6 +170,61 @@ namespace GameShop.Data.EF.Translators
             }
 
             return gameContracts;
+        }
+
+        public static Advertisement<Game> ToAdvertisementContract(this EFEntities.Games.GameAdvertisement efAd)
+        {
+            GameAdvertisement gameAdContract = new GameAdvertisement();
+
+            gameAdContract.CreatedDate = efAd.CreatedDate.Value;
+            gameAdContract.Description = efAd.Description;
+            gameAdContract.FriendlyId = efAd.FriendlyId;
+            gameAdContract.Id = efAd.Id;
+            //gameAdvertisement.MeetupInformation = efAd.MeetupInformation;
+            gameAdContract.ModifiedDate = efAd.ModifiedDate.Value;
+            //gameAdvertisement.Owner = efAd.Owner;
+            
+            foreach(EFEntities.Games.Game efGame in efAd.Games)
+            {
+                gameAdContract.Products.Add(ToGameContract(efGame));
+            }
+
+            gameAdContract.State = efAd.State;
+            gameAdContract.Title = efAd.Title;
+
+            return gameAdContract;
+        }
+
+        public static SellingInformation ToSellingInformation(this EFEntities.SellingInformation efSellingInfo)
+        {
+            SellingInformation sellingInfoContract = new SellingInformation();
+
+            sellingInfoContract.CreatedDate = efSellingInfo.CreatedDate.Value;
+            sellingInfoContract.Currency = efSellingInfo.Currency;
+            sellingInfoContract.Id = efSellingInfo.Id;
+            sellingInfoContract.ModifiedDate = efSellingInfo.ModifiedDate.Value;
+            sellingInfoContract.ReasonForSelling = efSellingInfo.ReasonForSelling;
+            sellingInfoContract.SellingPrice = efSellingInfo.SellingPrice;
+
+            return sellingInfoContract;
+        }
+
+        public static TradingInformation ToTradingInformation(this EFEntities.TradingInformation efTradingInfo)
+        {
+            TradingInformation tradingInfoContract = new TradingInformation();
+
+            tradingInfoContract.CashAmountWillingToAdd = efTradingInfo.CashAmountToAdd;
+            tradingInfoContract.CreatedDate = efTradingInfo.CreatedDate.Value;
+            tradingInfoContract.Currency = efTradingInfo.Currency;
+            tradingInfoContract.Id = efTradingInfo.Id;
+            tradingInfoContract.IsOwnerWillingToAddCash = efTradingInfo.IsOwnerWillingToAddCash;
+            tradingInfoContract.IsOwnerWillingToReceiveCash = efTradingInfo.IsOwnerWillingToReceiveCash;
+            tradingInfoContract.ModifiedDate = efTradingInfo.ModifiedDate.Value;
+            tradingInfoContract.ReasonForTrading = efTradingInfo.ReasonForSelling;
+            tradingInfoContract.TradeNotes = efTradingInfo.TradeNotes;
+            tradingInfoContract.TradingPrice = efTradingInfo.TradingPrice;
+
+            return tradingInfoContract;
         }
     }
 }
