@@ -26,6 +26,11 @@ namespace GameShop.Data.EF.Repositories
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> DeleteByIdAsync(Guid productId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
             var gameEntities = await _context.Games.ToListAsync();
@@ -51,13 +56,17 @@ namespace GameShop.Data.EF.Repositories
 
         public async Task<IEnumerable<Game>> GetByNameAsync(string name)
         {
-            // we compare lower case strings to avoid mismatch due to casing
-            name = name.Trim().ToLower();
+            name = name.Trim();
             
             var gameEntities = await _context.Games.Where(
-                game => game.Name.Trim().ToLower() == name).ToListAsync();
+                game => game.Name.Trim() == name).ToListAsync();
 
             return gameEntities.ToGameContracts();
+        }
+
+        public async Task<int> UpdateAsync(Guid productId, Game product)
+        {
+            throw new NotImplementedException();
         }
     }
 }
