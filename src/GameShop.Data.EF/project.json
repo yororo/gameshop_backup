@@ -8,7 +8,7 @@
     "GameShop.Contracts": "1.0.0-*",
     "GameShop.Data.Contracts": "1.0.0-*",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0"
+    "Pomelo.EntityFrameworkCore.MySql": "1.1.0"
   },
 
   "frameworks": {

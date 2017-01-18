@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Builder
         public static IServiceCollection AddGameShopRepositories(this IServiceCollection services, string connectionString)
         {
             // Register GameShop context.
-            services.AddDbContext<GameShopContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<GameShopContext>(options => options.UseMySql(connectionString));
 
             // Register repositories.
             services.AddTransient<IGameRepository, GameRepository>();

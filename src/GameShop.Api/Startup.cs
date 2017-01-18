@@ -49,7 +49,7 @@ namespace GameShop.Api
             
             // Add gameshop repositories.
             //services.AddGameShopUserAuthorization(Configuration.GetConnectionString("UsersDatabase"));
-            //services.AddGameShopRepositories(Configuration.GetConnectionString("DefaultDatabase"));
+            services.AddGameShopRepositories(Configuration.GetConnectionString("DefaultDatabase"));
                         
             // Add MVC.
             services.AddMvc(options => 
