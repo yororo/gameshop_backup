@@ -10,12 +10,13 @@ using Microsoft.AspNetCore.Authorization;
 using GameShop.Data.Contracts;
 using GameShop.Api.Contracts;
 using GameShop.Api.Contracts.Responses;
+using GameShop.Api.Contracts.Constants;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GameShop.Api.Controllers.Advertisements
 {
-    [Route("ads/games")]
+    [Route(ApiEndpoints.GameAdvertisements)]
     public class GameAdvertisementsController : Controller
     {
         #region Declarations
@@ -104,15 +105,15 @@ namespace GameShop.Api.Controllers.Advertisements
         
         private async Task<IActionResult> GetByFriendlyIdAsync(string friendlyId)
         {
-            var ad = await _gameAdvertisementsRepository.FindByFriendlyIdAsync(friendlyId);
+            var advertisement = await _gameAdvertisementsRepository.FindByFriendlyIdAsync(friendlyId);
 
             //Ad not found.
-            if (ad == null)
+            if (advertisement == null)
             {
-                return NotFound(friendlyId);
+                return NotFound();
             }
 
-            return Ok(ad);
+            return Ok(advertisement);
         }
 
         private async Task<IActionResult> GetByTitleAsync(string title)
@@ -122,15 +123,10 @@ namespace GameShop.Api.Controllers.Advertisements
             return Ok(ads);
         }
         
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody]Advertisement<Game> advertisement)
         {
-            if (advertisement != null)
-            {
-                return BadRequest();
-            }
-
             int result = await _gameAdvertisementsRepository.AddAsync(advertisement);
 
             if (result > 0)
