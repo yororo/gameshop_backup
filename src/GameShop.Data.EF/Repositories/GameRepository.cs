@@ -23,6 +23,7 @@ namespace GameShop.Data.EF.Repositories
         public async Task<int> AddAsync(Game game)
         {
             await _context.Games.AddAsync(game.ToGameEntity());
+
             return await _context.SaveChangesAsync();
         }
 
@@ -33,23 +34,27 @@ namespace GameShop.Data.EF.Repositories
 
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
-            var gameEntities = await _context.Games.ToListAsync();
+            var gameEntities = await _context.Games
+                                .Include(game => game.SellingInformation)
+                                .Include(game => game.TradingInformation)
+                                .ToListAsync();
 
             return gameEntities.ToGameContracts();
         }
 
         public async Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
         {
-            var gameEntities = await _context.Games.Where(
-                game => game.GameGenre == genre).ToListAsync();
+            var gameEntities = await _context.Games
+                                .Where(game => game.GameGenre == genre)
+                                .ToListAsync();
 
             return gameEntities.ToGameContracts();
         }
 
         public async Task<Game> GetByIdAsync(Guid id)
         {
-            var gameEntity = await _context.Games.SingleOrDefaultAsync(
-                game => game.Id == id);
+            var gameEntity = await _context.Games
+                                .SingleOrDefaultAsync(game => game.Id == id);
 
             return gameEntity.ToGameContract();
         }
@@ -58,8 +63,9 @@ namespace GameShop.Data.EF.Repositories
         {
             name = name.Trim();
             
-            var gameEntities = await _context.Games.Where(
-                game => game.Name.Trim() == name).ToListAsync();
+            var gameEntities = await _context.Games
+                                .Where(game => game.Name.Trim() == name)
+                                .ToListAsync();
 
             return gameEntities.ToGameContracts();
         }
