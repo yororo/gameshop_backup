@@ -144,6 +144,11 @@ namespace GameShop.Data.EF.Translators
 
         public static Game ToGameContract(this EFEntities.Games.Game efGame)
         {
+            if (efGame == null)
+            {
+                return null;
+            }
+
             Game gameContract = new Game();
 
             gameContract.CreatedDate = efGame.CreatedDate.Value;
@@ -154,19 +159,24 @@ namespace GameShop.Data.EF.Translators
             gameContract.ModifiedDate = efGame.ModifiedDate.Value;
             gameContract.Name = efGame.Name;
             gameContract.ProductState = efGame.State;
-            gameContract.SellingInformation = ToSellingInformation(efGame.SellingInformation);
-            gameContract.TradingInformation = ToTradingInformation(efGame.TradingInformation);
+            gameContract.SellingInformation = efGame.SellingInformation.ToSellingInformation();
+            gameContract.TradingInformation = efGame.TradingInformation.ToTradingInformation();
 
             return gameContract;
         }
         
-        public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> games)
+        public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
         {
+            if (efGames == null)
+            {
+                return null;
+            }
+
             var gameContracts = new List<Game>();
 
-            foreach (EFEntities.Games.Game game in games)
+            foreach (EFEntities.Games.Game efGame in efGames)
             {
-                gameContracts.Add(game.ToGameContract());
+                gameContracts.Add(efGame.ToGameContract());
             }
 
             return gameContracts;
@@ -174,6 +184,11 @@ namespace GameShop.Data.EF.Translators
 
         public static Advertisement<Game> ToAdvertisementContract(this EFEntities.Games.GameAdvertisement efAd)
         {
+            if (efAd == null)
+            {
+                return null;
+            }
+
             GameAdvertisement gameAdContract = new GameAdvertisement();
 
             gameAdContract.CreatedDate = efAd.CreatedDate.Value;
@@ -197,6 +212,11 @@ namespace GameShop.Data.EF.Translators
 
         public static SellingInformation ToSellingInformation(this EFEntities.SellingInformation efSellingInfo)
         {
+            if (efSellingInfo == null)
+            {
+                return null;
+            }
+
             SellingInformation sellingInfoContract = new SellingInformation();
 
             sellingInfoContract.CreatedDate = efSellingInfo.CreatedDate.Value;
@@ -211,6 +231,11 @@ namespace GameShop.Data.EF.Translators
 
         public static TradingInformation ToTradingInformation(this EFEntities.TradingInformation efTradingInfo)
         {
+            if (efTradingInfo == null)
+            {
+                return null;
+            }
+
             TradingInformation tradingInfoContract = new TradingInformation();
 
             tradingInfoContract.CashAmountWillingToAdd = efTradingInfo.CashAmountToAdd;

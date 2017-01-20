@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.EF.Contexts;
-using GameShop.Data.EF.Translators;
+using GameShop.Data.EF.Translators.Products.Games;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameShop.Data.EF.Repositories
@@ -22,42 +22,57 @@ namespace GameShop.Data.EF.Repositories
 
         public async Task<int> AddAsync(Game game)
         {
-            await _context.Games.AddAsync(game.ToGameEntity());
+            await _context.Games.AddAsync(game.ToEntity());
+
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteByIdAsync(Guid productId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
-            var gameEntities = await _context.Games.ToListAsync();
+            var gameEntities = await _context.Games
+                                .Include(game => game.SellingInformation)
+                                .Include(game => game.TradingInformation)
+                                .ToListAsync();
 
-            return gameEntities.ToGameContracts();
+            return gameEntities.ToContracts();
         }
 
         public async Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
         {
-            var gameEntities = await _context.Games.Where(
-                game => game.GameGenre == genre).ToListAsync();
+            var gameEntities = await _context.Games
+                                .Where(game => game.GameGenre == genre)
+                                .ToListAsync();
 
-            return gameEntities.ToGameContracts();
+            return gameEntities.ToContracts();
         }
 
         public async Task<Game> GetByIdAsync(Guid id)
         {
-            var gameEntity = await _context.Games.SingleOrDefaultAsync(
-                game => game.Id == id);
+            var gameEntity = await _context.Games
+                                .SingleOrDefaultAsync(game => game.Id == id);
 
-            return gameEntity.ToGameContract();
+            return gameEntity.ToContract();
         }
 
         public async Task<IEnumerable<Game>> GetByNameAsync(string name)
         {
-            // we compare lower case strings to avoid mismatch due to casing
-            name = name.Trim().ToLower();
+            name = name.Trim();
             
-            var gameEntities = await _context.Games.Where(
-                game => game.Name.Trim().ToLower() == name).ToListAsync();
+            var gameEntities = await _context.Games
+                                .Where(game => game.Name.Trim() == name)
+                                .ToListAsync();
 
-            return gameEntities.ToGameContracts();
+            return gameEntities.ToContracts();
+        }
+
+        public async Task<int> UpdateAsync(Guid productId, Game product)
+        {
+            throw new NotImplementedException();
         }
     }
 }

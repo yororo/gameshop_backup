@@ -4,7 +4,7 @@
     "debugType": "portable"
   },
   "dependencies": {
-    "GameShop.Contracts": "1.0.0-*"
+    "GameShop.Api.Contracts": "1.0.0-*"
   },
   "frameworks": {
     "netstandard1.6": {
