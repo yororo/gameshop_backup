@@ -20,14 +20,18 @@ namespace GameShop.Data.EF.Repositories
             _context = context;
         }
 
-        public Task<int> AddAsync(Advertisement<Game> advertisement)
+        public async Task<int> AddAsync(Advertisement<Game> advertisement)
         {
-            throw new NotImplementedException();
+            await _context.GameAdvertisements.AddAsync(advertisement.ToGameAdvertisementEntity());
+
+            return await _context.SaveChangesAsync();
         }
 
         public Task<int> DeleteByIdAsync(Guid advertisementId)
         {
-            throw new NotImplementedException();
+            _context.GameAdvertisements.Remove(_context.GameAdvertisements.SingleOrDefault(ad => ad.Id == advertisementId));
+
+            return _context.SaveChangesAsync();
         }
 
         public async Task<Advertisement<Game>> FindByFriendlyIdAsync(string friendlyId)
@@ -38,7 +42,7 @@ namespace GameShop.Data.EF.Repositories
                         .Include(g => g.Games).ThenInclude(trade => trade.TradingInformation)
                         .SingleOrDefaultAsync(ga => ga.FriendlyId == friendlyId);
 
-            return efAd.ToAdvertisementContract();
+            return efAd.ToGameAdvertisementContract();
         }
 
         public async Task<Advertisement<Game>> FindByIdAsync(Guid advertisementId)
@@ -50,7 +54,7 @@ namespace GameShop.Data.EF.Repositories
                         .ThenInclude(trade => trade.TradingInformation)
                         .SingleOrDefaultAsync(ga => ga.Id == advertisementId);
 
-            return efAd.ToAdvertisementContract();
+            return efAd.ToGameAdvertisementContract();
         }
 
         public async Task<IEnumerable<Advertisement<Game>>> FindByTitleAsync(string advertisementTitle)
@@ -66,7 +70,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
             {
-                gameAds.Add(efAd.ToAdvertisementContract());
+                gameAds.Add(efAd.ToGameAdvertisementContract());
             }
 
             return gameAds;
@@ -87,7 +91,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
             {
-                gameAds.Add(efAd.ToAdvertisementContract());
+                gameAds.Add(efAd.ToGameAdvertisementContract());
             }
 
             return gameAds;
@@ -105,7 +109,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
             {
-                gameAds.Add(efAd.ToAdvertisementContract());
+                gameAds.Add(efAd.ToGameAdvertisementContract());
             }
 
             return gameAds;
@@ -136,7 +140,30 @@ namespace GameShop.Data.EF.Repositories
 
         public Task<int> UpdateAsync(Guid advertisementId, Advertisement<Game> advertisement)
         {
-            throw new NotImplementedException();
+            EFEntities.Games.GameAdvertisement efAdFromDB = (EFEntities.Games.GameAdvertisement) _context.GameAdvertisements
+                        .Where(ga => ga.Id == advertisementId);
+            
+            EFEntities.Games.GameAdvertisement efAdToUpdate = advertisement.ToGameAdvertisementEntity();
+
+            efAdFromDB.CreatedDate = efAdToUpdate.CreatedDate;
+            efAdFromDB.Description = efAdToUpdate.Description;
+            efAdFromDB.FriendlyId = efAdToUpdate.FriendlyId;
+
+            foreach(EFEntities.Games.Game game in efAdToUpdate.Games)
+            {
+                efAdFromDB.Games.Add(game);
+            }
+
+            efAdFromDB.Id = efAdToUpdate.Id;
+            //fGame.MeetupInformation = contractAdGame.MeetupInformation;
+            efAdFromDB.ModifiedDate = efAdToUpdate.ModifiedDate;
+            //efGame.Owner = contractAdGame.Owner;
+            efAdFromDB.State = efAdToUpdate.State;
+            efAdFromDB.Title = efAdToUpdate.Title;
+
+            _context.GameAdvertisements.Update(efAdFromDB);
+
+            return _context.SaveChangesAsync();
         }
     }
 }

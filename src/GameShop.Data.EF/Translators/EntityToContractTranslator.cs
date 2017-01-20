@@ -141,31 +141,8 @@ namespace GameShop.Data.EF.Translators
 
         //     return contactInformation;
         // }
-
-        public static Game ToGameContract(this EFEntities.Games.Game efGame)
-        {
-            if (efGame == null)
-            {
-                return null;
-            }
-
-            Game gameContract = new Game();
-
-            gameContract.CreatedDate = efGame.CreatedDate.Value;
-            gameContract.Description = efGame.Description;
-            gameContract.GamingPlatform = efGame.GamePlatform;
-            gameContract.Genre = efGame.GameGenre;
-            gameContract.Id = efGame.Id;
-            gameContract.ModifiedDate = efGame.ModifiedDate.Value;
-            gameContract.Name = efGame.Name;
-            gameContract.ProductState = efGame.State;
-            gameContract.SellingInformation = efGame.SellingInformation.ToSellingInformation();
-            gameContract.TradingInformation = efGame.TradingInformation.ToTradingInformation();
-
-            return gameContract;
-        }
         
-        public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
+        /*public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
         {
             if (efGames == null)
             {
@@ -201,55 +178,13 @@ namespace GameShop.Data.EF.Translators
             
             foreach(EFEntities.Games.Game efGame in efAd.Games)
             {
-                gameAdContract.Products.Add(ToGameContract(efGame));
+                //gameAdContract.Products.Add(efAd.ToGameContract(efGame));
             }
 
             gameAdContract.State = efAd.State;
             gameAdContract.Title = efAd.Title;
 
             return gameAdContract;
-        }
-
-        public static SellingInformation ToSellingInformation(this EFEntities.SellingInformation efSellingInfo)
-        {
-            if (efSellingInfo == null)
-            {
-                return null;
-            }
-
-            SellingInformation sellingInfoContract = new SellingInformation();
-
-            sellingInfoContract.CreatedDate = efSellingInfo.CreatedDate.Value;
-            sellingInfoContract.Currency = efSellingInfo.Currency;
-            sellingInfoContract.Id = efSellingInfo.Id;
-            sellingInfoContract.ModifiedDate = efSellingInfo.ModifiedDate.Value;
-            sellingInfoContract.ReasonForSelling = efSellingInfo.ReasonForSelling;
-            sellingInfoContract.SellingPrice = efSellingInfo.SellingPrice;
-
-            return sellingInfoContract;
-        }
-
-        public static TradingInformation ToTradingInformation(this EFEntities.TradingInformation efTradingInfo)
-        {
-            if (efTradingInfo == null)
-            {
-                return null;
-            }
-
-            TradingInformation tradingInfoContract = new TradingInformation();
-
-            tradingInfoContract.CashAmountWillingToAdd = efTradingInfo.CashAmountToAdd;
-            tradingInfoContract.CreatedDate = efTradingInfo.CreatedDate.Value;
-            tradingInfoContract.Currency = efTradingInfo.Currency;
-            tradingInfoContract.Id = efTradingInfo.Id;
-            tradingInfoContract.IsOwnerWillingToAddCash = efTradingInfo.IsOwnerWillingToAddCash;
-            tradingInfoContract.IsOwnerWillingToReceiveCash = efTradingInfo.IsOwnerWillingToReceiveCash;
-            tradingInfoContract.ModifiedDate = efTradingInfo.ModifiedDate.Value;
-            tradingInfoContract.ReasonForTrading = efTradingInfo.ReasonForSelling;
-            tradingInfoContract.TradeNotes = efTradingInfo.TradeNotes;
-            tradingInfoContract.TradingPrice = efTradingInfo.TradingPrice;
-
-            return tradingInfoContract;
-        }
+        }*/
     }
 }

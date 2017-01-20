@@ -164,7 +164,7 @@ namespace GameShop.Data.EF.Translators
         //     return model;
         // }
 
-        public static EFEntities.Games.GameAdvertisement ToGameAdvertisementEntity(this GameAdvertisement advertisement)
+        /*public static EFEntities.Games.GameAdvertisement ToGameAdvertisementEntity(this GameAdvertisement advertisement)
         {
             // Guard clause.
             if (advertisement == null)
@@ -230,7 +230,7 @@ namespace GameShop.Data.EF.Translators
             model.ModifiedDate = tradingInformation.ModifiedDate;
 
             return model;
-        }
+        }*/
 
         #region Product Translations
 
@@ -246,9 +246,9 @@ namespace GameShop.Data.EF.Translators
             model.Description = game.Description;
             model.Name = game.Name;
             model.Id = game.Id;
-            model.SellingInformation = game.SellingInformation.ToGameSellingInformationEntity();
+            //model.SellingInformation = game.SellingInformation.ToGameSellingInformationEntity();
             model.State = game.ProductState;
-            model.TradingInformation = game.TradingInformation.ToGameTradingInformationEntity();
+            //model.TradingInformation = game.TradingInformation.ToGameTradingInformationEntity();
             model.CreatedDate = game.CreatedDate;
             model.ModifiedDate = game.ModifiedDate;
 
