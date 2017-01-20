@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.EF.Contexts;
-using GameShop.Data.EF.Translators.Products.Games;
+using GameShop.Data.EF.Translators;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameShop.Data.EF.Repositories
@@ -39,7 +39,7 @@ namespace GameShop.Data.EF.Repositories
                                 .Include(game => game.TradingInformation)
                                 .ToListAsync();
 
-            return gameEntities.ToContracts();
+            return gameEntities.ToGameContracts();
         }
 
         public async Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
@@ -48,7 +48,7 @@ namespace GameShop.Data.EF.Repositories
                                 .Where(game => game.GameGenre == genre)
                                 .ToListAsync();
 
-            return gameEntities.ToContracts();
+            return gameEntities.ToGameContracts();
         }
 
         public async Task<Game> GetByIdAsync(Guid id)
@@ -56,7 +56,7 @@ namespace GameShop.Data.EF.Repositories
             var gameEntity = await _context.Games
                                 .SingleOrDefaultAsync(game => game.Id == id);
 
-            return gameEntity.ToContract();
+            return gameEntity.ToGameContract();
         }
 
         public async Task<IEnumerable<Game>> GetByNameAsync(string name)
@@ -67,7 +67,7 @@ namespace GameShop.Data.EF.Repositories
                                 .Where(game => game.Name.Trim() == name)
                                 .ToListAsync();
 
-            return gameEntities.ToContracts();
+            return gameEntities.ToGameContracts();
         }
 
         public async Task<int> UpdateAsync(Guid productId, Game product)

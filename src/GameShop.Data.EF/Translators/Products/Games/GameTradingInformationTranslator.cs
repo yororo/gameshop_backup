@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using GameShop.Contracts.Entities;
 using EFEntities = GameShop.Data.EF.Entities;
 
-namespace GameShop.Data.EF.Translators.Products.Games
+namespace GameShop.Data.EF.Translators
 {
     internal static class GameTradingInformationTranslator
     {
 
         #region To Entity
         
-        public static EFEntities.Games.GameTradingInformation ToEntity(this TradingInformation tradingInformation)
+        public static EFEntities.Games.GameTradingInformation ToGameTradingInformationEntity(this TradingInformation tradingInformation)
         {
             // Guard clause.
             if (tradingInformation == null)
@@ -37,7 +37,7 @@ namespace GameShop.Data.EF.Translators.Products.Games
         
         #region To Contract
 
-        public static TradingInformation ToContract(this EFEntities.TradingInformation efTradingInfo)
+        public static TradingInformation ToGameTradingInformationContract(this EFEntities.TradingInformation efTradingInfo)
         {
             if (efTradingInfo == null)
             {
