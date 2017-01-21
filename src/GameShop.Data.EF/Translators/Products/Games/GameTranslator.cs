@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GameShop.Contracts.Entities;
 using EFEntities = GameShop.Data.EF.Entities;
 
-namespace GameShop.Data.EF.Translators.Products.Games
+namespace GameShop.Data.EF.Translators
 {
     internal static class GameTranslator
     {
@@ -54,7 +54,7 @@ namespace GameShop.Data.EF.Translators.Products.Games
         
         #region To Contract
 
-        public static Game ToContract(this EFEntities.Games.Game efGame)
+        public static Game ToGameContract(this EFEntities.Games.Game efGame)
         {
             if (efGame == null)
             {
@@ -71,13 +71,13 @@ namespace GameShop.Data.EF.Translators.Products.Games
             gameContract.ModifiedDate = efGame.ModifiedDate.Value;
             gameContract.Name = efGame.Name;
             gameContract.ProductState = efGame.State;
-            gameContract.SellingInformation = efGame.SellingInformation.ToContract();
-            gameContract.TradingInformation = efGame.TradingInformation.ToContract();
+            gameContract.SellingInformation = efGame.SellingInformation.ToGameSellingInformationContract();
+            gameContract.TradingInformation = efGame.TradingInformation.ToGameTradingInformationContract();
 
             return gameContract;
         }
         
-        public static IEnumerable<Game> ToContracts(this List<EFEntities.Games.Game> efGames)
+        public static IEnumerable<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
         {
             if (efGames == null)
             {

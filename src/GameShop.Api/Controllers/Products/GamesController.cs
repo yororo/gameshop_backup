@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using GameShop.Api.Contracts.Responses;
 using GameShop.Api.Contracts;
 using GameShop.Contracts.Enumerations;
+using GameShop.Api.Contracts.Constants;
 
 namespace GameShop.Api.Controllers.Products
 {
-    [Route("games")]
+    [Route(ApiEndpoints.Games)]
     public class GamesController : Controller
     {
         #region Declarations
@@ -59,6 +60,56 @@ namespace GameShop.Api.Controllers.Products
             
             return Ok(new ApiResponse(Result.Error, "Unable to get game/s."));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody]Game game)
+        {
+            int result = await _gameRepository.AddAsync(game);
+            if(result > 0)
+            {
+                return CreatedAtAction(nameof(GamesController.CreateAsync), game);
+            }
+
+            return Ok(new ApiResponse(Result.Error, "Unable to create game."));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody]Game game)
+        {
+            // Check if IDs are the same.
+            if(id != game.Id)
+            {
+                return Ok(new ApiResponse(Result.Error, "The ID in the URL does not match the ID of the updated object payload."));
+            }
+
+            int result = await _gameRepository.UpdateAsync(id, game);
+
+            if(result > 0)
+            {
+                return Ok();
+            }
+
+            // No rows were affected in the DB, 
+            // so we will assume that a game with the given ID does not exist.
+            return NotFound();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            int result = await _gameRepository.DeleteByIdAsync(id);
+
+            if(result > 0)
+            {
+                return Ok();
+            }
+            
+            // No rows were affected in the DB, 
+            // so we will assume that a game with the given ID does not exist.
+            return NotFound();
+        }
+        
+        //Create an API client library to be used for easy integration with the API.
 
         private async Task<IActionResult> GetAllAsync()
         {
