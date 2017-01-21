@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+
+using GameShop.Data.EF.Translators.Products.Games;
 using GameShop.Contracts.Entities;
 using EFEntities = GameShop.Data.EF.Entities;
 
@@ -8,7 +10,7 @@ namespace GameShop.Data.EF.Translators
     {
         #region To Entity
 
-        public static EFEntities.Games.GameAdvertisement ToGameAdvertisementEntity(this Advertisement<Game> contractAdGame)
+        public static EFEntities.Games.GameAdvertisement ToEntity(this Advertisement<Game> contractAdGame)
         {
             // Guard clause.
             if (contractAdGame == null)
@@ -24,7 +26,7 @@ namespace GameShop.Data.EF.Translators
 
             foreach(Game game in contractAdGame.Products)
             {
-                efGame.Games.Add(game.ToGameEntity());
+                efGame.Games.Add(game.ToEntity());
             }
 
             efGame.Id = contractAdGame.Id;
@@ -41,7 +43,7 @@ namespace GameShop.Data.EF.Translators
         
         #region To Contract
 
-        public static Advertisement<Game> ToGameAdvertisementContract(this EFEntities.Games.GameAdvertisement efAd)
+        public static Advertisement<Game> ToContract(this EFEntities.Games.GameAdvertisement efAd)
         {
             if (efAd == null)
             {
@@ -56,7 +58,7 @@ namespace GameShop.Data.EF.Translators
 
             foreach(EFEntities.Games.Game game in efAd.Games)
             {
-                contractGame.Products.Add(game.ToGameContract());
+                contractGame.Products.Add(game.ToContract());
             }
 
             contractGame.Id = efAd.Id;

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using GameShop.Contracts.Entities;
 using EFEntities = GameShop.Data.EF.Entities;
 
-namespace GameShop.Data.EF.Translators
+namespace GameShop.Data.EF.Translators.Products.Games
 {
     internal static class GameTranslator
     {
 
         #region To Entity
         
-        public static IEnumerable<EFEntities.Games.Game> ToContracts(this List<Game> games)
+        public static IEnumerable<EFEntities.Games.Game> ToEntities(this List<Game> games)
         {
             if (games == null)
             {
@@ -21,7 +21,7 @@ namespace GameShop.Data.EF.Translators
 
             foreach (Game game in games)
             {
-                efGames.Add(game.ToGameEntity());
+                efGames.Add(game.ToEntity());
             }
 
             return efGames;
@@ -42,9 +42,9 @@ namespace GameShop.Data.EF.Translators
             efGame.Name = game.Name;
             efGame.Id = game.Id;
             efGame.ModifiedDate = game.ModifiedDate;
-            efGame.SellingInformation = game.SellingInformation.ToGameSellingInformationEntity();
+            efGame.SellingInformation = game.SellingInformation.ToEntity();
             efGame.State = game.ProductState;
-            efGame.TradingInformation = game.TradingInformation.ToGameTradingInformationEntity();
+            efGame.TradingInformation = game.TradingInformation.ToEntity();
 
             return efGame;
         }
@@ -54,7 +54,7 @@ namespace GameShop.Data.EF.Translators
         
         #region To Contract
 
-        public static Game ToGameContract(this EFEntities.Games.Game efGame)
+        public static Game ToContract(this EFEntities.Games.Game efGame)
         {
             if (efGame == null)
             {
@@ -71,13 +71,13 @@ namespace GameShop.Data.EF.Translators
             gameContract.ModifiedDate = efGame.ModifiedDate.Value;
             gameContract.Name = efGame.Name;
             gameContract.ProductState = efGame.State;
-            gameContract.SellingInformation = efGame.SellingInformation.ToGameSellingInformationContract();
-            gameContract.TradingInformation = efGame.TradingInformation.ToGameTradingInformationContract();
+            gameContract.SellingInformation = efGame.SellingInformation.ToContract();
+            gameContract.TradingInformation = efGame.TradingInformation.ToContract();
 
             return gameContract;
         }
         
-        public static IEnumerable<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
+        public static IEnumerable<Game> ToContracts(this List<EFEntities.Games.Game> efGames)
         {
             if (efGames == null)
             {
@@ -88,7 +88,7 @@ namespace GameShop.Data.EF.Translators
 
             foreach (EFEntities.Games.Game efGame in efGames)
             {
-                gameContracts.Add(efGame.ToGameContract());
+                gameContracts.Add(efGame.ToContract());
             }
 
             return gameContracts;
