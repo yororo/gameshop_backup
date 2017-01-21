@@ -142,49 +142,49 @@ namespace GameShop.Data.EF.Translators
         //     return contactInformation;
         // }
         
-        /*public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
-        {
-            if (efGames == null)
-            {
-                return null;
-            }
+        // public static List<Game> ToGameContracts(this List<EFEntities.Games.Game> efGames)
+        // {
+        //     if (efGames == null)
+        //     {
+        //         return null;
+        //     }
 
-            var gameContracts = new List<Game>();
+        //     var gameContracts = new List<Game>();
 
-            foreach (EFEntities.Games.Game efGame in efGames)
-            {
-                gameContracts.Add(efGame.ToGameContract());
-            }
+        //     foreach (EFEntities.Games.Game efGame in efGames)
+        //     {
+        //         gameContracts.Add(efGame.ToGameContract());
+        //     }
 
-            return gameContracts;
-        }
+        //     return gameContracts;
+        // }
 
-        public static Advertisement<Game> ToAdvertisementContract(this EFEntities.Games.GameAdvertisement efAd)
-        {
-            if (efAd == null)
-            {
-                return null;
-            }
+        // public static Advertisement<Game> ToAdvertisementContract(this EFEntities.Games.GameAdvertisement efAd)
+        // {
+        //     if (efAd == null)
+        //     {
+        //         return null;
+        //     }
 
-            GameAdvertisement gameAdContract = new GameAdvertisement();
+        //     GameAdvertisement gameAdContract = new GameAdvertisement();
 
-            gameAdContract.CreatedDate = efAd.CreatedDate.Value;
-            gameAdContract.Description = efAd.Description;
-            gameAdContract.FriendlyId = efAd.FriendlyId;
-            gameAdContract.Id = efAd.Id;
-            //gameAdvertisement.MeetupInformation = efAd.MeetupInformation;
-            gameAdContract.ModifiedDate = efAd.ModifiedDate.Value;
-            //gameAdvertisement.Owner = efAd.Owner;
+        //     gameAdContract.CreatedDate = efAd.CreatedDate.Value;
+        //     gameAdContract.Description = efAd.Description;
+        //     gameAdContract.FriendlyId = efAd.FriendlyId;
+        //     gameAdContract.Id = efAd.Id;
+        //     //gameAdvertisement.MeetupInformation = efAd.MeetupInformation;
+        //     gameAdContract.ModifiedDate = efAd.ModifiedDate.Value;
+        //     //gameAdvertisement.Owner = efAd.Owner;
             
-            foreach(EFEntities.Games.Game efGame in efAd.Games)
-            {
-                //gameAdContract.Products.Add(efAd.ToGameContract(efGame));
-            }
+        //     foreach(EFEntities.Games.Game efGame in efAd.Games)
+        //     {
+        //         //gameAdContract.Products.Add(efAd.ToGameContract(efGame));
+        //     }
 
-            gameAdContract.State = efAd.State;
-            gameAdContract.Title = efAd.Title;
+        //     gameAdContract.State = efAd.State;
+        //     gameAdContract.Title = efAd.Title;
 
-            return gameAdContract;
-        }*/
+        //     return gameAdContract;
+        // }
     }
 }

@@ -234,26 +234,26 @@ namespace GameShop.Data.EF.Translators
 
         #region Product Translations
 
-        public static EFEntities.Games.Game ToGameEntity(this Game game)
-        {
-            // Guard clause.
-            if (game == null)
-            {
-                return null;
-            }
+        // public static EFEntities.Games.Game ToGameEntity(this Game game)
+        // {
+        //     // Guard clause.
+        //     if (game == null)
+        //     {
+        //         return null;
+        //     }
 
-            var model = new EFEntities.Games.Game();
-            model.Description = game.Description;
-            model.Name = game.Name;
-            model.Id = game.Id;
-            //model.SellingInformation = game.SellingInformation.ToGameSellingInformationEntity();
-            model.State = game.ProductState;
-            //model.TradingInformation = game.TradingInformation.ToGameTradingInformationEntity();
-            model.CreatedDate = game.CreatedDate;
-            model.ModifiedDate = game.ModifiedDate;
+        //     var model = new EFEntities.Games.Game();
+        //     model.Description = game.Description;
+        //     model.Name = game.Name;
+        //     model.Id = game.Id;
+        //     //model.SellingInformation = game.SellingInformation.ToGameSellingInformationEntity();
+        //     model.State = game.ProductState;
+        //     //model.TradingInformation = game.TradingInformation.ToGameTradingInformationEntity();
+        //     model.CreatedDate = game.CreatedDate;
+        //     model.ModifiedDate = game.ModifiedDate;
 
-            return model;
-        }
+        //     return model;
+        // }
 
 
         #endregion Product Translations

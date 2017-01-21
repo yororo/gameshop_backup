@@ -1,13 +1,17 @@
-﻿using GameShop.Data.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
 using GameShop.Contracts.Entities;
+using GameShop.Data.Contracts;
 using GameShop.Data.EF.Contexts;
 using GameShop.Data.EF.Translators;
+using GameShop.Data.EF.Translators.Products.Games;
+
 using EFEntities = GameShop.Data.EF.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameShop.Data.EF.Repositories
 {
@@ -22,7 +26,7 @@ namespace GameShop.Data.EF.Repositories
 
         public async Task<int> AddAsync(Advertisement<Game> advertisement)
         {
-            await _context.GameAdvertisements.AddAsync(advertisement.ToGameAdvertisementEntity());
+            await _context.GameAdvertisements.AddAsync(advertisement.ToEntity());
 
             return await _context.SaveChangesAsync();
         }
@@ -42,7 +46,7 @@ namespace GameShop.Data.EF.Repositories
                         .Include(g => g.Games).ThenInclude(trade => trade.TradingInformation)
                         .SingleOrDefaultAsync(ga => ga.FriendlyId == friendlyId);
 
-            return efAd.ToGameAdvertisementContract();
+            return efAd.ToContract();
         }
 
         public async Task<Advertisement<Game>> FindByIdAsync(Guid advertisementId)
@@ -54,7 +58,7 @@ namespace GameShop.Data.EF.Repositories
                         .ThenInclude(trade => trade.TradingInformation)
                         .SingleOrDefaultAsync(ga => ga.Id == advertisementId);
 
-            return efAd.ToGameAdvertisementContract();
+            return efAd.ToContract();
         }
 
         public async Task<IEnumerable<Advertisement<Game>>> FindByTitleAsync(string advertisementTitle)
@@ -70,7 +74,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
             {
-                gameAds.Add(efAd.ToGameAdvertisementContract());
+                gameAds.Add(efAd.ToContract());
             }
 
             return gameAds;
@@ -91,7 +95,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
             {
-                gameAds.Add(efAd.ToGameAdvertisementContract());
+                gameAds.Add(efAd.ToContract());
             }
 
             return gameAds;
@@ -109,7 +113,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
             {
-                gameAds.Add(efAd.ToGameAdvertisementContract());
+                gameAds.Add(efAd.ToContract());
             }
 
             return gameAds;
@@ -132,7 +136,7 @@ namespace GameShop.Data.EF.Repositories
 
             foreach(EFEntities.Games.Game efGame in efGames)
             {
-                games.Add(efGame.ToGameContract());
+                games.Add(efGame.ToContract());
             }
 
             return games;
@@ -143,7 +147,7 @@ namespace GameShop.Data.EF.Repositories
             EFEntities.Games.GameAdvertisement efAdFromDB = (EFEntities.Games.GameAdvertisement) _context.GameAdvertisements
                         .Where(ga => ga.Id == advertisementId);
             
-            EFEntities.Games.GameAdvertisement efAdToUpdate = advertisement.ToGameAdvertisementEntity();
+            EFEntities.Games.GameAdvertisement efAdToUpdate = advertisement.ToEntity();
 
             efAdFromDB.CreatedDate = efAdToUpdate.CreatedDate;
             efAdFromDB.Description = efAdToUpdate.Description;
