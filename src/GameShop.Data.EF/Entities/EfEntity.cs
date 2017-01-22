@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.EF.Entities
 {
-    internal abstract class Entity : IEntity
+    internal abstract class EfEntity : IEfEntity
     {
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }

@@ -11,7 +11,7 @@ namespace GameShop.Contracts.Entities
 
         public string Email { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string ContactNumber { get; set; }
 
         #endregion Properties
 
@@ -23,7 +23,7 @@ namespace GameShop.Contracts.Entities
         public ContactInformation()
         {
             Email = string.Empty;
-            PhoneNumber = string.Empty;
+            ContactNumber = string.Empty;
         }
 
         #endregion Constructors

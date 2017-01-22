@@ -6,6 +6,8 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore.Metadata;
 using GameShop.Data.EF.Entities.Games;
 using GameShop.Data.EF.Entities;
+using GameShop.Contracts.Enumerations;
+using GameShop.Data.EF.Entities.GameConsoles;
 
 namespace GameShop.Data.EF.Contexts
 {
@@ -15,44 +17,119 @@ namespace GameShop.Data.EF.Contexts
         // public DbSet<ProfileAddress> ProfileAddresses { get; set; }
         // public DbSet<ProfileContactInformation> ProfileContactInformation { get; set; }
 
-        public DbSet<GameAdvertisement> GameAdvertisements { get; set; }
-        public DbSet<Game> Games { get; set; }
+        public DbSet<EfAdvertisement> Advertisements { get; set; }
 
-        public DbSet<GameSellingInformation> GameSellingInformation { get; set; }
-        public DbSet<GameTradingInformation> GameTradingInformation { get; set; }
+        public DbSet<EfAdvertisementProducts> AdvertisementProducts { get; set; }
+
+        #region Product DbSets
+
+        public DbSet<EfProduct> Products { get; set; }
+        public DbSet<EfGame> Games { get; set; }
+        public DbSet<EfGameConsole> GameConsoles { get; set; }
+            
+        #endregion Product DbSets
+
+        public DbSet<EfSellingInformation> SellingInformation { get; set; }
+        public DbSet<EfTradingInformation> TradingInformation { get; set; }
+
+        public DbSet<EfMeetupInformation> MeetupInformation { get; set; }
+        public DbSet<EfMeetupLocation> MeetupLocations { get; set; }
 
         public GameShopContext(DbContextOptions options)
             : base(options)
         {
+            // Don't track results of query for performance.
+            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<GameAdvertisement>()
-                        .HasMany(ad => ad.Games)
-                        .WithOne(game => game.Advertisement)
-                        .HasForeignKey(game => game.AdvertisementId)
+            // Set composite keys.
+            modelBuilder.Entity<EfAdvertisementProducts>()
+                        .HasKey(ap => new { ap.AdvertisementId, ap.ProductId });
+
+            // ONE (Advertisement) to MANY (Products)
+            modelBuilder.Entity<EfAdvertisementProducts>()
+                        .HasOne(ap => ap.Advertisement)
+                        .WithMany(advertisement => advertisement.AdvertisementProducts)
+                        .HasForeignKey(ap => ap.AdvertisementId);
+
+            // ONE (Product) to MANY (Advertisements).
+            modelBuilder.Entity<EfAdvertisementProducts>()
+                        .HasOne(ap => ap.Product)
+                        .WithMany(product => product.AdvertisementProducts)
+                        .HasForeignKey(ap => ap.ProductId);
+
+            // ONE (Product) to ONE (SellingInformation).
+            modelBuilder.Entity<EfProduct>()
+                        .HasOne(product => product.SellingInformation)
+                        .WithOne(sellingInfo => sellingInfo.Product)
+                        .HasForeignKey<EfSellingInformation>(sellingInfo => sellingInfo.ProductId)
                         .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Game>()
-                        .HasOne(game => game.SellingInformation)
-                        .WithOne(info => info.Game)
+            // ONE (Product) to ONE (TradingInformation).
+            modelBuilder.Entity<EfProduct>()
+                        .HasOne(product => product.TradingInformation)
+                        .WithOne(tradingInfo => tradingInfo.Product)
+                        .HasForeignKey<EfTradingInformation>(tradingInfo => tradingInfo.ProductId)
                         .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<GameSellingInformation>()
-                        .HasOne(info => info.Game)
-                        .WithOne(game => game.SellingInformation);
+            // Set General ProductCategory as Discriminator value.
+            modelBuilder.Entity<EfProduct>()
+                        .HasDiscriminator()
+                        .HasValue(ProductCategory.General.ToString());
 
-            modelBuilder.Entity<Game>()
-                        .HasOne(game => game.TradingInformation)
-                        .WithOne(info => info.Game)
-                        .OnDelete(DeleteBehavior.Cascade);                   
+            // Set EfProduct as base type and set the Games ProductCategory as Discriminator value.
+            modelBuilder.Entity<EfGame>()
+                        .HasBaseType<EfProduct>()
+                        .HasDiscriminator()
+                        .HasValue(ProductCategory.Games.ToString());
 
-            modelBuilder.Entity<GameTradingInformation>()
-                        .HasOne(info => info.Game)
-                        .WithOne(game => game.TradingInformation);
+            // Set EfProduct as base type and set the GameConsoles ProductCategory as Discriminator value.
+            modelBuilder.Entity<EfGameConsole>()
+                        .HasBaseType<EfProduct>()
+                        .HasDiscriminator()
+                        .HasValue(ProductCategory.GameConsoles.ToString());
+
+            // ONE (Advertisement) to ONE (MeetupInformation).
+            modelBuilder.Entity<EfAdvertisement>()
+                        .HasOne(advertisement => advertisement.MeetupInformation)
+                        .WithOne(meetupInfo => meetupInfo.Advertisement)
+                        .HasForeignKey<EfMeetupInformation>(meetupInfo => meetupInfo.AdvertisementId)
+                        .OnDelete(DeleteBehavior.Cascade);
+                        
+            // ONE (MeetupInformation) to MANY (MeetupLocations).
+            modelBuilder.Entity<EfMeetupInformation>()
+                        .HasMany(meetupInfo => meetupInfo.MeetupLocations)
+                        .WithOne(meetupLocation => meetupLocation.MeetupInformation)
+                        .HasForeignKey(meetupLocation => meetupLocation.MeetupInformationId);
+
+            /*
+            //    Table Names
+            */
+
+            modelBuilder.Entity<EfAdvertisement>()
+                        .ToTable("Advertisements");
+
+            modelBuilder.Entity<EfProduct>()
+                        .ToTable("Products");
+            
+            modelBuilder.Entity<EfAdvertisementProducts>()
+                        .ToTable("AdvertisementProducts");
+
+            modelBuilder.Entity<EfSellingInformation>()
+                        .ToTable("SellingInformation");
+
+            modelBuilder.Entity<EfTradingInformation>()
+                        .ToTable("TradingInformation");
+
+            modelBuilder.Entity<EfMeetupInformation>()
+                        .ToTable("MeetupInformation");
+
+            modelBuilder.Entity<EfMeetupLocation>()
+                        .ToTable("MeetupLocations");
 
             // // Identity table names.
             // modelBuilder.Entity<User>()
@@ -209,16 +286,16 @@ namespace GameShop.Data.EF.Contexts
         {
             // Get all entities who are in Added/Modified state.
             var entities = ChangeTracker.Entries()
-                            .Where(x => x.Entity is IEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                            .Where(x => x.Entity is IEfEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    ((IEntity)entity.Entity).CreatedDate = DateTime.Now;
+                    ((IEfEntity)entity.Entity).CreatedDate = DateTime.Now;
                 }
 
-                ((IEntity)entity.Entity).ModifiedDate = DateTime.Now;
+                ((IEfEntity)entity.Entity).ModifiedDate = DateTime.Now;
             }
         }
 

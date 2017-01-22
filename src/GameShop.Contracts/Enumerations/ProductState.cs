@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Enumerations
 {
-    public enum ProductState : short
+    public enum ProductType : short
     {
         ForSale = 1,
         ForTrade,

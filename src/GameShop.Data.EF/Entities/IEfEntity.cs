@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.EF.Entities
 {
-    internal interface IEntity
+    internal interface IEfEntity
     {
         DateTime? CreatedDate { get; set; }
         DateTime? ModifiedDate { get; set; }

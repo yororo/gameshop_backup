@@ -14,6 +14,8 @@ namespace GameShop.Contracts.Entities
 
         public GameGenre Genre { get; set; }
 
+        public override ProductCategory Category { get { return ProductCategory.Games; } }
+
         #endregion Properties
 
         #region Constructors

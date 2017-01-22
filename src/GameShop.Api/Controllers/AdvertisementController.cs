@@ -11,13 +11,14 @@ using GameShop.Data.Contracts;
 using GameShop.Api.Contracts;
 using GameShop.Api.Contracts.Responses;
 using GameShop.Api.Contracts.Constants;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GameShop.Api.Controllers.Advertisements
 {
-    [Route(ApiEndpoints.GameAdvertisements)]
-    public class GameAdvertisementsController : Controller
+    [Route(ApiEndpoints.Advertisements)]
+    public class AdvertisementController : Controller
     {
         #region Declarations
 
@@ -31,7 +32,7 @@ namespace GameShop.Api.Controllers.Advertisements
         /// Constructor.
         /// </summary>
         /// <param name="gameAdvertisementsRepository">Game advertisements repository.</param>
-        public GameAdvertisementsController(IGameAdvertisementRepository gameAdvertisementsRepository)
+        public AdvertisementController(IGameAdvertisementRepository gameAdvertisementsRepository)
         {
             _gameAdvertisementsRepository = gameAdvertisementsRepository;
         }
@@ -74,6 +75,44 @@ namespace GameShop.Api.Controllers.Advertisements
             }
 
              return Ok(new ApiResponse(Result.Error, $"Unable to get advertisement/s."));
+        }
+        
+        //[Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody]Advertisement advertisement)
+        {
+            int result = await _gameAdvertisementsRepository.AddAsync(advertisement);
+
+            if (result > 0)
+            {
+                return CreatedAtAction(nameof(AdvertisementController.CreateAsync), advertisement);
+            }
+
+            return Ok(new ApiResponse(Result.Error, "Unable to create advertisement."));
+        }
+
+        //[Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] Advertisement advertisement)
+        {
+            if(await _gameAdvertisementsRepository.UpdateAsync(id, advertisement) > 0)
+            {
+                return Ok();
+            }
+
+            return Ok(new ApiResponse(Result.Error, $"Unable to update advertisement with id: { id }."));
+        }
+
+        //[Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            if (await _gameAdvertisementsRepository.DeleteByIdAsync(id) > 0)
+            {
+                return Ok();
+            }
+
+             return Ok(new ApiResponse(Result.Error, $"Unable to delete advertisement with id: { id }."));
         }
 
         private async Task<IActionResult> GetAllAsync()
@@ -121,44 +160,6 @@ namespace GameShop.Api.Controllers.Advertisements
             var ads = await _gameAdvertisementsRepository.FindByTitleAsync(title);
 
             return Ok(ads);
-        }
-        
-        //[Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody]Advertisement<Game> advertisement)
-        {
-            int result = await _gameAdvertisementsRepository.AddAsync(advertisement);
-
-            if (result > 0)
-            {
-                return CreatedAtAction(nameof(GameAdvertisementsController.CreateAsync), advertisement);
-            }
-
-            return Ok(new ApiResponse(Result.Error, "Unable to create advertisement."));
-        }
-
-        [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] Advertisement<Game> advertisement)
-        {
-            if(await _gameAdvertisementsRepository.UpdateAsync(id, advertisement) > 0)
-            {
-                return Ok();
-            }
-
-            return Ok(new ApiResponse(Result.Error, $"Unable to update advertisement with id: { id }."));
-        }
-
-        [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            if (await _gameAdvertisementsRepository.DeleteByIdAsync(id) > 0)
-            {
-                return Ok();
-            }
-
-             return Ok(new ApiResponse(Result.Error, $"Unable to delete advertisement with id: { id }."));
         }
 
         #endregion Game Advertisements

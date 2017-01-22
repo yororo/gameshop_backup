@@ -20,9 +20,10 @@ namespace GameShop.Contracts.Entities
 
         public bool IsOwnerWillingToAddCash { get; set; }
 
-        public decimal CashAmountWillingToAdd { get; set; }
+        public decimal CashAmountToAdd { get; set; }
 
         public bool IsOwnerWillingToReceiveCash { get; set; }
+        public decimal CashAmountToReceive { get; set; }
 
         public string TradeNotes { get; set; }
 
@@ -44,8 +45,9 @@ namespace GameShop.Contracts.Entities
             TradingPrice = decimal.Zero;
             ReasonForTrading = string.Empty;
             IsOwnerWillingToAddCash = false;
-            CashAmountWillingToAdd = decimal.Zero;
+            CashAmountToAdd = decimal.Zero;
             IsOwnerWillingToReceiveCash = false;
+            CashAmountToReceive = decimal.Zero;
             TradeNotes = string.Empty;
             CreatedDate = DateTime.MaxValue;
             ModifiedDate = DateTime.MaxValue;

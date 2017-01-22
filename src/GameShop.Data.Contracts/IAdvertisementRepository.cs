@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 namespace GameShop.Data.Contracts
 {
     /// <summary>
+    /// Advertisement Async Repository whose Advertisement ID is of type Guid and product type is Product.
+    /// </summary>
+    public interface IAdvertisementRepository : IAdvertisementRepository<Advertisement, Product>
+    {
+
+    }
+
+    /// <summary>
     /// Advertisement Async Repository whose Advertisement ID is of type Guid.
     /// </summary>
     /// <typeparam name="TProduct">Type of products.</typeparam>
-    public interface IAdvertisementRepository<TProduct> : IAdvertisementRepository<Guid, TProduct> where TProduct : Product
+    public interface IAdvertisementRepository<TAdvertisement, TProduct> : IAdvertisementRepository<Guid, TAdvertisement, TProduct> where TAdvertisement : Advertisement where TProduct : Product
     {
 
     }
@@ -19,48 +27,48 @@ namespace GameShop.Data.Contracts
     /// Advertisement Async Repository.
     /// </summary>
     /// <typeparam name="TId">Type to use for an ID.</typeparam>
-    /// <typeparam name="TProduct">Type of products.</typeparam>
-    public interface IAdvertisementRepository<TId, TProduct> where TProduct : Product
+    /// <typeparam name="TAdvertisement">Type of products.</typeparam>
+    public interface IAdvertisementRepository<TId, TAdvertisement, TProduct> where TAdvertisement : Advertisement where TProduct : Product
     {
         /// <summary>
         /// Find advertisement by ID.
         /// </summary>
         /// <param name="advertisementId">Advertisement ID.</param>
         /// <returns>Advertisements.</returns>
-        Task<Advertisement<TProduct>> FindByIdAsync(TId advertisementId);
+        Task<TAdvertisement> FindByIdAsync(TId advertisementId);
 
         /// <summary>
         /// Find advertisements by friendly ID.
         /// </summary>
         /// <param name="friendlyId">Friendly advertisement ID.</param>
         /// <returns></returns>
-        Task<Advertisement<TProduct>> FindByFriendlyIdAsync(string friendlyId);
+        Task<TAdvertisement> FindByFriendlyIdAsync(string friendlyId);
 
         /// <summary>
         /// Find advertisements by title.
         /// </summary>
         /// <param name="advertisementTitle">Advertisement title.</param>
         /// <returns>Advertisements.</returns>
-        Task<IEnumerable<Advertisement<TProduct>>> FindByTitleAsync(string advertisementTitle);
+        Task<IEnumerable<TAdvertisement>> FindByTitleAsync(string advertisementTitle);
 
         /// <summary>
         /// Get all advertisements asynchronously.
         /// </summary>
         /// <returns>Advertisements.</returns>
-        Task<IEnumerable<Advertisement<TProduct>>> GetAllAsync();
+        Task<IEnumerable<TAdvertisement>> GetAllAsync();
 
         /// <summary>
         /// Deep get all advertisements asynchronously.
         /// </summary>
         /// <returns>Advertisements.</returns>
-        Task<IEnumerable<Advertisement<TProduct>>> GetAllDeepAsync();
+        Task<IEnumerable<TAdvertisement>> GetAllDeepAsync();
 
         /// <summary>
         /// Get meetup locations specified in the advertisement.
         /// </summary>
         /// <param name="advertisementId">Advertisement ID.</param>
         /// <returns>Meetup locations.</returns>
-        Task<IEnumerable<Address>> GetMeetupLocationsAsync(TId advertisementId);
+        Task<MeetupInformation> GetMeetupInformationAsync(TId advertisementId);
 
         /// <summary>
         /// Get all products associated with the advertisement.
@@ -81,7 +89,7 @@ namespace GameShop.Data.Contracts
         /// </summary>
         /// <param name="advertisement">Advertisement.</param>
         /// <returns>Number of database rows affected.</returns>
-        Task<int> AddAsync(Advertisement<TProduct> advertisement);
+        Task<int> AddAsync(TAdvertisement advertisement);
 
         /// <summary>
         /// Update an advertisement in the repository.
@@ -89,7 +97,7 @@ namespace GameShop.Data.Contracts
         /// <param name="advertisementId">ID if the advertisement to be updated.</param>
         /// <param name="advertisement">Updated advertisement.</param>
         /// <returns>Number of database rows affected.</returns>
-        Task<int> UpdateAsync(TId advertisementId, Advertisement<TProduct> advertisement);
+        Task<int> UpdateAsync(TId advertisementId, TAdvertisement advertisement);
 
         /// <summary>
         /// Delete advertisement.

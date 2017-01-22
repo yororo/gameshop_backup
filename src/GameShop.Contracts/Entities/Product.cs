@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public abstract class Product
+    public class Product
     {
         #region Properties
 
@@ -20,7 +20,8 @@ namespace GameShop.Contracts.Entities
 
         public TradingInformation TradingInformation { get; set; }
 
-        public ProductState ProductState { get; set; }
+        public ProductType ProductType { get; set; }
+        public virtual ProductCategory Category { get { return ProductCategory.General; } }
 
         public DateTime CreatedDate { get; set; }
 

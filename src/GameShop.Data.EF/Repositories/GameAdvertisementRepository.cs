@@ -8,10 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using GameShop.Contracts.Entities;
 using GameShop.Data.Contracts;
 using GameShop.Data.EF.Contexts;
-using GameShop.Data.EF.Translators;
-using GameShop.Data.EF.Translators.Products.Games;
-
-using EFEntities = GameShop.Data.EF.Entities;
+using GameShop.Data.EF.Entities;
+using GameShop.Data.EF.Entities.Games;
 
 namespace GameShop.Data.EF.Repositories
 {
@@ -24,60 +22,94 @@ namespace GameShop.Data.EF.Repositories
             _context = context;
         }
 
-        public async Task<int> AddAsync(Advertisement<Game> advertisement)
+        public Task<int> AddAsync(Advertisement advertisement)
         {
-            await _context.GameAdvertisements.AddAsync(advertisement.ToEntity());
+            var advertisementProductEntities = new List<EfAdvertisementProducts>();
 
-            return await _context.SaveChangesAsync();
-        }
+            if(advertisement.Products.Count != 0)
+            {
+                foreach(Product productContract in advertisement.Products)
+                {
+                    advertisementProductEntities.Add(new EfAdvertisementProducts()
+                    {
+                        AdvertisementId = advertisement.Id,
+                        Advertisement = advertisement.ToEntity(),
+                        ProductId = productContract.Id,
+                        Product = productContract.ToEntity()
+                    });
+                }
 
-        public Task<int> DeleteByIdAsync(Guid advertisementId)
-        {
-            _context.GameAdvertisements.Remove(_context.GameAdvertisements.SingleOrDefault(ad => ad.Id == advertisementId));
+                _context.AdvertisementProducts.AddRange(advertisementProductEntities);
+
+                return _context.SaveChangesAsync();
+            }
+
+            _context.Advertisements.Add(advertisement.ToEntity());
 
             return _context.SaveChangesAsync();
         }
 
-        public async Task<Advertisement<Game>> FindByFriendlyIdAsync(string friendlyId)
+        public Task<int> DeleteByIdAsync(Guid advertisementId)
         {
-            var efAd = await _context.GameAdvertisements
-                        .Include(g => g.Games)
-                        .ThenInclude(sell => sell.SellingInformation)
-                        .Include(g => g.Games).ThenInclude(trade => trade.TradingInformation)
-                        .SingleOrDefaultAsync(ga => ga.FriendlyId == friendlyId);
-
-            return efAd.ToContract();
+            _context.Entry<EfAdvertisement>(new EfAdvertisement() { Id = advertisementId }).State = EntityState.Deleted;
+            
+            return _context.SaveChangesAsync();
         }
 
-        public async Task<Advertisement<Game>> FindByIdAsync(Guid advertisementId)
+        public async Task<Advertisement> FindByFriendlyIdAsync(string friendlyId)
         {
-            var efAd = await _context.GameAdvertisements
-                        .Include(g => g.Games)
-                        .ThenInclude(sell => sell.SellingInformation)
-                        .Include(g => g.Games)
-                        .ThenInclude(trade => trade.TradingInformation)
-                        .SingleOrDefaultAsync(ga => ga.Id == advertisementId);
+            // var advertisementEntity = await _context.Advertisements
+            //             .Include(g => g.Games)
+            //             .ThenInclude(sell => sell.SellingInformation)
+            //             .Include(g => g.Games).ThenInclude(trade => trade.TradingInformation)
+            //             .SingleOrDefaultAsync(ga => ga.FriendlyId == friendlyId);
 
-            return efAd.ToContract();
+            // TODO:
+            var advertisementEntity = await _context.AdvertisementProducts
+                                        .Where(ap => ap.Advertisement.FriendlyId == friendlyId)
+                                        .Select(ap => ap.Advertisement)
+                                        .Include(ad => ad.MeetupInformation)
+                                        .ThenInclude(meetupInfo => meetupInfo.MeetupLocations)
+                                        .FirstOrDefaultAsync();
+
+            return advertisementEntity.ToContract();
         }
 
-        public async Task<IEnumerable<Advertisement<Game>>> FindByTitleAsync(string advertisementTitle)
+        public async Task<Advertisement> FindByIdAsync(Guid advertisementId)
         {
-            var gameAds = new List<Advertisement<Game>>();
+            // var advertisementEntity = await _context.Advertisements
+            //             .Include(g => g.Games)
+            //             .ThenInclude(sell => sell.SellingInformation)
+            //             .Include(g => g.Games)
+            //             .ThenInclude(trade => trade.TradingInformation)
+            //             .SingleOrDefaultAsync(ga => ga.Id == advertisementId);
 
-            var eFAds = await _context.GameAdvertisements
-                        .Include(g => g.Games)
-                        .ThenInclude(sell => sell.SellingInformation)
-                        .Include(g => g.Games)
-                        .ThenInclude(trade => trade.TradingInformation)
-                        .Where(ga => ga.Title == advertisementTitle).ToListAsync();
+            var advertisementEntity = await _context.AdvertisementProducts
+                                        .Include(ap => ap.Advertisement)
+                                        .Select(ap => ap.Advertisement)
+                                        .Include(ap => ap.AdvertisementProducts)
+                                        .SingleOrDefaultAsync(ad => ad.Id == advertisementId);
 
-            foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
-            {
-                gameAds.Add(efAd.ToContract());
-            }
+            return advertisementEntity.ToContract();
+        }
 
-            return gameAds;
+        public async Task<IEnumerable<Advertisement>> FindByTitleAsync(string advertisementTitle)
+        {
+            // var advertisementEntities = await _context.Advertisements
+            //             .Include(g => g.Games)
+            //             .ThenInclude(sell => sell.SellingInformation)
+            //             .Include(g => g.Games)
+            //             .ThenInclude(trade => trade.TradingInformation)
+            //             .Where(ga => ga.Title == advertisementTitle).ToListAsync();
+
+            var advertisementEntities = await _context.AdvertisementProducts
+                                        .Include(ap => ap.Advertisement)
+                                        .Where(ap => ap.Advertisement.Title == advertisementTitle)
+                                        .Select(ap => ap.Advertisement)
+                                        .Include(ap => ap.AdvertisementProducts)
+                                        .ToListAsync();
+
+            return advertisementEntities.ToContracts();
         }
 
         public Task<User> GetAdOwnerAsync(Guid advertisementId)
@@ -85,87 +117,89 @@ namespace GameShop.Data.EF.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Advertisement<Game>>> GetAllAsync()
+        public async Task<IEnumerable<Advertisement>> GetAllAsync()
         {
-            var gameAds = new List<Advertisement<Game>>();
+            var advertisementEntities = await _context.Advertisements
+                                        .Include(ad => ad.MeetupInformation)
+                                        .ThenInclude(meetupInfo => meetupInfo.MeetupLocations)
+                                        .ToListAsync();
 
-            var eFAds = await _context.GameAdvertisements
-                        .Include(g => g.Games)
-                        .ToListAsync();
-
-            foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
-            {
-                gameAds.Add(efAd.ToContract());
-            }
-
-            return gameAds;
+            return advertisementEntities.ToContracts();
         }
 
-        public async Task<IEnumerable<Advertisement<Game>>> GetAllDeepAsync()
+        public async Task<IEnumerable<Advertisement>> GetAllDeepAsync()
         {
-            var gameAds = new List<Advertisement<Game>>();
+            // var advertisementEntities = await _context.Advertisements
+            //             .Include(g => g.Games)
+            //             .ThenInclude(sell => sell.SellingInformation)
+            //             .Include(g => g.Games).ThenInclude(trade => trade.TradingInformation)
+            //             .ToListAsync();
 
-            var eFAds = await _context.GameAdvertisements
-                        .Include(g => g.Games)
-                        .ThenInclude(sell => sell.SellingInformation)
-                        .Include(g => g.Games).ThenInclude(trade => trade.TradingInformation)
-                        .ToListAsync();
+            // var advertisementEntities = await _context.Advertisements
+            //                             .Include(ad => ad.MeetupInformation)
+            //                             .ThenInclude(meetupInfo => meetupInfo.MeetupLocations)
+            //                             .ToListAsync();
 
-            foreach(EFEntities.Games.GameAdvertisement efAd in eFAds)
+            var advertisementContracts = new List<Advertisement>();
+
+            await _context.Advertisements
+            .Include(ad => ad.MeetupInformation)
+            .ThenInclude(meetupInfo => meetupInfo.MeetupLocations)
+            .ForEachAsync(ad => 
             {
-                gameAds.Add(efAd.ToContract());
-            }
+                // Get all advertisement products.
+                var advertisementProductEntities = _context.AdvertisementProducts
+                .Where(ap => ap.AdvertisementId == ad.Id)
+                .Include(ap => ap.Product)
+                .Include(ap => ap.Product.SellingInformation)
+                .Include(ap => ap.Product.TradingInformation)
+                .ToList();
 
-            return gameAds;
+                advertisementProductEntities.ForEach(ap => 
+                {   
+                    ad.AdvertisementProducts.Add(ap);
+                });
+
+                // Add advertisement to list.
+                advertisementContracts.Add(ad.ToContract());              
+            });
+
+            return advertisementContracts;
         }
 
-        public Task<IEnumerable<Address>> GetMeetupLocationsAsync(Guid advertisementId)
+        public async Task<MeetupInformation> GetMeetupInformationAsync(Guid advertisementId)
         {
-            // TODO: No MeetupLocation table yet.
-            throw new NotImplementedException();
+            var meetupInfoEntity = await _context.MeetupInformation
+                                    .Where(meetupInfo => meetupInfo.AdvertisementId == advertisementId)
+                                    .Include(meetupInfo => meetupInfo.MeetupLocations)
+                                    .SingleOrDefaultAsync();
+
+            return meetupInfoEntity.ToContract();
         }
 
-        public async Task<IEnumerable<Game>> GetProductsAsync(Guid advertisementId)
+        public async Task<IEnumerable<Product>> GetProductsAsync(Guid advertisementId)
         {
-            var games = new List<Game>();
+            // var gameEntities = await _context.Games
+            //             .Where(g => g.AdvertisementId == advertisementId)
+            //             .Include(s => s.SellingInformation)
+            //             .Include(t => t.TradingInformation).ToListAsync();
 
-            var efGames = await _context.Games
-                        .Where(g => g.AdvertisementId == advertisementId)
-                        .Include(s => s.SellingInformation)
-                        .Include(t => t.TradingInformation).ToListAsync();
+            var productEntities = await _context.AdvertisementProducts
+                                .Include(ap => ap.Product)
+                                .Where(ap => ap.AdvertisementId == advertisementId)
+                                .Select(ap => ap.Product)
+                                .ToListAsync();
 
-            foreach(EFEntities.Games.Game efGame in efGames)
-            {
-                games.Add(efGame.ToContract());
-            }
-
-            return games;
+            return productEntities.ToContracts();
         }
 
-        public Task<int> UpdateAsync(Guid advertisementId, Advertisement<Game> advertisement)
+        public Task<int> UpdateAsync(Guid advertisementId, Advertisement advertisement)
         {
-            EFEntities.Games.GameAdvertisement efAdFromDB = (EFEntities.Games.GameAdvertisement) _context.GameAdvertisements
-                        .Where(ga => ga.Id == advertisementId);
-            
-            EFEntities.Games.GameAdvertisement efAdToUpdate = advertisement.ToEntity();
+            var advertisementEntity = advertisement.ToEntity();
+            //Set ID.
+            advertisementEntity.Id = advertisementId;
 
-            efAdFromDB.CreatedDate = efAdToUpdate.CreatedDate;
-            efAdFromDB.Description = efAdToUpdate.Description;
-            efAdFromDB.FriendlyId = efAdToUpdate.FriendlyId;
-
-            foreach(EFEntities.Games.Game game in efAdToUpdate.Games)
-            {
-                efAdFromDB.Games.Add(game);
-            }
-
-            efAdFromDB.Id = efAdToUpdate.Id;
-            //fGame.MeetupInformation = contractAdGame.MeetupInformation;
-            efAdFromDB.ModifiedDate = efAdToUpdate.ModifiedDate;
-            //efGame.Owner = contractAdGame.Owner;
-            efAdFromDB.State = efAdToUpdate.State;
-            efAdFromDB.Title = efAdToUpdate.Title;
-
-            _context.GameAdvertisements.Update(efAdFromDB);
+            _context.Entry<EfAdvertisement>(advertisementEntity).State = EntityState.Modified;
 
             return _context.SaveChangesAsync();
         }

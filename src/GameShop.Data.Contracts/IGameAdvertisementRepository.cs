@@ -9,7 +9,7 @@ namespace GameShop.Data.Contracts
     /// <summary>
     /// Ad Async Repository which uses <typeparamref name="Guid"/> as default type for ID.
     /// </summary>
-    public interface IGameAdvertisementRepository : IAdvertisementRepository<Game>
+    public interface IGameAdvertisementRepository : IAdvertisementRepository
     {
     }
 }

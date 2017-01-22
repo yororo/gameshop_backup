@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameShop.Contracts.Entities
 {
-    public abstract class Advertisement<TProduct> where TProduct : Product
+    public class Advertisement<TProduct> where TProduct : Product
     {
         #region Properties
 
@@ -24,7 +24,7 @@ namespace GameShop.Contracts.Entities
 
         public MeetupInformation MeetupInformation { get; set; }
         
-        public User Owner { get; set; }
+        //public User Owner { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
@@ -46,7 +46,7 @@ namespace GameShop.Contracts.Entities
             Products = new List<TProduct>();
             State = AdvertisementState.Inactive;
             MeetupInformation = new MeetupInformation();
-            Owner = new User();
+            //Owner = new User();
             CreatedDate = DateTime.MaxValue;
             ModifiedDate = DateTime.MaxValue;
         }
@@ -64,7 +64,7 @@ namespace GameShop.Contracts.Entities
         #endregion Constructors
     }
 
-    public abstract class Advertisement : Advertisement<Product>
+    public class Advertisement : Advertisement<Product>
     {
         #region Constructors
 

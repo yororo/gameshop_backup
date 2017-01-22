@@ -13,7 +13,7 @@ using GameShop.Api.Contracts.Constants;
 namespace GameShop.Api.Controllers.Products
 {
     [Route(ApiEndpoints.Games)]
-    public class GamesController : Controller
+    public class GameController : Controller
     {
         #region Declarations
 
@@ -27,7 +27,7 @@ namespace GameShop.Api.Controllers.Products
         /// Default constructor
         /// </summary>
         /// <param name="gameRepository">Game repository.</param>
-        public GamesController(IGameRepository gameRepository)
+        public GameController(IGameRepository gameRepository)
         {
             _gameRepository = gameRepository;
         }
@@ -67,19 +67,19 @@ namespace GameShop.Api.Controllers.Products
             int result = await _gameRepository.AddAsync(game);
             if(result > 0)
             {
-                return CreatedAtAction(nameof(GamesController.CreateAsync), game);
+                return CreatedAtAction(nameof(GameController.CreateAsync), game);
             }
 
             return Ok(new ApiResponse(Result.Error, "Unable to create game."));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody]Game game)
         {
             // Check if IDs are the same.
             if(id != game.Id)
             {
-                return Ok(new ApiResponse(Result.Error, "The ID in the URL does not match the ID of the updated object payload."));
+                return Ok(new ApiResponse(Result.Error, "The ID parameter does not match the ID of the object payload."));
             }
 
             int result = await _gameRepository.UpdateAsync(id, game);
@@ -94,7 +94,7 @@ namespace GameShop.Api.Controllers.Products
             return NotFound();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             int result = await _gameRepository.DeleteByIdAsync(id);

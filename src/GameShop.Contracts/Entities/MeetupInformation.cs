@@ -9,7 +9,9 @@ namespace GameShop.Contracts.Entities
     {
         #region Properties
 
-        public List<Address> MeetupLocations { get; set; }
+        public string ContactNumber { get; set; }
+        public List<MeetupLocation> MeetupLocations { get; set; }
+        public string Notes { get; set; }
 
         #endregion Properties
 
@@ -17,7 +19,9 @@ namespace GameShop.Contracts.Entities
         
         public MeetupInformation()
         {
-            MeetupLocations = new List<Address>();
+            ContactNumber = string.Empty;
+            MeetupLocations = new List<MeetupLocation>();
+            Notes = string.Empty;
         }
 
         #endregion Constructors

@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace GameShop.Data.EF.Entities
 {
-    internal class TradingInformation : Entity
+    internal class EfTradingInformation : EfEntity
     {
         public Guid Id { get; set; }
         public Currency Currency { get; set; }
         public decimal TradingPrice { get; set; }
-        public string ReasonForSelling { get; set; }
+        public string ReasonForTrading { get; set; }
         public bool IsOwnerWillingToAddCash { get; set; }
         public decimal CashAmountToAdd { get; set; }
         public bool IsOwnerWillingToReceiveCash { get; set; }
+        public decimal CashAmountToReceive { get; set; }
         public string TradeNotes { get; set; }
+
+        public Guid ProductId { get; set; }
+        public EfProduct Product { get; set; }
     }
 }

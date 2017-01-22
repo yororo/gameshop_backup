@@ -9,9 +9,7 @@ using GameShop.Contracts.Entities;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.Contracts;
 using GameShop.Data.EF.Contexts;
-using GameShop.Data.EF.Translators;
-using GameShop.Data.EF.Translators.Products.Games;
-
+using GameShop.Data.EF.Entities.Games;
 
 namespace GameShop.Data.EF.Repositories
 {
@@ -24,16 +22,18 @@ namespace GameShop.Data.EF.Repositories
             _context = context;
         }
 
-        public async Task<int> AddAsync(Game game)
+        public Task<int> AddAsync(Game game)
         {
-            await _context.Games.AddAsync(game.ToEntity());
+            _context.Games.Add(game.ToEntity());
 
-            return await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteByIdAsync(Guid productId)
+        public Task<int> DeleteByIdAsync(Guid productId)
         {
-            throw new NotImplementedException();
+            _context.Entry<EfGame>(new EfGame() { Id = productId }).State = EntityState.Deleted;
+
+            return _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Game>> GetAllAsync()
@@ -49,7 +49,9 @@ namespace GameShop.Data.EF.Repositories
         public async Task<IEnumerable<Game>> GetByGenreAsync(GameGenre genre)
         {
             var gameEntities = await _context.Games
-                                .Where(game => game.GameGenre == genre)
+                                .Where(game => game.Genre == genre)
+                                .Include(game => game.SellingInformation)
+                                .Include(game => game.TradingInformation)
                                 .ToListAsync();
 
             return gameEntities.ToContracts();
@@ -58,6 +60,8 @@ namespace GameShop.Data.EF.Repositories
         public async Task<Game> GetByIdAsync(Guid id)
         {
             var gameEntity = await _context.Games
+                                .Include(game => game.SellingInformation)
+                                .Include(game => game.TradingInformation)
                                 .SingleOrDefaultAsync(game => game.Id == id);
 
             return gameEntity.ToContract();
@@ -65,18 +69,23 @@ namespace GameShop.Data.EF.Repositories
 
         public async Task<IEnumerable<Game>> GetByNameAsync(string name)
         {
-            name = name.Trim();
-            
             var gameEntities = await _context.Games
-                                .Where(game => game.Name.Trim() == name)
+                                .Where(game => game.Name == name)
+                                .Include(game => game.SellingInformation)
+                                .Include(game => game.TradingInformation)
                                 .ToListAsync();
 
             return gameEntities.ToContracts();
         }
 
-        public async Task<int> UpdateAsync(Guid productId, Game product)
+        public Task<int> UpdateAsync(Guid productId, Game product)
         {
-            throw new NotImplementedException();
+            var gameEntity = product.ToEntity();
+            //gameEntity.Id = productId;
+
+            _context.Entry<EfGame>(gameEntity).State = EntityState.Modified;
+
+            return _context.SaveChangesAsync();
         }
     }
 }
