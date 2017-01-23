@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "AspNet.Security.OAuth.Introspection": "1.0.0-alpha3-final",
+    "CryptoHelper": "2.1.0",
     "GameShop.Api.Contracts": "1.0.0-*",
     "GameShop.Contracts": "1.0.0-*",
     "GameShop.Data.Contracts": "1.0.0-*",
@@ -17,10 +18,9 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-    "NWebsec.AspNetCore.Middleware": "1.0.0-gamma1-15",
-    "Swashbuckle": "6.0.0-beta902",
-    "CryptoHelper": "2.1.0",
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "NWebsec.AspNetCore.Middleware": "1.0.0-gamma1-45",
+    "Swashbuckle.AspNetCore": "1.0.0-rc1"
   },
 
   "tools": {
