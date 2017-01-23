@@ -35,21 +35,21 @@ namespace GameShop.Data.Contracts
         /// </summary>
         /// <param name="advertisementId">Advertisement ID.</param>
         /// <returns>Advertisements.</returns>
-        Task<TAdvertisement> FindByIdAsync(TId advertisementId);
+        Task<TAdvertisement> GetByIdAsync(TId advertisementId);
 
         /// <summary>
         /// Find advertisements by friendly ID.
         /// </summary>
         /// <param name="friendlyId">Friendly advertisement ID.</param>
         /// <returns></returns>
-        Task<TAdvertisement> FindByFriendlyIdAsync(string friendlyId);
+        Task<TAdvertisement> GetByFriendlyIdAsync(string friendlyId);
 
         /// <summary>
         /// Find advertisements by title.
         /// </summary>
         /// <param name="advertisementTitle">Advertisement title.</param>
         /// <returns>Advertisements.</returns>
-        Task<IEnumerable<TAdvertisement>> FindByTitleAsync(string advertisementTitle);
+        Task<IEnumerable<TAdvertisement>> GetByTitleAsync(string advertisementTitle);
 
         /// <summary>
         /// Get all advertisements asynchronously.

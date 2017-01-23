@@ -22,7 +22,7 @@ namespace GameShop.Api.Controllers.Advertisements
     {
         #region Declarations
 
-        private readonly IGameAdvertisementRepository _gameAdvertisementsRepository;
+        private readonly IAdvertisementRepository _advertisementsRepository;
 
         #endregion Declarations
 
@@ -31,20 +31,16 @@ namespace GameShop.Api.Controllers.Advertisements
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="gameAdvertisementsRepository">Game advertisements repository.</param>
-        public AdvertisementController(IGameAdvertisementRepository gameAdvertisementsRepository)
+        /// <param name="advertisementsRepository">Game advertisements repository.</param>
+        public AdvertisementController(IAdvertisementRepository advertisementsRepository)
         {
-            _gameAdvertisementsRepository = gameAdvertisementsRepository;
+            _advertisementsRepository = advertisementsRepository;
         }
 
         #endregion Constructors
 
-        #region Game Advertisements
+        #region Advertisements
 
-        /// <summary>
-        /// Get all game advertisements.
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]string deep, [FromQuery]Guid? id, [FromQuery]string fid, [FromQuery]string title)
         {
@@ -81,7 +77,7 @@ namespace GameShop.Api.Controllers.Advertisements
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody]Advertisement advertisement)
         {
-            int result = await _gameAdvertisementsRepository.AddAsync(advertisement);
+            int result = await _advertisementsRepository.AddAsync(advertisement);
 
             if (result > 0)
             {
@@ -95,7 +91,7 @@ namespace GameShop.Api.Controllers.Advertisements
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] Advertisement advertisement)
         {
-            if(await _gameAdvertisementsRepository.UpdateAsync(id, advertisement) > 0)
+            if(await _advertisementsRepository.UpdateAsync(id, advertisement) > 0)
             {
                 return Ok();
             }
@@ -107,7 +103,7 @@ namespace GameShop.Api.Controllers.Advertisements
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            if (await _gameAdvertisementsRepository.DeleteByIdAsync(id) > 0)
+            if (await _advertisementsRepository.DeleteByIdAsync(id) > 0)
             {
                 return Ok();
             }
@@ -117,21 +113,21 @@ namespace GameShop.Api.Controllers.Advertisements
 
         private async Task<IActionResult> GetAllAsync()
         {
-            var ads = await _gameAdvertisementsRepository.GetAllAsync();
+            var ads = await _advertisementsRepository.GetAllAsync();
 
             return Ok(ads);
         }
         
         private async Task<IActionResult> GetAllDeepAsync()
         {
-            var ads = await _gameAdvertisementsRepository.GetAllDeepAsync();
+            var ads = await _advertisementsRepository.GetAllDeepAsync();
 
             return Ok(ads);
         }
         
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            var ad = await _gameAdvertisementsRepository.FindByIdAsync(id);
+            var ad = await _advertisementsRepository.GetByIdAsync(id);
             
             //Ad not found.
             if (ad == null)
@@ -144,7 +140,7 @@ namespace GameShop.Api.Controllers.Advertisements
         
         private async Task<IActionResult> GetByFriendlyIdAsync(string friendlyId)
         {
-            var advertisement = await _gameAdvertisementsRepository.FindByFriendlyIdAsync(friendlyId);
+            var advertisement = await _advertisementsRepository.GetByFriendlyIdAsync(friendlyId);
 
             //Ad not found.
             if (advertisement == null)
@@ -157,11 +153,11 @@ namespace GameShop.Api.Controllers.Advertisements
 
         private async Task<IActionResult> GetByTitleAsync(string title)
         {
-            var ads = await _gameAdvertisementsRepository.FindByTitleAsync(title);
+            var ads = await _advertisementsRepository.GetByTitleAsync(title);
 
             return Ok(ads);
         }
 
-        #endregion Game Advertisements
+        #endregion Advertisements
     }
 }

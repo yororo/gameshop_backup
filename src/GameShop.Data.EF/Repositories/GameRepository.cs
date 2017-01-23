@@ -57,7 +57,7 @@ namespace GameShop.Data.EF.Repositories
             return gameEntities.ToContracts();
         }
 
-        public async Task<Game> GetByIdAsync(Guid id)
+        public async Task<Game> FindByIdAsync(Guid id)
         {
             var gameEntity = await _context.Games
                                 .Include(game => game.SellingInformation)

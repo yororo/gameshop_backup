@@ -7,9 +7,10 @@ namespace GameShop.Contracts.Enumerations
 {
     public enum ProductType : short
     {
+        Unspecified = 0,
         ForSale = 1,
-        ForTrade,
-        ForSaleOrTrade,
+        ForTrade = 2,
+        ForSaleOrTrade = ForSale | ForTrade,
         Sold,
         Traded
     }

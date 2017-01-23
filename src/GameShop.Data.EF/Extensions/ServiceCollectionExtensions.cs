@@ -23,7 +23,7 @@ namespace Microsoft.AspNetCore.Builder
 
             // Register repositories.
             services.AddTransient<IGameRepository, GameRepository>();
-            services.AddTransient<IGameAdvertisementRepository, GameAdvertisementRepository>();
+            services.AddTransient<IAdvertisementRepository, AdvertisementRepository>();
 
             return services;
         }

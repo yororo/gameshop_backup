@@ -35,7 +35,7 @@ namespace GameShop.Api.Controllers.Products
         #endregion Constructors
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]Guid? id, [FromQuery]string name, [FromQuery]GameGenre? genre)
+        public async Task<IActionResult> Get([FromQuery]Guid? id, [FromQuery]string title, [FromQuery]GameGenre? genre)
         {
             // No queries. Get all games.
             if(HttpContext.Request.Query.Count == 0)
@@ -48,9 +48,9 @@ namespace GameShop.Api.Controllers.Products
                 return await GetByIdAsync(id.Value);
             }
 
-            if(!string.IsNullOrEmpty(name))
+            if(!string.IsNullOrEmpty(title))
             {
-                return await GetByNameAsync(name);
+                return await GetByNameAsync(title);
             }
 
             if(genre.HasValue)

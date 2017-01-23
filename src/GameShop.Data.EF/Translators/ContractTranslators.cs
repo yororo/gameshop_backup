@@ -11,9 +11,9 @@ namespace GameShop.Contracts.Entities
     /// <summary>
     /// Translators for contract classes in the games category.
     /// </summary>
-    internal static class GamesContractTranslator
+    internal static class ContractTranslators
     {
-        #region Game Advertisement
+        #region Advertisement
 
         public static EfAdvertisement ToEntity(this Advertisement advertisementContract)
         {
@@ -66,7 +66,7 @@ namespace GameShop.Contracts.Entities
             return advertisementEntities;
         }
 
-        #endregion Game Advertisement
+        #endregion Advertisement
         
         #region Product
             
@@ -185,7 +185,7 @@ namespace GameShop.Contracts.Entities
 
         #endregion Game
 
-        #region GameSellingInformation
+        #region SellingInformation
             
         public static EfSellingInformation ToEntity(this SellingInformation sellingInfoContract, EfProduct parentEntity)
         {
@@ -213,9 +213,9 @@ namespace GameShop.Contracts.Entities
             return sellingInfoEntity;
         }
 
-        #endregion GameSellingInformation
+        #endregion SellingInformation
 
-        #region GameTradingInformation
+        #region TradingInformation
 
         public static EfTradingInformation ToEntity(this TradingInformation tradingInfoContract, EfProduct parentEntity)
         {
@@ -247,7 +247,7 @@ namespace GameShop.Contracts.Entities
             return tradingInfoEntity;
         }
 
-        #endregion GameTradingInformation
+        #endregion TradingInformation
 
         #region MeetupInformation
             
@@ -312,6 +312,7 @@ namespace GameShop.Contracts.Entities
 
             return meetupLocationEntity;
         }
+        
         #endregion MeetupLocation
     }
 }
