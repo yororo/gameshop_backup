@@ -13,6 +13,8 @@ using Swashbuckle.AspNetCore.Swagger;
 
 using GameShop.Api.Options;
 using GameShop.Api.RequestFilters;
+using Newtonsoft.Json;
+using GameShop.Contracts.Serialization.Json;
 
 namespace GameShop.Api
 {
@@ -56,16 +58,25 @@ namespace GameShop.Api
             services.AddGameShopRepositories(Configuration.GetConnectionString("DefaultDatabase"));
                         
             // Add MVC.
-            services.AddMvc(options => 
+            services.AddMvcCore(options => 
             {
                 // Validate ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
-            });
+            })
+            .AddJsonFormatters()
+            .AddJsonOptions(o => 
+            {
+                o.SerializerSettings.Formatting = Formatting.Indented;
+                // Add the GameShop custom product json converter for proper [roduct JSON deserialization.
+                o.SerializerSettings.Converters.Add(new ProductJsonConverter());
+            })
+            .AddApiExplorer();
 
             // Add Swagger.
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "GameShop API", Version = "v1" });
+                c.DescribeAllEnumsAsStrings();
             });
         }
 

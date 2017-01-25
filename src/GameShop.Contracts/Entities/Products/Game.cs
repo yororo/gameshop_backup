@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Contracts.Entities
+namespace GameShop.Contracts.Entities.Products
 {
     public class Game : Product
     {
@@ -14,7 +14,13 @@ namespace GameShop.Contracts.Entities
 
         public GameGenre Genre { get; set; }
 
-        public override ProductCategory Category { get { return ProductCategory.Games; } }
+        public override ProductCategory Category 
+        { 
+            get 
+            { 
+                return ProductCategory.Games; 
+            } 
+        }
 
         #endregion Properties
 
@@ -24,6 +30,7 @@ namespace GameShop.Contracts.Entities
         /// Default constructor.
         /// </summary>
         public Game()
+            : base()
         {
             GamingPlatform = GamingPlatform.Unspecified;
             Genre = GameGenre.Unspecified;

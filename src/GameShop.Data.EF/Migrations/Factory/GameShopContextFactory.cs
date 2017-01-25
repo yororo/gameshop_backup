@@ -19,8 +19,10 @@ namespace GameShop.Data.EF.Migrations
                 try
                 {
                     //return File.ReadAllText("ConnectionString.txt");
-                    Console.WriteLine("Please enter connection string:");
-                    return Console.ReadLine();
+                    //Console.WriteLine("Please enter connection string:");
+                    //return Console.ReadLine();
+
+                    return "Server=localhost;Port=3306;Database=GameShop;Username=root;Password=root;";
                 }
                 catch(Exception ex)
                 {     

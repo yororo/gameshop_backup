@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using GameShop.Contracts.Entities;
+using GameShop.Contracts.Entities.Products;
 using GameShop.Contracts.Enumerations;
-using GameShop.Data.Contracts;
+using GameShop.Data.Contracts.Products;
 using GameShop.Data.EF.Contexts;
-using GameShop.Data.EF.Entities.Games;
+using GameShop.Data.EF.Entities.Products;
 
-namespace GameShop.Data.EF.Repositories
+namespace GameShop.Data.EF.Repositories.Products
 {
     internal class GameRepository : IGameRepository
     {
-        private GameShopContext _context;
+        private readonly GameShopContext _context;
 
         public GameRepository(GameShopContext context)
         {
@@ -81,7 +82,7 @@ namespace GameShop.Data.EF.Repositories
         public Task<int> UpdateAsync(Guid productId, Game product)
         {
             var gameEntity = product.ToEntity();
-            //gameEntity.Id = productId;
+            gameEntity.Id = productId;
 
             _context.Entry<EfGame>(gameEntity).State = EntityState.Modified;
 

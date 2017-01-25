@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using GameShop.Api.Contracts;
 using GameShop.Api.Contracts.Constants;
+using GameShop.Api.Contracts;
 using GameShop.Api.Contracts.Responses;
 using GameShop.Contracts.Entities;
 using GameShop.Contracts.Entities.Products;
-using GameShop.Contracts.Enumerations;
 using GameShop.Contracts.Serialization.Json;
 using GameShop.Data.Contracts.Products;
 
 namespace GameShop.Api.Controllers.Products
 {
-    [Route(ApiEndpoints.Games)]
-    public class GameController : Controller
+    [Route(ApiEndpoints.GameConsoles)]
+    public class GameConsoleController : Controller
     {
         #region Declarations
 
-        private readonly IGameRepository _gameRepository;
+        private readonly IGameConsoleRepository _gameConsoleRepository;
 
         #endregion Declarations
 
@@ -31,15 +28,15 @@ namespace GameShop.Api.Controllers.Products
         /// Default constructor
         /// </summary>
         /// <param name="gameRepository">Game repository.</param>
-        public GameController(IGameRepository gameRepository)
+        public GameConsoleController(IGameConsoleRepository gameRepository)
         {
-            _gameRepository = gameRepository;
+            _gameConsoleRepository = gameRepository;
         }
 
         #endregion Constructors
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]Guid? id, [FromQuery]string title, [FromQuery]GameGenre? genre)
+        public async Task<IActionResult> Get([FromQuery]Guid? id, [FromQuery]string name, [FromQuery]string platform)
         {
             // No queries. Get all games.
             if(HttpContext.Request.Query.Count == 0)
@@ -52,41 +49,41 @@ namespace GameShop.Api.Controllers.Products
                 return await GetByIdAsync(id.Value);
             }
 
-            if(!string.IsNullOrEmpty(title))
+            if(!string.IsNullOrEmpty(name))
             {
-                return await GetByNameAsync(title);
+                return await GetByNameAsync(name);
             }
 
-            if(genre.HasValue)
+            if(!string.IsNullOrEmpty(platform))
             {
-                return await GetByGenreAsync(genre.Value);
+                return await GetByPlatformAsync(platform);
             }
             
             return Error("Unable to get game/s.");
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody]Game game)
+        public async Task<IActionResult> CreateAsync([FromBody]GameConsole game)
         {
-            int result = await _gameRepository.AddAsync(game);
+            int result = await _gameConsoleRepository.AddAsync(game);
             if(result > 0)
             {
-                return CreatedAtAction(nameof(GameController.CreateAsync), game);
+                return CreatedAtAction(nameof(GameConsoleController.CreateAsync), game);
             }
 
-            return Error("Unable to create game.");
+            return Error("Unable to create game console.");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody]Game game)
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody]GameConsole gameConsole)
         {
             // Check if IDs are the same.
-            if(id != game.Id)
+            if(id != gameConsole.Id)
             {
                 return Error("The ID parameter does not match the ID of the object payload.");
             }
 
-            int result = await _gameRepository.UpdateAsync(id, game);
+            int result = await _gameConsoleRepository.UpdateAsync(id, gameConsole);
 
             if(result > 0)
             {
@@ -101,7 +98,7 @@ namespace GameShop.Api.Controllers.Products
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            int result = await _gameRepository.DeleteByIdAsync(id);
+            int result = await _gameConsoleRepository.DeleteByIdAsync(id);
 
             if(result > 0)
             {
@@ -117,14 +114,14 @@ namespace GameShop.Api.Controllers.Products
 
         private async Task<IActionResult> GetAllAsync()
         {
-            var games = await _gameRepository.GetAllAsync();
+            var games = await _gameConsoleRepository.GetAllAsync();
 
             return Ok(SerializationUtility.SerializeToJson(games));
         }
 
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            var game = await _gameRepository.GetByIdAsync(id);
+            var game = await _gameConsoleRepository.GetByIdAsync(id);
 
             if (game != null)
             {
@@ -136,14 +133,14 @@ namespace GameShop.Api.Controllers.Products
 
         private async Task<IActionResult> GetByNameAsync(string name)
         {
-            var games = await _gameRepository.GetByNameAsync(name);
+            var games = await _gameConsoleRepository.GetByNameAsync(name);
 
             return Ok(SerializationUtility.SerializeToJson(games));
         }
 
-        private async Task<IActionResult> GetByGenreAsync(GameGenre genre)
+        private async Task<IActionResult> GetByPlatformAsync(string platform)
         {
-            var games = await _gameRepository.GetByGenreAsync(genre);
+            var games = await _gameConsoleRepository.GetByPlatformAsync(platform);
 
             return Ok(SerializationUtility.SerializeToJson(games));
         }

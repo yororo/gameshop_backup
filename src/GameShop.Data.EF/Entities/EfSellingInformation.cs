@@ -1,8 +1,10 @@
-﻿using GameShop.Contracts.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using GameShop.Contracts.Enumerations;
+using GameShop.Data.EF.Entities.Products;
 
 namespace GameShop.Data.EF.Entities
 {

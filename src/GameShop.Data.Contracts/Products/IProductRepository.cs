@@ -1,11 +1,11 @@
-﻿using GameShop.Contracts.Entities;
+﻿using GameShop.Contracts.Entities.Products;
 using GameShop.Contracts.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Data.Contracts
+namespace GameShop.Data.Contracts.Products
 {
     /// <summary>
     /// This will implement the use of Guid and Product types.

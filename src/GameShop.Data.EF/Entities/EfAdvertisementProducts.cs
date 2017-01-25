@@ -1,5 +1,7 @@
 using System;
 
+using GameShop.Data.EF.Entities.Products;
+
 namespace GameShop.Data.EF.Entities
 {
     internal class EfAdvertisementProducts

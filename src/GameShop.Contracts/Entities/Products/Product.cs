@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using GameShop.Contracts.Serialization.Json;
 
-namespace GameShop.Contracts.Entities
+namespace GameShop.Contracts.Entities.Products
 {
-    public class Product
+    public abstract class Product
     {
         #region Properties
 
@@ -21,7 +23,7 @@ namespace GameShop.Contracts.Entities
         public TradingInformation TradingInformation { get; set; }
 
         public ProductType ProductType { get; set; }
-        public virtual ProductCategory Category { get { return ProductCategory.General; } }
+        public abstract ProductCategory Category { get; }
 
         public DateTime CreatedDate { get; set; }
 

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameShop.Contracts.Entities.Products;
 using GameShop.Contracts.Enumerations;
 using GameShop.Data.EF.Entities;
-using GameShop.Data.EF.Entities.Games;
+using GameShop.Data.EF.Entities.Products;
 
 namespace GameShop.Contracts.Entities
 {
@@ -92,12 +93,14 @@ namespace GameShop.Contracts.Entities
             {
                 case ProductCategory.Games:
                     return ToEntity((Game)productContract);
-
+                
                 case ProductCategory.GameConsoles:
-                    return null; // Not yet implemented.
-
-                default:
+                    return ToEntity((GameConsole)productContract);
+                
+                case ProductCategory.General:  
+                    // General.
                     var productEntity = new EfProduct();
+                    productEntity.Category = productContract.Category;
                     productEntity.CreatedDate = productContract.CreatedDate;
                     productEntity.Description = productContract.Description;
                     productEntity.Id = productContract.Id;
@@ -107,6 +110,9 @@ namespace GameShop.Contracts.Entities
                     productEntity.SellingInformation = productContract.SellingInformation.ToEntity(productEntity);
                     productEntity.TradingInformation = productContract.TradingInformation.ToEntity(productEntity);
                     return productEntity;
+
+                default:
+                    throw new NotSupportedException($"Product category '{productContract.Category}' is not supported.");
             }
         }
 
@@ -141,6 +147,7 @@ namespace GameShop.Contracts.Entities
 
             
             var gameEntity = new EfGame();
+            gameEntity.Category = gameContract.Category;
             gameEntity.CreatedDate = gameContract.CreatedDate;
             gameEntity.Description = gameContract.Description;
             gameEntity.GamingPlatform = gameContract.GamingPlatform;
@@ -184,6 +191,63 @@ namespace GameShop.Contracts.Entities
         }
 
         #endregion Game
+        
+
+        #region GameConsole
+            
+        public static EfGameConsole ToEntity(this GameConsole gameConsoleContract, EfAdvertisement parentEntity = null)
+        {
+            // Guard clause.
+            if (gameConsoleContract == null)
+            {
+                return null;
+            }
+
+            
+            var gameConsoleEntity = new EfGameConsole();
+            gameConsoleEntity.Category = gameConsoleContract.Category;
+            gameConsoleEntity.ConsolePlatform = gameConsoleContract.ConsolePlatform;
+            gameConsoleEntity.CreatedDate = gameConsoleContract.CreatedDate;
+            gameConsoleEntity.Description = gameConsoleContract.Description;
+            gameConsoleEntity.Id = gameConsoleContract.Id;
+            gameConsoleEntity.ModifiedDate = gameConsoleContract.ModifiedDate;
+            gameConsoleEntity.Name = gameConsoleContract.Name;
+            gameConsoleEntity.ProductType = gameConsoleContract.ProductType;
+            gameConsoleEntity.SellingInformation = gameConsoleContract.SellingInformation.ToEntity(gameConsoleEntity);
+            gameConsoleEntity.TradingInformation = gameConsoleContract.TradingInformation.ToEntity(gameConsoleEntity);
+
+            // if(parentEntity != null)
+            // {
+            //     gameEntity.AdvertisementProducts.Add(new EfAdvertisementProducts()
+            //     {
+            //         AdvertisementId = parentEntity.Id,
+            //         Advertisement = parentEntity,
+            //         ProductId = gameEntity.Id,
+            //         Product = gameEntity
+            //     });
+            // }
+
+            return gameConsoleEntity;
+        }
+
+        public static List<EfGameConsole> ToEntities(IEnumerable<GameConsole> gameConsoleContracts, EfAdvertisement parentEntity = null)
+        {
+            if(gameConsoleContracts == null)
+            {
+                return new List<EfGameConsole>();
+            }
+
+            var gameConsoleEntities = new List<EfGameConsole>(gameConsoleContracts.Count());
+
+            foreach(GameConsole gameConsoleContract in gameConsoleContracts)
+            {
+                gameConsoleEntities.Add(gameConsoleContract.ToEntity(parentEntity));
+            }
+
+            return gameConsoleEntities;
+        }
+
+        #endregion GameConsole
 
         #region SellingInformation
             
@@ -199,7 +263,8 @@ namespace GameShop.Contracts.Entities
 
             sellingInfoEntity.CreatedDate = sellingInfoContract.CreatedDate;
             sellingInfoEntity.Currency = sellingInfoContract.Currency;
-            sellingInfoEntity.Id = sellingInfoContract.Id;
+            //sellingInfoEntity.Id = sellingInfoContract.Id;
+            sellingInfoEntity.Id = Guid.NewGuid();
             sellingInfoEntity.ModifiedDate = sellingInfoContract.ModifiedDate;
             sellingInfoEntity.ReasonForSelling = sellingInfoContract.ReasonForSelling;
             sellingInfoEntity.SellingPrice = sellingInfoContract.SellingPrice;
@@ -227,6 +292,8 @@ namespace GameShop.Contracts.Entities
 
             var tradingInfoEntity = new EfTradingInformation();
 
+            //tradingInfoEntity.Id = tradingInfoContract.Id;
+            tradingInfoEntity.Id = Guid.NewGuid();
             tradingInfoEntity.Currency = tradingInfoContract.Currency;
             tradingInfoEntity.IsOwnerWillingToAddCash = tradingInfoContract.IsOwnerWillingToAddCash;
             tradingInfoEntity.CashAmountToAdd = tradingInfoContract.CashAmountToAdd;

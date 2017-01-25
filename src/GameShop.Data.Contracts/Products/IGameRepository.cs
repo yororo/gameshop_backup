@@ -1,11 +1,12 @@
-﻿using GameShop.Contracts.Entities;
-using GameShop.Contracts.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameShop.Data.Contracts
+using GameShop.Contracts.Entities.Products;
+using GameShop.Contracts.Enumerations;
+
+namespace GameShop.Data.Contracts.Products
 {
     public interface IGameRepository<TId> : IProductRepository<TId, Game>
     {

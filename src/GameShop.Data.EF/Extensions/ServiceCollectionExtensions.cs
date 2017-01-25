@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using GameShop.Data.Contracts;
+using GameShop.Data.Contracts.Products;
 using GameShop.Data.EF;
 using GameShop.Data.EF.Contexts;
 using GameShop.Data.EF.Entities;
 using GameShop.Data.EF.Repositories;
+using GameShop.Data.EF.Repositories.Products;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -23,6 +25,7 @@ namespace Microsoft.AspNetCore.Builder
 
             // Register repositories.
             services.AddTransient<IGameRepository, GameRepository>();
+            services.AddTransient<IGameConsoleRepository, GameConsoleRepository>();
             services.AddTransient<IAdvertisementRepository, AdvertisementRepository>();
 
             return services;

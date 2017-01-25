@@ -10,7 +10,7 @@ namespace GameShop.Contracts.Entities
     {
         #region Properties
 
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
 
         public Currency Currency { get; set; }
 
@@ -31,7 +31,7 @@ namespace GameShop.Contracts.Entities
         /// </summary>
         public SellingInformation()
         {
-            Id = Guid.Empty;
+            //Id = Guid.Empty;
             Currency = Currency.PHP;
             SellingPrice = decimal.Zero;
             ReasonForSelling = string.Empty;

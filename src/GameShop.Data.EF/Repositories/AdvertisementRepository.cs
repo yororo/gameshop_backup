@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using GameShop.Contracts.Entities;
+using GameShop.Contracts.Entities.Products;
 using GameShop.Data.Contracts;
 using GameShop.Data.EF.Contexts;
 using GameShop.Data.EF.Entities;
-using GameShop.Data.EF.Entities.Games;
 
 namespace GameShop.Data.EF.Repositories
 {
     internal class AdvertisementRepository : IAdvertisementRepository
     {
-        private GameShopContext _context;
+        private readonly GameShopContext _context;
 
         public AdvertisementRepository(GameShopContext context)
         {

@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using GameShop.Data.EF.Entities.Games;
-using GameShop.Data.EF.Entities;
 using GameShop.Contracts.Enumerations;
-using GameShop.Data.EF.Entities.GameConsoles;
+using GameShop.Data.EF.Entities;
+using GameShop.Data.EF.Entities.Products;
 
 namespace GameShop.Data.EF.Contexts
 {
@@ -79,19 +79,17 @@ namespace GameShop.Data.EF.Contexts
             // Set General ProductCategory as Discriminator value.
             modelBuilder.Entity<EfProduct>()
                         .HasDiscriminator()
-                        .HasValue(ProductCategory.General.ToString());
+                        .HasValue<EfProduct>(ProductCategory.General.ToString())
+                        .HasValue<EfGame>(ProductCategory.Games.ToString())
+                        .HasValue<EfGameConsole>(ProductCategory.GameConsoles.ToString());
 
             // Set EfProduct as base type and set the Games ProductCategory as Discriminator value.
             modelBuilder.Entity<EfGame>()
-                        .HasBaseType<EfProduct>()
-                        .HasDiscriminator()
-                        .HasValue(ProductCategory.Games.ToString());
+                        .HasBaseType<EfProduct>();
 
             // Set EfProduct as base type and set the GameConsoles ProductCategory as Discriminator value.
             modelBuilder.Entity<EfGameConsole>()
-                        .HasBaseType<EfProduct>()
-                        .HasDiscriminator()
-                        .HasValue(ProductCategory.GameConsoles.ToString());
+                        .HasBaseType<EfProduct>();
 
             // ONE (Advertisement) to ONE (MeetupInformation).
             modelBuilder.Entity<EfAdvertisement>()

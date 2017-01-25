@@ -5,15 +5,13 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using GameShop.Contracts.Entities;
-using Microsoft.AspNetCore.Authorization;
-using GameShop.Data.Contracts;
 using GameShop.Api.Contracts;
-using GameShop.Api.Contracts.Responses;
 using GameShop.Api.Contracts.Constants;
-using Newtonsoft.Json;
-
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using GameShop.Api.Contracts.Responses;
+using GameShop.Contracts.Serialization.Json;
+using GameShop.Contracts.Entities;
+using GameShop.Data.Contracts;
+using Microsoft.Extensions.Logging;
 
 namespace GameShop.Api.Controllers.Advertisements
 {
@@ -23,6 +21,7 @@ namespace GameShop.Api.Controllers.Advertisements
         #region Declarations
 
         private readonly IAdvertisementRepository _advertisementsRepository;
+        private ILogger<AdvertisementController> _logger;
 
         #endregion Declarations
 
@@ -32,9 +31,10 @@ namespace GameShop.Api.Controllers.Advertisements
         /// Constructor.
         /// </summary>
         /// <param name="advertisementsRepository">Game advertisements repository.</param>
-        public AdvertisementController(IAdvertisementRepository advertisementsRepository)
+        public AdvertisementController(IAdvertisementRepository advertisementsRepository, ILogger<AdvertisementController> logger)
         {
             _advertisementsRepository = advertisementsRepository;
+            _logger = logger;
         }
 
         #endregion Constructors
@@ -70,7 +70,15 @@ namespace GameShop.Api.Controllers.Advertisements
                 return await GetByTitleAsync(title);
             }
 
-             return Ok(new ApiResponse(Result.Error, $"Unable to get advertisement/s."));
+             return Error($"Unable to get advertisement/s.");
+        }
+
+        [HttpGet("{id}/products")]
+        public async Task<IActionResult> GetAdvertisementProducts(Guid id)
+        {
+            var advertisements = await _advertisementsRepository.GetProductsAsync(id);
+
+            return Ok(advertisements);
         }
         
         //[Authorize]
@@ -84,7 +92,7 @@ namespace GameShop.Api.Controllers.Advertisements
                 return CreatedAtAction(nameof(AdvertisementController.CreateAsync), advertisement);
             }
 
-            return Ok(new ApiResponse(Result.Error, "Unable to create advertisement."));
+            return Error("Unable to create advertisement.");
         }
 
         //[Authorize]
@@ -93,10 +101,10 @@ namespace GameShop.Api.Controllers.Advertisements
         {
             if(await _advertisementsRepository.UpdateAsync(id, advertisement) > 0)
             {
-                return Ok();
+                return NoContent();
             }
 
-            return Ok(new ApiResponse(Result.Error, $"Unable to update advertisement with id: { id }."));
+            return Error($"Unable to update advertisement with id: { id }.");
         }
 
         //[Authorize]
@@ -105,37 +113,41 @@ namespace GameShop.Api.Controllers.Advertisements
         {
             if (await _advertisementsRepository.DeleteByIdAsync(id) > 0)
             {
-                return Ok();
+                return NoContent();
             }
 
-             return Ok(new ApiResponse(Result.Error, $"Unable to delete advertisement with id: { id }."));
+            return Error($"Unable to delete advertisement with id: { id }.");
         }
+
+        #endregion Advertisements
+        
+        #region Functions
 
         private async Task<IActionResult> GetAllAsync()
         {
-            var ads = await _advertisementsRepository.GetAllAsync();
+            var advertisements = await _advertisementsRepository.GetAllAsync();
 
-            return Ok(ads);
+            return Ok(advertisements);
         }
         
         private async Task<IActionResult> GetAllDeepAsync()
         {
-            var ads = await _advertisementsRepository.GetAllDeepAsync();
+            var advertisements = await _advertisementsRepository.GetAllDeepAsync();
 
-            return Ok(ads);
+            return Ok(advertisements);
         }
         
         private async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            var ad = await _advertisementsRepository.GetByIdAsync(id);
+            var advertisement = await _advertisementsRepository.GetByIdAsync(id);
             
             //Ad not found.
-            if (ad == null)
+            if (advertisement == null)
             {
                 return NotFound();
             }
 
-            return Ok(ad);
+            return Ok(advertisement);
         }
         
         private async Task<IActionResult> GetByFriendlyIdAsync(string friendlyId)
@@ -153,11 +165,21 @@ namespace GameShop.Api.Controllers.Advertisements
 
         private async Task<IActionResult> GetByTitleAsync(string title)
         {
-            var ads = await _advertisementsRepository.GetByTitleAsync(title);
+            var adverisements = await _advertisementsRepository.GetByTitleAsync(title);
 
-            return Ok(ads);
+            return Ok(adverisements);
         }
 
-        #endregion Advertisements
+        /// <summary>
+        /// Respond with OK result containing an error object.
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        /// <returns>OK result with error object.</returns>
+        private IActionResult Error(string errorMessage)
+        {
+            return Ok(new ApiResponse(Result.Error, errorMessage));
+        }
+
+        #endregion Functions
     }
 }

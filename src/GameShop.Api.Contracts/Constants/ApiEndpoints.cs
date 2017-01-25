@@ -4,5 +4,6 @@ namespace GameShop.Api.Contracts.Constants
     {
         public const string Advertisements = "/ads";
         public const string Games = "/games";
+        public const string GameConsoles = "/gameconsoles";
     }
 }
