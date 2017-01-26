@@ -82,7 +82,7 @@ namespace GameShop.Data.EF
                     return ToContract((EfGame)productEntity);
 
                 case ProductCategory.GameConsoles:
-                    return ToContract((EfGame)productEntity);
+                    return ToContract((EfGameConsole)productEntity);
 
                 case ProductCategory.General: // General
                     var productContract = new GeneralProduct();
