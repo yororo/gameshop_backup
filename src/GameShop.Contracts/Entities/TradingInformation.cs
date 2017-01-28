@@ -10,7 +10,7 @@ namespace GameShop.Contracts.Entities
     {
         #region Properties
 
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
 
         public Currency Currency { get; set; }
 
@@ -20,9 +20,10 @@ namespace GameShop.Contracts.Entities
 
         public bool IsOwnerWillingToAddCash { get; set; }
 
-        public decimal CashAmountWillingToAdd { get; set; }
+        public decimal CashAmountToAdd { get; set; }
 
         public bool IsOwnerWillingToReceiveCash { get; set; }
+        public decimal CashAmountToReceive { get; set; }
 
         public string TradeNotes { get; set; }
 
@@ -39,13 +40,14 @@ namespace GameShop.Contracts.Entities
         /// </summary>
         public TradingInformation()
         {
-            Id = Guid.Empty;
+            //Id = Guid.Empty;
             Currency = Currency.PHP;
             TradingPrice = decimal.Zero;
             ReasonForTrading = string.Empty;
             IsOwnerWillingToAddCash = false;
-            CashAmountWillingToAdd = decimal.Zero;
+            CashAmountToAdd = decimal.Zero;
             IsOwnerWillingToReceiveCash = false;
+            CashAmountToReceive = decimal.Zero;
             TradeNotes = string.Empty;
             CreatedDate = DateTime.MaxValue;
             ModifiedDate = DateTime.MaxValue;

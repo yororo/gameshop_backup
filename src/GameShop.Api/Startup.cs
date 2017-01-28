@@ -1,14 +1,20 @@
-﻿using GameShop.Api.Options;
-using GameShop.Api.RequestFilters;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
+
+using Swashbuckle.AspNetCore.Swagger;
+
+using GameShop.Api.Options;
+using GameShop.Api.RequestFilters;
+using Newtonsoft.Json;
+using GameShop.Contracts.Serialization.Json;
 
 namespace GameShop.Api
 {
@@ -52,14 +58,26 @@ namespace GameShop.Api
             services.AddGameShopRepositories(Configuration.GetConnectionString("DefaultDatabase"));
                         
             // Add MVC.
-            services.AddMvc(options => 
+            services.AddMvcCore(options => 
             {
                 // Validate ModelState before executing a controller action.
                 options.Filters.Add(typeof(ValidateModelStateActionFilter));
-            });
+            })
+            .AddJsonFormatters()
+            .AddJsonOptions(o => 
+            {
+                o.SerializerSettings.Formatting = Formatting.Indented;
+                // Add the GameShop custom product json converter for proper [roduct JSON deserialization.
+                o.SerializerSettings.Converters.Add(new ProductJsonConverter());
+            })
+            .AddApiExplorer();
 
             // Add Swagger.
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "GameShop API", Version = "v1" });
+                c.DescribeAllEnumsAsStrings();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -112,7 +130,10 @@ namespace GameShop.Api
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUi();
+            app.UseSwaggerUi(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GameShop API v1");
+            });
         }
     }
 }
